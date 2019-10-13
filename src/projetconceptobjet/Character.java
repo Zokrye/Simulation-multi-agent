@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet_concept_objet_simu_multi_agents;
+package projetconceptobjet;
 
 /**
  *
@@ -24,6 +24,17 @@ public abstract class Character {
     //protected int nbPasMaxTour;
     //protected int nbPasTour;
     private static int nbCharactersInGame;
+    
+    
+    public Character(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        this.pEnergie=pEnergie;
+        this.pEnergieMax=pEnergieMax;
+        this.pVie=pVie;
+        this.pVieMax=pVieMax;
+        this.xp=0;
+        this.etatFatigue=false;
+    }
     
     /*Methods*/
     public abstract void seDeplacer();

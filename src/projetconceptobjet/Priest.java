@@ -3,13 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet_concept_objet_simu_multi_agents;
+package projetconceptobjet;
 
 /**
  *
  * @author ISEN
  */
 public class Priest extends Human implements Wizzard {
+    
+    private int mana;
+    private int manaMax;
+    private static int nbPriestInGame;
+    
+    public Priest()
+    {
+        super(150,150,300,300);
+        this.mana=200;
+        this.manaMax=200;
+    }
     
     //Bonus ou malus sur la cible ;
     @Override

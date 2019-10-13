@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet_concept_objet_simu_multi_agents;
+package projetconceptobjet;
 
 /**
  *
@@ -12,6 +12,11 @@ package projet_concept_objet_simu_multi_agents;
 public abstract class Hero extends Character {
     
     private static int nbHeroesInGame;
+    
+    public Hero(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        super(pEnergie,pEnergieMax,pVie,pVieMax);
+    }
     
     //Augmente les stats d'un personnage en fonction d'une zone autour de lui et du nombre de ses alliés ;
     public abstract void soutenir();

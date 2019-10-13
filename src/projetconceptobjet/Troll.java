@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet_concept_objet_simu_multi_agents;
+package projetconceptobjet;
 
 /**
  *
@@ -13,6 +13,12 @@ public abstract class Troll extends Enemy {
     
     private static int nbTrollsInGame;
     private static Species weakness;
+    
+    public Troll(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        super(pEnergie,pEnergieMax,pVie,pVieMax);
+        Troll.weakness=Species.Human;
+    }
     
     //Augmente des caractéristiques défensive du Troll ;
     public abstract void blindage();

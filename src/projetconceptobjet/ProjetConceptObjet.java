@@ -5,6 +5,8 @@
  */
 package projetconceptobjet;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Alexandre
@@ -16,6 +18,40 @@ public class ProjetConceptObjet {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        /////////////////////////////////////////////////////////////
+        ////////////////TEST TIRAGE ALEATOIRE////////////////////////
+        int indexMax=100;
+        int indexMin=0;
+        int n=500;
+        for(int index=0; index<n; index++)
+        {
+            //System.out.println(RandomElement.randomCreationOfTable());
+        }
+        //////////////////////////////////////////////////////////////
+        //////////////TEST CREATION D'UNE EQUIPE ALEATOIRE////////////
+        ArrayList<Human> hTeam=RandomElement.randomTeamsCreation(12,12);
+        
+        //ArrayList<Human> hTeam=Human.createHumanTeam(12);
+        int size_hTeam=hTeam.size();
+        for(int index=0;index<size_hTeam;index++)
+        {
+            Human perso=hTeam.get(index);
+            System.out.println("Nom : "+perso.getNom()+" ; PV : "+perso.getpVie()+"/"+perso.getpVieMax()+" ;\n"
+                                +"PE : "+perso.getpEnergie()+"/"+perso.getpEnergieMax()+"; ");
+        }
+        
+        //AJOUTER TOUS LES GETTERS ET SETTERS DES CLASSES ET TERMINER D'AJOUTER LES FONCTIONS ABSTRAITES AUX BONS ENDROITS!!!
+    }
+    
+    
+    /**
+     * Function that allows the user to create a map with its own dimensions,
+     * keeping some control on it to avoid size problems;
+     * !!!!!!!!!!!!!! A prévoir dans la fonction principale : init dimension carte en les demandant à l'utilisateur (bloquage à partir de dimension 5);
+     */
+    public void createTableWithUser()
+    {
+        
     }
     
 }

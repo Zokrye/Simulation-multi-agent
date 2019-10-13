@@ -3,12 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet_concept_objet_simu_multi_agents;
+package projetconceptobjet;
 
 /**
  *
  * @author ISEN
  */
 public abstract class TrollPackMaster extends Troll implements Mediator {
+    
+    private static int nbTrollPackMasterInGame;
+    
+    public TrollPackMaster()
+    {
+        super(300,300,500,500);
+    }
     
 }

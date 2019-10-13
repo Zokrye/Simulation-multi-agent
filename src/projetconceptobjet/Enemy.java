@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet_concept_objet_simu_multi_agents;
+package projetconceptobjet;
 
 /**
  *
@@ -12,6 +12,11 @@ package projet_concept_objet_simu_multi_agents;
 public abstract class Enemy extends Character {
     
     private static int nbEnemiesInGame;
+    
+    public Enemy(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        super(pEnergie,pEnergieMax,pVie,pVieMax);
+    }
     
     //Destruction d'un allié pour récupérer son xp si celui-ci est fatigué ;
     public abstract void sacrifice();

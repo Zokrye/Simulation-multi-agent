@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet_concept_objet_simu_multi_agents;
+package projetconceptobjet;
 
 /**
  *
@@ -13,6 +13,12 @@ public abstract class Orc extends Enemy {
     
     private static int nbOrcsInGame;
     private static Species weakness;
+    
+    public Orc(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        super(pEnergie,pEnergieMax,pVie,pVieMax);
+        Orc.weakness=Species.Elfe;
+    }
     
     //Permet de finir le combat en un coup (peu de chance d'arriver) ;
     public abstract void execution();

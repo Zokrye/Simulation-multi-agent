@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projet_concept_objet_simu_multi_agents;
+package projetconceptobjet;
 
 import java.util.ArrayList;
 
@@ -15,6 +15,12 @@ public abstract class Human extends Hero {
     
     private static int nbHumansInGame;
     private static Species weakness;
+    
+    public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        super(pEnergie,pEnergieMax,pVie,pVieMax);
+        Human.weakness=Species.Orc;
+    }
     
     
     //Regain de PV par tours ;
