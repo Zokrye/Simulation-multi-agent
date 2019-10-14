@@ -11,13 +11,14 @@ import java.util.List;
  *
  * @author Alexandre
  */
-public class Carte {
+public class Map {
     protected final int HEIGHT;
     protected final int LENGTH;
     protected final int NB_OBSTACLES;
     protected List<Cell> cells;
+    private static Map map;
     
-    public Carte(int height, int length, int nbObstacles) {
+    public Map(int height, int length, int nbObstacles) {
         this.HEIGHT=height;
         this.LENGTH=length;
         this.NB_OBSTACLES=nbObstacles;  
@@ -36,7 +37,12 @@ public class Carte {
         }
         return null;
     }
-    
+    public static Map getinstance() {
+        if(map==null) {
+            map= new Map(50,50,250);
+        }
+        return map;
+    }
     
     private void spreadObstacles(int nbObstacles) {
         int x;
@@ -49,7 +55,7 @@ public class Carte {
             if(cell!=null) {
                 if(!cell.hasCharacter() && !cell.hasObstacle && cell.getZone()!=Zone.SafeZoneElf 
                         && cell.getZone()!=Zone.SafeZoneMan && cell.getZone()!=Zone.SafeZoneOrc 
-                        && cell.getZone()!=Zone.safeZoneTroll) {
+                        && cell.getZone()!=Zone.SafeZoneTroll) {
                     cell.setHasObstacle(true);
                     i++;
                 }  
@@ -70,11 +76,14 @@ public class Carte {
             }
             //Top left
             if(cell.getX()<=5 && cell.getY()>=this.HEIGHT-5) {
-                cell.zone=Zone.safeZoneTroll;
+                cell.zone=Zone.SafeZoneTroll;
             }
             //Bottom right
             if(cell.getX()>=this.LENGTH-5 && cell.getY()<=5) {
                 cell.zone=Zone.SafeZoneOrc;
+            }
+            else { 
+                cell.zone=Zone.Other; 
             }
         }
     }

@@ -14,6 +14,16 @@ public abstract class Elfe extends Hero {
     private static int nbElfesInGame;
     private static Species weakness;
     
+    public Elfe() {
+        this.safeZoneDirection=new Direction(1,1);
+        this.maxMovement=6;
+    }
+    
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneElf;
+    }
+    
     //Permet de prendre la main sur les attaques lors des combats après le premier tour de jeux (attaque en premier);
     public abstract void celerite();
     //Permet d'éviter certains des coups infligés par l'ennemi et facilite la fuite ;

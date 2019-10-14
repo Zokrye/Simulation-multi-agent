@@ -20,4 +20,9 @@ public abstract class Enemy extends Character {
     //Application d'un bonus d'attaque et perte de points d'Energie/Mana accrue pour les 2 ou 3 tours suivants ;
     public abstract void surchargeDePuissance();
     
+    @Override
+    public abstract void attaquer();
+    @Override
+    public abstract void fuir();
+    
 }

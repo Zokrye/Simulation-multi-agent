@@ -13,5 +13,6 @@ public enum Zone {
     SafeZoneMan,
     SafeZoneElf,
     SafeZoneOrc,
-    safeZoneTroll
+    SafeZoneTroll,
+    Other
 }

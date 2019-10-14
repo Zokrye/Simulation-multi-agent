@@ -14,6 +14,16 @@ public abstract class Orc extends Enemy {
     private static int nbOrcsInGame;
     private static Species weakness;
     
+    public Orc() {
+        this.safeZoneDirection=new Direction(1,-1);
+        this.maxMovement=4;
+    }
+    
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneOrc;
+    }
+    
     //Permet de finir le combat en un coup (peu de chance d'arriver) ;
     public abstract void execution();
     //Permet d'augmeter la quantité d'xp reçut à la fin d'un combat ;

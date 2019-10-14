@@ -16,7 +16,7 @@ import projetconceptobjet.Direction;
  * @author Alexandre
  */
 public class Cell {
-    protected Carte carte;
+    protected Map map;
     protected Zone zone;
     protected int x;
     protected int y;
@@ -50,8 +50,8 @@ public class Cell {
         return this.character!=null;
     }
     
-    public Cell(Carte carte, int x, int y) {
-        this.carte=carte;
+    public Cell(Map map, int x, int y) {
+        this.map=map;
         this.x=x;
         this.y=y;
         
@@ -73,7 +73,7 @@ public class Cell {
     }
     
     public boolean checkDirection(Direction direction) {
-        Cell targetedCell=carte.getCell(x+direction.getX(), y+direction.getY());
+        Cell targetedCell=map.getCell(x+direction.getX(), y+direction.getY());
         if(targetedCell!=null) {
             return targetedCell.isAvailable();
         }

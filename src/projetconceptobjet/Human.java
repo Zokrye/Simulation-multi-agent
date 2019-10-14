@@ -16,6 +16,15 @@ public abstract class Human extends Hero {
     private static int nbHumansInGame;
     private static Species weakness;
     
+    public Human() {
+        this.safeZoneDirection=new Direction(-1,-1);
+        this.maxMovement=5;
+    }
+    
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneMan;
+    }
     
     //Regain de PV par tours ;
     public void secondSouffle()
