@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public abstract class TrollPackMaster extends Troll implements Mediator {
+public class TrollPackMaster extends Troll implements Mediator {
     
     private static int nbTrollPackMasterInGame;
     
@@ -17,5 +17,32 @@ public abstract class TrollPackMaster extends Troll implements Mediator {
     {
         super(300,300,500,500);
     }
+
     
+    /*
+    Getters ;
+    */
+    public static int getNbTrollPackMasterInGame() {
+        return nbTrollPackMasterInGame;
+    }
+
+    /*
+    Setters
+    */
+    public static void setNbTrollPackMasterInGame(int nbTrollPackMasterInGame) {
+        TrollPackMaster.nbTrollPackMasterInGame = nbTrollPackMasterInGame;
+    }
+    
+    
+    @Override
+    public void negociation()
+    {
+        System.out.println("NEGOCIATION!");
+    }
+    
+    @Override
+    public void ralliement()
+    {
+        System.out.println("RALLIEMENT!");
+    }
 }

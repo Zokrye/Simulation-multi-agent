@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public abstract class Berserker extends Troll implements Warrior {
+public class Berserker extends Troll implements Warrior {
     
     private static int nbBerserkerInGame;
     
@@ -17,5 +17,34 @@ public abstract class Berserker extends Troll implements Warrior {
     {
         super(350,350,300,300);
     }
+
     
+    /*
+    Getters ;
+    */
+    public static int getNbBerserkerInGame() {
+        return nbBerserkerInGame;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public static void setNbBerserkerInGame(int nbBerserkerInGame) {
+        Berserker.nbBerserkerInGame = nbBerserkerInGame;
+    }
+    
+    
+    //Attaque accrue;
+    @Override
+    public void manimentArmes()
+    {
+        System.out.println("MANIMENT ARMES");
+    }
+    //Attaque imparable (rarement);
+    @Override
+    public void perforationDefense()
+    {
+        System.out.println("PERFORATION DEFENSE");
+    }
 }

@@ -28,19 +28,32 @@ public class ProjetConceptObjet {
             //System.out.println(RandomElement.randomCreationOfTable());
         }
         //////////////////////////////////////////////////////////////
-        //////////////TEST CREATION D'UNE EQUIPE ALEATOIRE////////////
-        ArrayList<Human> hTeam=RandomElement.randomTeamsCreation(12,12);
+        //////////////TEST CREATION D'EQUIPES ALEATOIRE////////////
+        ArrayList<Team> allTeams=Team.randomTeamsCreation(12,12);
         
-        //ArrayList<Human> hTeam=Human.createHumanTeam(12);
-        int size_hTeam=hTeam.size();
-        for(int index=0;index<size_hTeam;index++)
-        {
-            Human perso=hTeam.get(index);
-            System.out.println("Nom : "+perso.getNom()+" ; PV : "+perso.getpVie()+"/"+perso.getpVieMax()+" ;\n"
-                                +"PE : "+perso.getpEnergie()+"/"+perso.getpEnergieMax()+"; ");
-        }
+        Team test=Team.recupTeamFromTheList(allTeams, Species.Human);
+        System.out.println("Type of entity : "+test.getType()+" ; Nb characters : "+test.getTotalCharacterTeam()+" ; PV : "+test.getLifePointTeam()+"/"+test.getTotalLifePointTeam()+" ;\n"
+                + "PE : "+test.getEnergyPointTeam()+"/"+test.getTotalEnergyPointTeam()+" ; XP : "+test.getXpTeam()+" ;");
         
-        //AJOUTER TOUS LES GETTERS ET SETTERS DES CLASSES ET TERMINER D'AJOUTER LES FONCTIONS ABSTRAITES AUX BONS ENDROITS!!!
+    }
+    
+    
+    /**
+     * Function launching a new turn in the simulation ;
+     * @param turnPosition : Turn currently played ;
+     */
+    public void newTurn(int turnPosition)
+    {
+        //Limit of the beggining of the new turn ;
+        System.out.println("---------------------------------------------------------------------------------"
+                + "--------------------------TURN "+turnPosition+"-------------------------------");
+        
+        
+        
+        
+        //End of the Turn ;
+        System.out.println("=========================END OF THE TURN "+turnPosition+"=============================="
+                + "==================================================================================");
     }
     
     

@@ -17,7 +17,24 @@ public class Paladin extends Human implements Warrior {
     {
         super(200,200,300,300);
     }
+
     
+    /*
+    Getters ;
+    */
+    public static int getNbPaladinInGame() {
+        return nbPaladinInGame;
+    }
+
+    
+    /*
+    Setters
+    */
+    public static void setNbPaladinInGame(int nbPaladinInGame) {
+        Paladin.nbPaladinInGame = nbPaladinInGame;
+    }
+    
+
     //Attaque accrue;
     @Override
     public void manimentArmes()

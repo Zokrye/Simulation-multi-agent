@@ -17,25 +17,22 @@ public class TribalChef extends Elfe implements Mediator {
     {
         super(300,300,500,500);
     }
+
+    /*
+    Getters ;
+    */
+    public static int getNbTribalChefInGame() {
+        return nbTribalChefInGame;
+    }
+
     
-    //Permet de prendre la main sur les attaques lors des combats après le premier tour de jeux (attaque en premier);
-    @Override
-    public void celerite()
-    {
-        System.out.println("CELERITE!");
+    /*
+    Setters ;
+    */
+    public static void setNbTribalChefInGame(int nbTribalChefInGame) {
+        TribalChef.nbTribalChefInGame = nbTribalChefInGame;
     }
-    //Permet d'éviter certains des coups infligés par l'ennemi et facilite la fuite ;
-    @Override
-    public void esquive()
-    {
-        System.out.println("ESQUIVE!");
-    }
-    //Permet de dépenser moins de points d'énergie lors des déplacements ;
-    @Override
-    public void endurance()
-    {
-        System.out.println("ENDURANCE!");
-    }
+    
     
     @Override
     public void negociation()

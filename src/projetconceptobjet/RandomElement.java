@@ -53,26 +53,4 @@ public class RandomElement {
         return(randomIntValue);
     }
     
-    
-    
-    /**
-     * Function that call function to create teams of each character class ;
-     * A REVOIR : Faire fonction de création d'équipe dans les classes correspondantes ;
-     * @param mapLength
-     * @param mapWidth 
-     */
-    public static ArrayList randomTeamsCreation(int mapLength,int mapWidth)
-    {
-        //Creation of a team of characters ;
-        ArrayList<Character> teamOfCharacters=new ArrayList<>();
-        //Calculation of the size of the map ;
-        int mapDimension=mapLength*mapWidth;
-        //Calculation of the number of characters of each team;
-        double eighthOfMap=(mapDimension)/8;
-        System.out.println("Eighth of the map : "+eighthOfMap+"; Map dimension : "+mapDimension+";");
-        //Creation of each team ;
-        ArrayList<Human> team_h=Human.createHumanTeam((int)eighthOfMap);
-        return(team_h);
-    }
-    
 }

@@ -17,6 +17,22 @@ public abstract class Hero extends Character {
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
     }
+
+    
+    /*
+    Getters ;
+    */
+    public static int getNbHeroesInGame() {
+        return nbHeroesInGame;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public static void setNbHeroesInGame(int nbHeroesInGame) {
+        Hero.nbHeroesInGame = nbHeroesInGame;
+    }
     
     //Augmente les stats d'un personnage en fonction d'une zone autour de lui et du nombre de ses alliés ;
     public abstract void soutenir();

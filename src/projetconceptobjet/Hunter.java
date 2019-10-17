@@ -17,7 +17,22 @@ public class Hunter extends Elfe implements Warrior {
     {
         super(200,200,300,300);
     }
+
     
+    /*
+    Getter ;
+    */
+    public static int getNbHunterInGame() {
+        return nbHunterInGame;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public static void setNbHunterInGame(int nbHunterInGame) {
+        Hunter.nbHunterInGame = nbHunterInGame;
+    }
     
     //Attaque accrue;
     @Override
@@ -30,25 +45,6 @@ public class Hunter extends Elfe implements Warrior {
     public void perforationDefense()
     {
         System.out.println("PERFORATION DEFENSE");
-    }
-    
-    //Permet de prendre la main sur les attaques lors des combats après le premier tour de jeux (attaque en premier);
-    @Override
-    public void celerite()
-    {
-        System.out.println("CELERITE!");
-    }
-    //Permet d'éviter certains des coups infligés par l'ennemi et facilite la fuite ;
-    @Override
-    public void esquive()
-    {
-        System.out.println("ESQUIVE!");
-    }
-    //Permet de dépenser moins de points d'énergie lors des déplacements ;
-    @Override
-    public void endurance()
-    {
-        System.out.println("ENDURANCE!");
     }
     
 }

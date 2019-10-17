@@ -9,13 +9,40 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public abstract class OrcAlpha extends Orc implements Mediator{
+public class OrcAlpha extends Orc implements Mediator{
     
     private static int nbOrcAlphaInGame;
     
     public OrcAlpha()
     {
         super(350,350,500,500);
+    }
+
+    
+    /*
+    Getters ;
+    */
+    public static int getNbOrcAlphaInGame() {
+        return nbOrcAlphaInGame;
+    }
+
+    /*
+    Setters ;
+    */
+    public static void setNbOrcAlphaInGame(int nbOrcAlphaInGame) {
+        OrcAlpha.nbOrcAlphaInGame = nbOrcAlphaInGame;
+    }
+    
+    @Override
+    public void negociation()
+    {
+        System.out.println("NEGOCIATION!");
+    }
+    
+    @Override
+    public void ralliement()
+    {
+        System.out.println("RALLIEMENT!");
     }
     
 }

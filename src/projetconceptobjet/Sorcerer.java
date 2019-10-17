@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public abstract class Sorcerer extends Orc implements Wizzard{
+public class Sorcerer extends Orc implements Wizzard{
     
     private int mana;
     private int manaMax;
@@ -21,5 +21,51 @@ public abstract class Sorcerer extends Orc implements Wizzard{
         this.mana=200;
         this.manaMax=200;
     }
+
     
+    /*
+    Getters
+    */
+    public int getMana() {
+        return mana;
+    }
+
+    public int getManaMax() {
+        return manaMax;
+    }
+
+    public static int getNbSorcererInGame() {
+        return nbSorcererInGame;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public static void setNbSorcererInGame(int nbSorcererInGame) {
+        Sorcerer.nbSorcererInGame = nbSorcererInGame;
+    }
+    
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+    
+     public void setManaMax(int manaMax) {
+        this.manaMax = manaMax;
+    }
+     
+     //Bonus ou malus sur la cible ;
+    @Override
+    public void sortStats()
+    {
+        System.out.println("SORTS STATS");
+    }
+    
+    //Permet d'élargir le champs de perception du personnage lors des déplacements pour éviter ou suprimmer les ennemis
+    //ou soutenir les alliés ;
+    @Override
+    public void detection()
+    {
+        System.out.println("DETECTION");
+    }
 }

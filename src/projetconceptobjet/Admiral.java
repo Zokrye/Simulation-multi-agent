@@ -17,6 +17,23 @@ public class Admiral extends Human implements Mediator {
     {
         super(300,300,500,500);
     }
+
+    
+    /*
+    Getters ;
+    */
+    public static int getNbAdmiralInGame() {
+        return nbAdmiralInGame;
+    }
+    
+    
+    /*
+    Setters ;
+    */
+    public static void setNbAdmiralInGame(int nbAdmiralInGame) {
+        Admiral.nbAdmiralInGame = nbAdmiralInGame;
+    }
+       
     
     @Override
     public void negociation()

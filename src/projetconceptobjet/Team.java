@@ -11,19 +11,21 @@ import java.util.ArrayList;
  *
  * @author ISEN
  */
-public abstract class Team {
+public class Team {
     
-    private ArrayList<Character> listCharacters;
+    private ArrayList listCharacters;
     private int lifePointTeam;
     private int totalLifePointTeam;
     private int xpTeam;
     private int totalCharacterTeam;
     private int energyPointTeam;
-    private int totalEnergyPoint;
+    private int totalEnergyPointTeam;
+    private Species Type;
+    private static int nbOfTeam;
 
     
     /*Getters*/
-    public ArrayList<Character> getListCharacters() {
+    public ArrayList getListCharacters() {
         return listCharacters;
     }
     
@@ -43,18 +45,28 @@ public abstract class Team {
         return totalCharacterTeam;
     }
     
-    public int getTotalEnergyPoint() {
-        return totalEnergyPoint;
+    public int getTotalEnergyPointTeam() {
+        return totalEnergyPointTeam;
     }
 
     public int getEnergyPointTeam() {
         return energyPointTeam;
     }
+
+    public Species getType() {
+        return Type;
+    }
+
+    public static int getNbOfTeam() {
+        return nbOfTeam;
+    }
+
+        
         
     
     
     /*Setters*/
-    public void setListCharacters(ArrayList<Character> listCharacters) {
+    public void setListCharacters(ArrayList listCharacters) {
         this.listCharacters = listCharacters;
     }
 
@@ -74,14 +86,97 @@ public abstract class Team {
         this.totalCharacterTeam = totalCharacterTeam;
     }
 
-    public void setTotalEnergyPoint(int totalEnergyPoint) {
-        this.totalEnergyPoint = totalEnergyPoint;
+    public void setTotalEnergyPointTeam(int totalEnergyPointTeam) {
+        this.totalEnergyPointTeam = totalEnergyPointTeam;
     }
     
     public void setEnergyPointTeam(int energyPointTeam) {
         this.energyPointTeam = energyPointTeam;
     }
     
+    public void setType(Species Type) {
+        this.Type = Type;
+    }
+    
+    public static void setNbOfTeam(int nbOfTeam) {
+        Team.nbOfTeam = nbOfTeam;
+    }
+    
+    /**
+     * Function affording to get the team searched ;
+     * @param allTeams : List of all teams of the game ;
+     * @param type : Type of the team ;
+     * @return : team_found : Team of the type wanted ;
+     */
+    public static Team recupTeamFromTheList(ArrayList<Team> allTeams, Species type)
+    {
+        Team team_found=new Team();
+        int count=0;
+        while(count<Team.getNbOfTeam() || team_found.getType().equals(type))
+        {
+            System.out.println(count);
+            System.out.println(team_found.getType()+" "+type+" ; "+team_found.getType().getClass());
+            team_found=allTeams.get(count);
+            System.out.println(team_found.getType());
+            count++;
+        }
+        
+        return(team_found);
+    }
+    
+    
+    
+    /**
+     * Function that call function to create teams of each character class ;
+     * A REVOIR : Faire fonction de création d'équipe dans les classes correspondantes ;
+     * @param mapLength : dimension of the length of the map ;
+     * @param mapWidth : dimension of the width of the map ;
+     * @return : List of Teams of characters ;
+     */
+    public static ArrayList<Team> randomTeamsCreation(int mapLength,int mapWidth)
+    {
+        //Creation of a new Team ArrayList ;
+        ArrayList<Team> allTeams = new ArrayList<>();
+        //Calculation of the size of the map ;
+        int mapDimension=mapLength*mapWidth;
+        //Calculation of the number of characters of each team;
+        double eighthOfMap=(mapDimension)/8;
+        System.out.println("Eighth of the map : "+eighthOfMap+"; Map dimension : "+mapDimension+";");
+        /*
+        Creation of each team ;
+        */
+        //Human Team ;
+        Team teamHuman=Human.createHumanTeam((int)eighthOfMap);
+        System.out.println("Type of entity : "+teamHuman.getType()+" ; Nb characters : "+teamHuman.getTotalCharacterTeam()+" ; PV : "+teamHuman.getLifePointTeam()+"/"+teamHuman.getTotalLifePointTeam()+" ;\n"
+                + "PE : "+teamHuman.getEnergyPointTeam()+"/"+teamHuman.getTotalEnergyPointTeam()+" ; XP : "+teamHuman.getXpTeam()+" ;");
+        allTeams.add(teamHuman);
+        
+        //Orc Team ;
+        Team teamOrc=Orc.createOrcTeam((int)eighthOfMap);
+        System.out.println("Type of entity : "+teamOrc.getType()+" ; Nb characters : "+teamOrc.getTotalCharacterTeam()+" ; PV : "+teamOrc.getLifePointTeam()+"/"+teamOrc.getTotalLifePointTeam()+" ;\n"
+                + "PE : "+teamOrc.getEnergyPointTeam()+"/"+teamOrc.getTotalEnergyPointTeam()+" ; XP : "+teamOrc.getXpTeam()+" ;");
+        allTeams.add(teamOrc);
+        
+        //Elfe Team ;
+        Team teamElfe=Elfe.createElfeTeam((int)eighthOfMap);
+        System.out.println("Type of entity : "+teamElfe.getType()+" ; Nb characters : "+teamElfe.getTotalCharacterTeam()+" ; PV : "+teamElfe.getLifePointTeam()+"/"+teamElfe.getTotalLifePointTeam()+" ;\n"
+                + "PE : "+teamElfe.getEnergyPointTeam()+"/"+teamElfe.getTotalEnergyPointTeam()+" ; XP : "+teamElfe.getXpTeam()+" ;");
+        allTeams.add(teamElfe);
+        
+        //Troll Team ;
+        Team teamTroll=Troll.createTrollTeam((int)eighthOfMap);
+        System.out.println("Type of entity : "+teamTroll.getType()+" ; Nb characters : "+teamTroll.getTotalCharacterTeam()+" ; PV : "+teamTroll.getLifePointTeam()+"/"+teamTroll.getTotalLifePointTeam()+" ;\n"
+                + "PE : "+teamTroll.getEnergyPointTeam()+"/"+teamTroll.getTotalEnergyPointTeam()+" ; XP : "+teamTroll.getXpTeam()+" ;");
+        allTeams.add(teamTroll);
+        
+        /*
+        Setting the number of alive teams in game ;
+        */
+        Team.setNbOfTeam(allTeams.size());
+        System.out.println("Number of Teams : "+Team.getNbOfTeam()+" ;");
+        
+        return(allTeams);
+    }
      
     
 }

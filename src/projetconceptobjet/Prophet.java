@@ -13,7 +13,7 @@ public class Prophet extends Elfe implements Wizzard  {
     
     private int mana;
     private int manaMax;
-    private static int nbPriestInGame;
+    private static int nbProphetInGame;
     
     public Prophet()
     {
@@ -21,6 +21,39 @@ public class Prophet extends Elfe implements Wizzard  {
         this.mana=200;
         this.manaMax=200;
     }
+
+    
+    /*
+    Getters ;
+    */
+    public int getMana() {
+        return mana;
+    }
+    
+    public int getManaMax() {
+        return manaMax;
+    }
+    
+    public static int getNbProphetInGame() {
+        return nbProphetInGame;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public void setManaMax(int manaMax) {
+        this.manaMax = manaMax;
+    }
+
+    public static void setNbProphettInGame(int nbProphetInGame) {
+        Prophet.nbProphetInGame = nbProphetInGame;
+    }
+    
     
     //Bonus ou malus sur la cible ;
     @Override
@@ -35,24 +68,5 @@ public class Prophet extends Elfe implements Wizzard  {
     public void detection()
     {
         System.out.println("DETECTION");
-    }
-    
-        //Permet de prendre la main sur les attaques lors des combats après le premier tour de jeux (attaque en premier);
-    @Override
-    public void celerite()
-    {
-        System.out.println("CELERITE!");
-    }
-    //Permet d'éviter certains des coups infligés par l'ennemi et facilite la fuite ;
-    @Override
-    public void esquive()
-    {
-        System.out.println("ESQUIVE!");
-    }
-    //Permet de dépenser moins de points d'énergie lors des déplacements ;
-    @Override
-    public void endurance()
-    {
-        System.out.println("ENDURANCE!");
     }
 }

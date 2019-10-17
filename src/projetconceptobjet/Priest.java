@@ -21,6 +21,39 @@ public class Priest extends Human implements Wizzard {
         this.mana=200;
         this.manaMax=200;
     }
+
+    
+    /*
+    Getters ;
+    */
+    public int getMana() {
+        return mana;
+    }
+    
+    public int getManaMax() {
+        return manaMax;
+    }
+    
+    public static int getNbPriestInGame() {
+        return nbPriestInGame;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public void setManaMax(int manaMax) {
+        this.manaMax = manaMax;
+    }
+
+    public static void setNbPriestInGame(int nbPriestInGame) {
+        Priest.nbPriestInGame = nbPriestInGame;
+    }
+    
     
     //Bonus ou malus sur la cible ;
     @Override
