@@ -35,7 +35,7 @@ public class Cell {
         this.character = character;
     }
 
-    public boolean isHasObstacle() {
+    public boolean getHasObstacle() {
         return hasObstacle;
     }
 

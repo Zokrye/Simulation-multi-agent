@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class Map {
     protected final int SIZE_SAFE_ZONE=5;
-    protected final int HEIGHT;
-    protected final int LENGTH;
-    protected final int NB_OBSTACLES;
+    protected Integer HEIGHT;
+    protected Integer LENGTH;
+    protected Integer NB_OBSTACLES;
     //protected List<Cell> cells;
     protected Cell[][] cells;
     private static Map map;
@@ -25,25 +25,17 @@ public class Map {
         this.LENGTH=length;
         cells=new Cell[LENGTH][HEIGHT];
         this.NB_OBSTACLES=nbObstacles;  
-        /*for(int i=0; i<HEIGHT;i++) {
-            for(int j=0;j<LENGTH;j++) {
-                cells.add(new Cell(this,i,j));
-            }
-        }*/
-        for(int i=0; i<HEIGHT;i++) {
-            for(int j=0;j<LENGTH;j++) {
+        for(int i=0; i<LENGTH;i++) {
+            for(int j=0;j<HEIGHT;j++) {
                 cells[i][j]=(new Cell(this,i,j));
             }
         }
+        setSafeZones();
+        spreadObstacles();
 
     }
     
     public Cell getCell(int x, int y) {
-        /*for(Cell cell : cells) {
-            if(cell.getX()==x && cell.getY()==y) {
-                return cell;
-            }
-        }*/
         try {
             return cells[x][y];
         }
@@ -54,16 +46,16 @@ public class Map {
     }
     public static Map getinstance() {
         if(map==null) {
-            map= new Map(50,50,250);
+            map=new Map(50,50,125);
         }
         return map;
     }
     
-    private void spreadObstacles(int nbObstacles) {
+    public final void spreadObstacles() {
         int x;
         int y;
         int i=0;
-        while(i<nbObstacles) {
+        while(i<NB_OBSTACLES) {
             x=(int) (Math.random()*LENGTH);
             y=(int) (Math.random()*HEIGHT);
             Cell cell=getCell(x,y);
@@ -80,50 +72,82 @@ public class Map {
     }
     
     private void setSafeZones() {
-        /*for(Cell cell : cells) {
-            //Bottom left
-            if(cell.getX()<=5 && cell.getY()<=5) {
-                cell.zone=Zone.SafeZoneMan;
-            }
-            //Top right
-            if(cell.getX()>=this.LENGTH-5 && cell.getY()>=this.HEIGHT-5) {
-                cell.zone=Zone.SafeZoneElf;
-            }
-            //Top left
-            if(cell.getX()<=5 && cell.getY()>=this.HEIGHT-5) {
-                cell.zone=Zone.SafeZoneTroll;
-            }
-            //Bottom right
-            if(cell.getX()>=this.LENGTH-5 && cell.getY()<=5) {
-                cell.zone=Zone.SafeZoneOrc;
-            }
-            else { 
-                cell.zone=Zone.Other; 
-            }
-        }*/
-        //Bottom left
+        //Top left
         for(int i=0; i<SIZE_SAFE_ZONE;i++) {
             for(int j=0;j<SIZE_SAFE_ZONE;j++) {
                 this.getCell(i, j).zone=Zone.SafeZoneMan;
             }
         }
-        //Top right
+        //Bottom right
         for(int i=LENGTH-SIZE_SAFE_ZONE; i<LENGTH;i++) {
-            for(int j=HEIGHT-SIZE_SAFE_ZONE;j<SIZE_SAFE_ZONE;j++) {
+            for(int j=HEIGHT-SIZE_SAFE_ZONE;j<HEIGHT;j++) {
                 this.getCell(i, j).zone=Zone.SafeZoneElf ;
             }
         }
-        //Top left
+        //Bottom left
         for(int i=0; i<SIZE_SAFE_ZONE;i++) {
             for(int j=HEIGHT-SIZE_SAFE_ZONE;j<HEIGHT;j++) {
                 this.getCell(i, j).zone=Zone.SafeZoneTroll ;
             }
         }
-        //Bottom right
+        //Bottom top
         for(int i=LENGTH-SIZE_SAFE_ZONE; i<LENGTH;i++) {
             for(int j=0;j<SIZE_SAFE_ZONE;j++) {
                 this.getCell(i, j).zone=Zone.SafeZoneOrc ;
             }
+        }
+    }
+    
+    public void displayMap() {
+        for(int y=0;y<HEIGHT;y++) {
+            for(int x=0;x<LENGTH;x++) {
+                Cell cell= getCell(x,y);
+                if(!cell.isAvailable()) {
+                    if(cell.getCharacter()!=null) {
+                        if(cell.getCharacter() instanceof Orc) {
+                            System.out.print("O");
+                        }
+                        if(cell.getCharacter() instanceof Elfe) {
+                            System.out.print("E");
+                        }
+                        if(cell.getCharacter() instanceof Human) {
+                            System.out.print("H");
+                        }
+                        if(cell.getCharacter() instanceof Troll) {
+                            System.out.print("T");
+                        }
+                    }
+                    else if(cell.getHasObstacle()==true) {
+                        System.out.print("X");
+                    }
+                }
+                //Display the SafeZones
+                else {
+                    if((cell.getX()==SIZE_SAFE_ZONE-1 && cell.getY()<SIZE_SAFE_ZONE-1) ||
+                            (cell.getX()==LENGTH-SIZE_SAFE_ZONE && cell.getY()<SIZE_SAFE_ZONE-1) ||
+                            (cell.getX()==SIZE_SAFE_ZONE-1 && cell.getY()>HEIGHT-SIZE_SAFE_ZONE) ||
+                            (cell.getX()==LENGTH-SIZE_SAFE_ZONE && cell.getY()>HEIGHT-SIZE_SAFE_ZONE)) {
+                        System.out.print("|");
+                    }
+                    else if((cell.getY()==SIZE_SAFE_ZONE-1 && cell.getX()<SIZE_SAFE_ZONE-1) ||
+                            (cell.getY()==LENGTH-SIZE_SAFE_ZONE && cell.getX()<SIZE_SAFE_ZONE-1) ||
+                            (cell.getY()==SIZE_SAFE_ZONE-1 && cell.getX()>HEIGHT-SIZE_SAFE_ZONE) ||
+                            (cell.getY()==LENGTH-SIZE_SAFE_ZONE && cell.getX()>HEIGHT-SIZE_SAFE_ZONE)) {
+                        System.out.print("-");
+                    }
+                    else if((cell.getX()==SIZE_SAFE_ZONE-1 && cell.getY()==SIZE_SAFE_ZONE-1) ||
+                            (cell.getX()==SIZE_SAFE_ZONE-1 && cell.getY()==HEIGHT-SIZE_SAFE_ZONE) ||
+                            (cell.getX()==LENGTH-SIZE_SAFE_ZONE && cell.getY()==SIZE_SAFE_ZONE-1) ||
+                            (cell.getX()==LENGTH-SIZE_SAFE_ZONE && cell.getY()==HEIGHT-SIZE_SAFE_ZONE)) {
+                        System.out.print("+");
+                    }
+                    else {
+                    System.out.print(".");
+                    }
+                    
+                }
+            }
+            System.out.println("");
         }
     }
     
