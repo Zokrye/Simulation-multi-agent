@@ -16,11 +16,6 @@ public abstract class Elfe extends Hero {
     private static int nbElfesInGame;
     private static Species weakness;
     
-    public Elfe() {
-        this.safeZoneDirection=new Direction(1,1);
-        this.maxMovement=6;
-    }
-    
     @Override
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneElf;
@@ -37,6 +32,8 @@ public abstract class Elfe extends Hero {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
         this.setType(Species.Elfe);
         Elfe.weakness=Species.Troll;
+        this.safeZoneDirection=new Direction(1,1);
+        this.maxMovement=6;
     }
     @Override
     public void attaquer()
@@ -52,8 +49,9 @@ public abstract class Elfe extends Hero {
     @Override
     public void reanimation()
     {
-    }
         System.out.println("REANIMATION!");
+    }
+        
     
     @Override
     public void soin()
@@ -76,18 +74,20 @@ public abstract class Elfe extends Hero {
     
     /*
     Getters ;
-    public static int getNbElfesInGame() {
     */
+    public static int getNbElfesInGame() {
+    
         return nbElfesInGame;
     
     }
     public static Species getWeakness() {
-    }
+    
         return weakness;
-    */
-    Setters ;
-
+    }
     /*
+    Setters ;
+    */
+    
     
 
     //Permet de prendre la main sur les attaques lors des combats après le premier tour de jeux (attaque en premier);

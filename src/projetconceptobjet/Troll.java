@@ -16,11 +16,6 @@ public abstract class Troll extends Enemy {
     private static int nbTrollsInGame;
     private static Species weakness;
     
-    public Troll() {
-        this.safeZoneDirection=new Direction(-1,1);
-        this.maxMovement=3;
-    }
-    
     @Override
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneTroll;
@@ -31,6 +26,8 @@ public abstract class Troll extends Enemy {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
         this.setType(Species.Troll);
         Troll.weakness=Species.Human;
+        this.safeZoneDirection=new Direction(-1,1);
+        this.maxMovement=3;
     }
 
     

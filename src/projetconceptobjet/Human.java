@@ -21,9 +21,6 @@ public abstract class Human extends Hero {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
         this.setType(Species.Human);
         Human.weakness=Species.Orc;
-    }
-
-    public Human() {
         this.safeZoneDirection=new Direction(-1,-1);
         this.maxMovement=5;
     }

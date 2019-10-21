@@ -16,9 +16,6 @@ public abstract class Orc extends Enemy {
     private static int nbOrcsInGame;
     private static Species weakness;
     
-    public Orc() {
-        this.safeZoneDirection=new Direction(1,-1);
-        this.maxMovement=4;
     
     @Override
     public boolean isInSafeZone() {
@@ -30,6 +27,8 @@ public abstract class Orc extends Enemy {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
         this.setType(Species.Orc);
         Orc.weakness=Species.Elfe;
+        this.safeZoneDirection=new Direction(1,-1);
+        this.maxMovement=4;
     }
 
     
