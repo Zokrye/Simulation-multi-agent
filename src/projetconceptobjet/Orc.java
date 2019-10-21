@@ -19,6 +19,7 @@ public abstract class Orc extends Enemy {
     public Orc(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
+        this.setType(Species.Orc);
         Orc.weakness=Species.Elfe;
     }
 

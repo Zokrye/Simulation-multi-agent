@@ -19,6 +19,7 @@ public abstract class Human extends Hero {
     public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
+        this.setType(Species.Human);
         Human.weakness=Species.Orc;
     }
 

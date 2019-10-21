@@ -19,6 +19,7 @@ public abstract class Troll extends Enemy {
     public Troll(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
+        this.setType(Species.Troll);
         Troll.weakness=Species.Human;
     }
 

@@ -109,19 +109,26 @@ public class Team {
      * @return : team_found : Team of the type wanted ;
      */
     public static Team recupTeamFromTheList(ArrayList<Team> allTeams, Species type)
-    {
-        Team team_found=new Team();
+    {   
+        /*
+        Initializing of the variables used ;
+        */
         int count=0;
-        while(count<Team.getNbOfTeam() || team_found.getType().equals(type))
-        {
-            System.out.println(count);
-            System.out.println(team_found.getType()+" "+type+" ; "+team_found.getType().getClass());
-            team_found=allTeams.get(count);
-            System.out.println(team_found.getType());
+        Team team=null;
+        
+        /*
+        Get the team at the index corresponding to the counter number,
+        While the type of the instance of the Team class is different of the type
+        searched or the index isn't out of the list range,
+        It continue to increment the index ;
+        */
+        do{
+            team=allTeams.get(count);
             count++;
         }
-        
-        return(team_found);
+        while(team.getType()!=type && count<allTeams.size());
+        //Return of the team found ;
+        return(team);  
     }
     
     

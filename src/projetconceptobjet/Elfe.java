@@ -19,6 +19,7 @@ public abstract class Elfe extends Hero {
     public Elfe(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
+        this.setType(Species.Elfe);
         Elfe.weakness=Species.Troll;
     }
 
