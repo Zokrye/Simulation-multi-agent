@@ -19,11 +19,26 @@ public abstract class Character {
     protected int pVieMax ;
     protected int xp ;
     protected boolean etatFatigue;
+    protected int turnRanking;
+    protected boolean dead;
+    protected Species type;
     protected int[] lastDirection;
     //protected int niveau;
     //protected int nbPasMaxTour;
     //protected int nbPasTour;
     private static int nbCharactersInGame;
+    
+    
+    public Character(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        this.pEnergie=pEnergie;
+        this.pEnergieMax=pEnergieMax;
+        this.pVie=pVie;
+        this.pVieMax=pVieMax;
+        this.xp=0;
+        this.etatFatigue=false;
+        this.dead=false;
+    }
     
     /*Methods*/
     public abstract void seDeplacer();
@@ -68,6 +83,19 @@ public abstract class Character {
     public static int getNbCharactersInGame() {
         return nbCharactersInGame;
     }
+
+    public int getTurnRanking() {
+        return turnRanking;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public Species getType() {
+        return type;
+    }
+       
     
     
     /*
@@ -109,6 +137,18 @@ public abstract class Character {
         Character.nbCharactersInGame = nbCharactersInGame;
     }
     
+    public void setTurnRanking(int turnRanking) {
+        this.turnRanking = turnRanking;
+    }
+    
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+    
+    public void setType(Species type) {
+        this.type = type;
+    }
+
     
     
 }

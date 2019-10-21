@@ -13,6 +13,28 @@ public abstract class Enemy extends Character {
     
     private static int nbEnemiesInGame;
     
+    public Enemy(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        super(pEnergie,pEnergieMax,pVie,pVieMax);
+    }
+
+    
+    /*
+    Getters ;
+    */
+    public static int getNbEnemiesInGame() {
+        return nbEnemiesInGame;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public static void setNbEnemiesInGame(int nbEnemiesInGame) {
+        Enemy.nbEnemiesInGame = nbEnemiesInGame;
+    }
+    
+    
     //Destruction d'un allié pour récupérer son xp si celui-ci est fatigué ;
     public abstract void sacrifice();
     //Application de malus sur les statistiques adverses ;

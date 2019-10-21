@@ -10,7 +10,6 @@ package projetconceptobjet;
  * @author ISEN
  */
 public enum Species {  
-    None,
     Human,
     Elfe,
     Orc,
