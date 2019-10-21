@@ -16,37 +16,49 @@ public abstract class Elfe extends Hero {
     private static int nbElfesInGame;
     private static Species weakness;
     
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneElf;
+    }
+    
+    public static void setNbElfesInGame(int nbElfesInGame) {
+        Elfe.nbElfesInGame = nbElfesInGame;
+    }
+    public static void setWeakness(Species weakness) {
+        Elfe.weakness = weakness;
+    }
     public Elfe(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
         this.setType(Species.Elfe);
         Elfe.weakness=Species.Troll;
+        this.safeZoneDirection=new Direction(1,1);
+        this.maxMovement=6;
     }
-
-    
-    /*
-    Getters ;
-    */
-    public static int getNbElfesInGame() {
-        return nbElfesInGame;
+    @Override
+    public void attaquer()
+    {
+        System.out.println("ATTAQUE!");
     }
-    
-    public static Species getWeakness() {
-        return weakness;
-    }
-
-    
-    /*
-    Setters ;
-    */
-    public static void setNbElfesInGame(int nbElfesInGame) {
-        Elfe.nbElfesInGame = nbElfesInGame;
-    }
-
-    public static void setWeakness(Species weakness) {
-        Elfe.weakness = weakness;
+    @Override
+    public void fuir()
+    {
+        System.out.println("FUITE!");
     }
     
+    @Override
+    public void reanimation()
+    {
+        System.out.println("REANIMATION!");
+    }
+        
+    
+    @Override
+    public void soin()
+    {
+        System.out.println("SOIN!");
+    }
+    //Réanime les personnages fatigués avec des PEs ;
     
     //Augmente les stats d'un personnage en fonction d'une zone autour de lui et du nombre de ses alliés ;
     @Override
@@ -56,36 +68,28 @@ public abstract class Elfe extends Hero {
     }
     
     //Distribue des points de vie aux alliés rencontrés ;
-    @Override
-    public void soin()
-    {
-        System.out.println("SOIN!");
-    }
-    //Réanime les personnages fatigués avec des PEs ;
-    @Override
-    public void reanimation()
-    {
-        System.out.println("REANIMATION!");
-    }
     
-    @Override
-    public void seDeplacer()
-    {
-        System.out.println("DEPLACEMENT!");
-    }
     
-    @Override
-    public void attaquer()
-    {
-        System.out.println("ATTAQUE!");
-    }
+
     
-    @Override
-    public void fuir()
-    {
-        System.out.println("FUITE!");
-    }
+    /*
+    Getters ;
+    */
+    public static int getNbElfesInGame() {
     
+        return nbElfesInGame;
+    
+    }
+    public static Species getWeakness() {
+    
+        return weakness;
+    }
+    /*
+    Setters ;
+    */
+    
+    
+
     //Permet de prendre la main sur les attaques lors des combats après le premier tour de jeux (attaque en premier);
     public void celerite()
     {
