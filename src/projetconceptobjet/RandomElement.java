@@ -54,25 +54,58 @@ public class RandomElement {
     }
     
     
-    
     /**
-     * Function that call function to create teams of each character class ;
-     * A REVOIR : Faire fonction de création d'équipe dans les classes correspondantes ;
-     * @param mapLength
-     * @param mapWidth 
+     * Function affording the ranking of the character for the turn of the game ;
+     * @param allTeams : List of the teams of each of the types ;
+     * @return : rankingForTheTurn : List of characters randomly ordered ;
      */
-    public static ArrayList randomTeamsCreation(int mapLength,int mapWidth)
+    public static ArrayList<Character> randomOrderOfGameForTheTurn(ArrayList<Team> allTeams)
     {
-        //Creation of a team of characters ;
-        ArrayList<Character> teamOfCharacters=new ArrayList<>();
-        //Calculation of the size of the map ;
-        int mapDimension=mapLength*mapWidth;
-        //Calculation of the number of characters of each team;
-        double eighthOfMap=(mapDimension)/8;
-        System.out.println("Eighth of the map : "+eighthOfMap+"; Map dimension : "+mapDimension+";");
-        //Creation of each team ;
-        ArrayList<Human> team_h=Human.createHumanTeam((int)eighthOfMap);
-        return(team_h);
+        //Initializing of the list of game ;
+        ArrayList<Character> rankingForTheTurn=new ArrayList<>();
+        //Initializing of a counter to get the number of charcters ;
+        int countCharacters=0;
+        
+        /*
+        Getting of all the characters of the game to create the ranking for the turn,
+        Curse of the list of all teams ;
+        */
+        for(Team teamTargetted:allTeams)
+        {
+            //Getting of the current team ;
+            ArrayList<Character> listCharactersOfTheTeam=teamTargetted.getListCharacters();
+            /*
+            Curse of all characters of the current team ;
+            */
+            for(Character character:listCharactersOfTheTeam)
+            {
+                if(character.isDead()==false)
+                {
+                    //Put the current character in the ranking list ;
+                    rankingForTheTurn.add(character);
+                    //Increase the account of characters to know their number ;
+                    countCharacters++;
+                    System.out.println("Perso : "+character.getNom()+" ; NbCharacters : "+countCharacters);
+                }
+                
+                
+                //System.out.println("Perso : "+character.getNom()+" ; NbCharacters : "+countCharacters);
+            }
+            System.out.println("\r");
+        }
+        
+        /*
+        Mixing of the ranking list ;
+        */
+        for(Character character:rankingForTheTurn)
+        {
+            /*
+            Random ranking with numbers used only once ;
+            */
+        }
+        
+        
+        return(rankingForTheTurn);
     }
     
 }

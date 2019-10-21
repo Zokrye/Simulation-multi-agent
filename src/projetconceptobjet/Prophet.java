@@ -9,6 +9,64 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public abstract class Prophet extends Elfe implements Wizzard  {
+public class Prophet extends Elfe implements Wizzard  {
     
+    private int mana;
+    private int manaMax;
+    private static int nbProphetInGame;
+    
+    public Prophet()
+    {
+        super(150,150,300,300);
+        this.mana=200;
+        this.manaMax=200;
+    }
+
+    
+    /*
+    Getters ;
+    */
+    public int getMana() {
+        return mana;
+    }
+    
+    public int getManaMax() {
+        return manaMax;
+    }
+    
+    public static int getNbProphetInGame() {
+        return nbProphetInGame;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public void setManaMax(int manaMax) {
+        this.manaMax = manaMax;
+    }
+
+    public static void setNbProphettInGame(int nbProphetInGame) {
+        Prophet.nbProphetInGame = nbProphetInGame;
+    }
+    
+    
+    //Bonus ou malus sur la cible ;
+    @Override
+    public void sortStats()
+    {
+        System.out.println("SORTS STATS");
+    }
+    
+    //Permet d'élargir le champs de perception du personnage lors des déplacements pour éviter ou suprimmer les ennemis
+    //ou soutenir les alliés ;
+    @Override
+    public void detection()
+    {
+        System.out.println("DETECTION");
+    }
 }

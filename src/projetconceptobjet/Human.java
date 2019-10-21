@@ -16,6 +16,13 @@ public abstract class Human extends Hero {
     private static int nbHumansInGame;
     private static Species weakness;
     
+    public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    {
+        super(pEnergie,pEnergieMax,pVie,pVieMax);
+        this.setType(Species.Human);
+        Human.weakness=Species.Orc;
+    }
+
     public Human() {
         this.safeZoneDirection=new Direction(-1,-1);
         this.maxMovement=5;
@@ -25,6 +32,30 @@ public abstract class Human extends Hero {
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneMan;
     }
+    
+    /*
+    Getters ;
+    */
+    public static int getNbHumansInGame() {
+        return nbHumansInGame;
+    }
+    
+    public static Species getWeakness() {
+        return weakness;
+    }
+
+    
+    /*
+    Setters ;
+    */
+    public static void setNbHumansInGame(int nbHumansInGame) {
+        Human.nbHumansInGame = nbHumansInGame;
+    }
+
+    public static void setWeakness(Species weakness) {
+        Human.weakness = weakness;
+    }
+    
     
     //Regain de PV par tours ;
     public void secondSouffle()
@@ -88,10 +119,16 @@ public abstract class Human extends Hero {
      * Function allows to create a team of Humans with an Admiral and a random
      * distribution of Mage and Warriors, whose the number of team mates is given ;
      * @param nbPerso : number of team mates ;
-     * @return : team : ArrayList of Humans containning all characters of the team ;
+     * @return : team : Team of Humans containning all characters of the team ;
      */
-    public static ArrayList<Human> createHumanTeam(int nbPerso)
+    public static Team createHumanTeam(int nbPerso)
     {
+        //Initializing of the team instance ;
+        Team h_team=new Team();
+        //Set the total number of humans in game ;
+        Human.setNbHumansInGame(nbPerso);
+        h_team.setTotalCharacterTeam(nbPerso);
+        h_team.setType(Species.Human);
         //Create the list of the team ;
         ArrayList<Human> team=new ArrayList<>();
         //Creation of the Admiral of the team ;
@@ -108,6 +145,14 @@ public abstract class Human extends Hero {
         //Initializing of the total number of Paladins ;
         int nbPaladins=0;
         /*
+        Preapre the variables to get the total number of each element of the characters ;
+        */
+        int nbPVTeamMax=0;
+        int nbPVTeam=0;
+        int nbPETeamMax=0;
+        int nbPETeam=0;
+        int nbXpTeam=0;
+        /*
         Creation of the right number of characters to put them in the list ;
         */
         for(int index=1;index<nbPerso;index++)
@@ -122,6 +167,14 @@ public abstract class Human extends Hero {
                 newPerso = new Paladin();
                 nbPaladins++;
                 newPerso.setNom("Paladin_"+nbPaladins);
+                /*
+                Initializing of the all elements of the team ;
+                */
+                nbPVTeam+=newPerso.getpVie();
+                nbPVTeamMax+=newPerso.getpVieMax();
+                nbPETeam+=newPerso.getpEnergie();
+                nbPETeamMax+=newPerso.getpEnergieMax();
+                nbXpTeam+=newPerso.getXp();
             }
             else
             {
@@ -131,11 +184,33 @@ public abstract class Human extends Hero {
                 newPerso = new Priest();
                 nbPriests++;
                 newPerso.setNom("Priest_"+nbPriests);
+                /*
+                Initializing of the all elements of the team ;
+                */
+                nbPVTeam+=newPerso.getpVie();
+                nbPVTeamMax+=newPerso.getpVieMax();
+                nbPETeam+=newPerso.getpEnergie();
+                nbPETeamMax+=newPerso.getpEnergieMax();
+                nbXpTeam+=newPerso.getXp();
             }
             team.add(newPerso);
         }
+        /*
+        Setting all elements of the team ;
+        */
+        h_team.setListCharacters(team);
+        h_team.setLifePointTeam(nbPVTeam);
+        h_team.setTotalLifePointTeam(nbPVTeamMax);
+        h_team.setEnergyPointTeam(nbPETeam);
+        h_team.setTotalEnergyPointTeam(nbPETeamMax);
+        h_team.setXpTeam(nbXpTeam);
+        /*
+        Set the total number of each type of character in game ;
+        */
+        Paladin.setNbPaladinInGame(nbPaladins);
+        Priest.setNbPriestInGame(nbPriests);
         //Returns the list of Human team mates;
-        return(team);
+        return(h_team);
     }
     
     
