@@ -68,4 +68,6 @@ public class Sorcerer extends Orc implements Wizzard{
     {
         System.out.println("DETECTION");
     }
+
+    
 }

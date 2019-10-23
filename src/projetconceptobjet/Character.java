@@ -48,6 +48,10 @@ public abstract class Character {
     }
     
     /*Methods*/
+    
+    /**
+     * 
+     */
     public void seDeplacer() {
         int remainingCells = RandomElement.randomThrow(maxMovement, 1);
         
@@ -101,6 +105,9 @@ public abstract class Character {
                             currentCell.setCharacter(null);
                             currentCell=nextCell;
                             currentCell.setCharacter(this);
+                            if(pVie<pVieMax) {
+                                pVie++;
+                            }
                             if(isInSafeZone()){
                                 if(this.pEnergie<=pEnergieMax-3) {
                                     pEnergie+=3;
@@ -117,11 +124,20 @@ public abstract class Character {
 
                         //Meet another character
                         else {
-                            //TODO Vérification alliés ou ennemis/ chefs
-                            if(!isInSafeZone() && !nextCell.character.isInSafeZone()) {
-                                //FIGHT
+                            if(this.isSameRace(nextCell.character)) {
+                                //TODO: Ajout de vie aux deux personnages fonction du nombre de cases restantes à parcourir
                             }
-                        } 
+                            else if(this.isSameSide(nextCell.character)) {
+                                   //TODO: Ajout de points d'XP aux personnages
+                            }
+                                
+                            else {
+                                if(!isInSafeZone() && !nextCell.character.isInSafeZone()) {
+                                //TODO: FIGHT
+                                }
+                            }                   
+                        }
+                        remainingCells=0;
                     }
                     //Reset remaining cells to 0 in case the character hits an obstacle
                     else {
@@ -135,7 +151,25 @@ public abstract class Character {
     }
     public abstract void attaquer();
     public abstract void fuir();
+    /**
+     * 
+     * @return Whether the character is in its own Safezone or not
+     */
     public abstract boolean isInSafeZone();
+    
+    /**
+     * 
+     * @param character
+     * @return Whether the current and specefied characters are in the same team or not
+     */
+    public abstract boolean isSameSide(Character character);
+    
+    /**
+     * 
+     * @param character
+     * @return Whether the current and specefied characters belong to the same race or not
+     */
+    public abstract boolean isSameRace(Character character);
     
     
     /**
