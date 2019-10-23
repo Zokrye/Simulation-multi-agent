@@ -75,6 +75,8 @@ public class ProjetConceptObjet {
         /////////////TEST OF TURNS/////////////////////////////////////
         ProjetConceptObjet.newTurn(1,allTeams);
         
+        Map map=Map.getinstance();
+        map.displayMap();
     }
     
     

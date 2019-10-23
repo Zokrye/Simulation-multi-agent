@@ -16,11 +16,19 @@ public abstract class Orc extends Enemy {
     private static int nbOrcsInGame;
     private static Species weakness;
     
+    
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneOrc;
+    }
+    
     public Orc(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax);
         this.setType(Species.Orc);
         Orc.weakness=Species.Elfe;
+        this.safeZoneDirection=new Direction(1,-1);
+        this.maxMovement=4;
     }
 
     
