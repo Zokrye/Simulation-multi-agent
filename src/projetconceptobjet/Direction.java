@@ -26,6 +26,11 @@ public class Direction {
         return y;
     }
     
+    /**
+     * Apply a direction of move from a cell and return the next cell in this direction
+     * @param departureCell
+     * @return next cell
+     */
     public Cell applyFrom(Cell departureCell) {
         int xArrivalCell=departureCell.getX()+x;
         int yArrivalCell=departureCell.getY()+y;

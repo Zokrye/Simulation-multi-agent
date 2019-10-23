@@ -8,6 +8,7 @@ package projetconceptobjet;
 /**
  *
  * @author Alexandre
+ * CLASS NOT USED YET
  */
 public class Coordinates {
     private int x;

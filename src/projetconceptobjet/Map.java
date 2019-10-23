@@ -35,6 +35,12 @@ public class Map {
 
     }
     
+    /**
+     * 
+     * @param x horizontal position of the cell on the map
+     * @param y vertical position of the cell on the map
+     * @return Cell with these coordinates
+     */
     public Cell getCell(int x, int y) {
         try {
             return cells[x][y];
@@ -44,6 +50,11 @@ public class Map {
         }
         //return null;
     }
+    
+    /**
+     * Return the unique nstance of the class Map and create it if doesn't exists
+     * @return Map
+     */
     public static Map getinstance() {
         if(map==null) {
             map=new Map(50,50,125);
@@ -51,6 +62,9 @@ public class Map {
         return map;
     }
     
+    /**
+     * Spread the obstacles on the map based on NB_OBSTACLES
+     */
     public final void spreadObstacles() {
         int x;
         int y;
@@ -71,6 +85,9 @@ public class Map {
         
     }
     
+    /**
+     * Set the different safezones on the map based on SIZE_SAFE_ZONE
+     */
     private void setSafeZones() {
         //Top left
         for(int i=0; i<SIZE_SAFE_ZONE;i++) {
@@ -98,6 +115,9 @@ public class Map {
         }
     }
     
+    /**
+     * Display the map into the console using ASCII characters
+     */
     public void displayMap() {
         for(int y=0;y<HEIGHT;y++) {
             for(int x=0;x<LENGTH;x++) {
