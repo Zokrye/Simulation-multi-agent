@@ -45,6 +45,27 @@ public abstract class Character {
     public abstract void attaquer();
     public abstract void fuir();
     
+    
+    /**
+     * Actions of the character during its gaming period ;
+     */
+    public void characterTurn()
+    {
+        /*
+        Test of the free cells around him ;
+        Avoid obstacles but search an enemy ;
+        */
+        /*
+        If there is no enemy and its PE are ok, go forward to search enemies ;
+        If there is an enemy and its PE and PV are ok, go to attack him ;
+        If there is an enemy and its PE or PV are low, return to the safe zone and try to get them again ;
+        If there is no enemy and its PE are low, return to the safe zone to get them again ;
+        */
+        /*
+        End of the turn ;
+        */
+    }
+    
     /*
     Getters
     */
@@ -148,7 +169,5 @@ public abstract class Character {
     public void setType(Species type) {
         this.type = type;
     }
-
-    
     
 }

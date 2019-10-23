@@ -20,7 +20,9 @@ public class ProjetConceptObjet {
         // TODO code application logic here
         /////////////////////////////////////////////////////////////
         ////////////////TEST TIRAGE ALEATOIRE////////////////////////
-        ArrayList<Integer> numberThrown=new ArrayList<>();
+        //Fonction ok pour un tirage unique de nombre ;
+        //RandomElement.tirageListValeursUniques(72);
+        /*ArrayList<Integer> numberThrown=new ArrayList<>();
         int indexMax=20;
         int indexMin=0;
         int n=20;
@@ -60,7 +62,7 @@ public class ProjetConceptObjet {
             for (int t=0;t<numberThrown.size();t++)
             {
                 System.out.println("Nombre : "+numberThrown.get(t));
-            }
+            }*/
         //////////////////////////////////////////////////////////////
         //////////////TEST CREATION D'EQUIPES ALEATOIRE////////////
         ArrayList<Team> allTeams=Team.randomTeamsCreation(12,12);
@@ -79,26 +81,23 @@ public class ProjetConceptObjet {
     /**
      * Function launching a new turn in the simulation ;
      * @param turnPosition : Turn currently played ;
+     * @param allTeams : Lists of teams in game ;
      */
     public static void newTurn(int turnPosition, ArrayList<Team> allTeams)
     {
         //Limit of the beggining of the new turn ;
         System.out.println("---------------------------------------------------------------\n"
                 + "--------------------------TURN "+turnPosition+"-------------------------------");
+        //List of characters ordered for the turn ;
+        ArrayList<Character> listPlayers=RandomElement.randomOrderOfGameForTheTurn(allTeams);
         
         /*
-        Recuperation of each team to create the order of game for the turn
+        Cursing of the list to make each character play ;
         */
-        /*Team tHuman=Team.recupTeamFromTheList(allTeams, Species.Human);
-        //System.out.println("Type : "+tHuman.getType());
-        Team tOrc=Team.recupTeamFromTheList(allTeams, Species.Orc);
-        //System.out.println("Type : "+tOrc.getType());
-        Team tElfe=Team.recupTeamFromTheList(allTeams, Species.Elfe);
-        //System.out.println("Type : "+tElfe.getType());
-        Team tTroll=Team.recupTeamFromTheList(allTeams, Species.Troll);
-        //System.out.println("Type : "+tTroll.getType());*/
-        
-        RandomElement.randomOrderOfGameForTheTurn(allTeams);
+        for (Character character:listPlayers)
+        {
+            
+        }
         
         //End of the Turn ;
         System.out.println("=========================END OF THE TURN "+turnPosition+"==============================\n"
@@ -114,6 +113,57 @@ public class ProjetConceptObjet {
     public void createTableWithUser()
     {
         
+    }
+    
+    
+    /**
+     * Function allowing to sort the list of characters in the turn ;
+     * @param listPlayers : List of living characters with their ranking number ;
+     * @return : list of characters sorted.
+     */
+    public static ArrayList<Character> sortListCharacters(ArrayList<Character> listPlayers)
+    {        
+        /*
+        Curse of all characters of the list ;
+        */
+        for(int index=0; index<listPlayers.size(); index++)
+        {
+            //Initializing the count of turn for the while loop ;
+            int count=0;
+            /*
+            While count is under the size of the list, it executes the loop ;
+            */
+            while(count<listPlayers.size())
+            {
+                /*
+                Test is the position of the character is the good one thank to its ranking number ;
+                */
+                if(index!=listPlayers.get(index).getTurnRanking())
+                {
+                    /*
+                    We change the position of the character for the right one ;
+                    */
+                    Character tmp=listPlayers.get(index);
+                    listPlayers.set(index, listPlayers.get(tmp.getTurnRanking()));
+                    //System.out.println("Perso_2 : "+listPlayers.get(index).getTurnRanking());
+                    listPlayers.set(tmp.getTurnRanking(),tmp);
+                    //System.out.println("Perso_1 : "+listPlayers.get(tmp.getTurnRanking()).getTurnRanking());
+                }
+                //Increasing of the count to avoid infinte loop ;
+                count++;
+            }
+        }
+        
+        /*
+        Part of the function to test the sorting ;
+        */
+        System.out.println(":::::::::::::::::::::Ranked List of the turn::::::::::::::::::::::");
+        for(int index=0; index<listPlayers.size(); index++)
+        {
+            System.out.println("Perso : "+listPlayers.get(index).getNom()+" ; rang : "+listPlayers.get(index).getTurnRanking());
+        }
+        
+        return(listPlayers);
     }
     
 }
