@@ -26,5 +26,11 @@ public class Direction {
         return y;
     }
     
+    public Cell applyFrom(Cell departureCell) {
+        int xArrivalCell=departureCell.getX()+x;
+        int yArrivalCell=departureCell.getY()+y;
+        return Map.getinstance().getCell(xArrivalCell,yArrivalCell);
+    }
+    
     
 }

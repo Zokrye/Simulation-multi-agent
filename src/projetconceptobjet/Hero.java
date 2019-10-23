@@ -41,4 +41,9 @@ public abstract class Hero extends Character {
     //Réanime les personnages fatigués avec des PEs ;
     public abstract void reanimation();
     
+    @Override
+    public abstract void attaquer();
+    @Override
+    public abstract void fuir();
+    
 }
