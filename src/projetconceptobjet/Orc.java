@@ -98,12 +98,6 @@ public abstract class Orc extends Enemy {
     }
     
     @Override
-    public void seDeplacer()
-    {
-        System.out.println("DEPLACEMENT!");
-    }
-    
-    @Override
     public void attaquer()
     {
         System.out.println("ATTAQUE!");
@@ -115,6 +109,10 @@ public abstract class Orc extends Enemy {
         System.out.println("FUITE!");
     }
     
+    @Override
+    public boolean isSameRace(Character character) {
+        return character instanceof Orc;
+    }
     
     /**
      * Function allows to create a team of Orcs with an OrcAlpha and a random

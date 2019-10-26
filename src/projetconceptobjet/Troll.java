@@ -54,6 +54,10 @@ public abstract class Troll extends Enemy {
         Troll.nbTrollsInGame = nbTrollsInGame;
     }
     
+    @Override
+    public boolean isSameRace(Character character) {
+        return character instanceof Troll;
+    }
     
     //Augmente des caractéristiques défensive du Troll ;
     public void blindage()

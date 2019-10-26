@@ -93,12 +93,6 @@ public abstract class Human extends Hero {
     }
     
     @Override
-    public void seDeplacer()
-    {
-        System.out.println("DEPLACEMENT!");
-    }
-    
-    @Override
     public void attaquer()
     {
         System.out.println("ATTAQUE!");
@@ -110,6 +104,10 @@ public abstract class Human extends Hero {
         System.out.println("FUITE!");
     }
     
+    @Override
+    public boolean isSameRace(Character character) {
+        return character instanceof Human;
+    }
     
     /**
      * AJOUTER LA MEME FONCTION POUR LES AUTRES CLASSES ;
