@@ -5,6 +5,7 @@
  */
 package projetconceptobjet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,10 @@ public class Map {
     //protected List<Cell> cells;
     protected Cell[][] cells;
     private static Map map;
+    private ArrayList<Cell> SafeZoneElfes = new ArrayList<>();
+    private ArrayList<Cell> SafeZoneHumans = new ArrayList<>();
+    private ArrayList<Cell> SafeZoneOrcs = new ArrayList<>();
+    private ArrayList<Cell> SafeZoneTrolls = new ArrayList<>();
     
     public Map(int height, int length, int nbObstacles) {
         this.HEIGHT=height;
@@ -89,28 +94,71 @@ public class Map {
      * Set the different safezones on the map based on SIZE_SAFE_ZONE
      */
     private void setSafeZones() {
-        //Top left
+        //Top left - Men
         for(int i=0; i<SIZE_SAFE_ZONE;i++) {
             for(int j=0;j<SIZE_SAFE_ZONE;j++) {
                 this.getCell(i, j).zone=Zone.SafeZoneMan;
+                SafeZoneHumans.add(this.getCell(i, j));
             }
         }
-        //Bottom right
+        //Bottom right - Elfs
         for(int i=LENGTH-SIZE_SAFE_ZONE; i<LENGTH;i++) {
             for(int j=HEIGHT-SIZE_SAFE_ZONE;j<HEIGHT;j++) {
                 this.getCell(i, j).zone=Zone.SafeZoneElf ;
+                SafeZoneElfes.add(this.getCell(i, j));
             }
         }
-        //Bottom left
+        //Bottom left - Trolls
         for(int i=0; i<SIZE_SAFE_ZONE;i++) {
             for(int j=HEIGHT-SIZE_SAFE_ZONE;j<HEIGHT;j++) {
                 this.getCell(i, j).zone=Zone.SafeZoneTroll ;
+                SafeZoneTrolls.add(this.getCell(i, j));
             }
         }
-        //Bottom top
+        //Bottom top - Orcs
         for(int i=LENGTH-SIZE_SAFE_ZONE; i<LENGTH;i++) {
             for(int j=0;j<SIZE_SAFE_ZONE;j++) {
                 this.getCell(i, j).zone=Zone.SafeZoneOrc ;
+                SafeZoneOrcs.add(this.getCell(i, j));
+            }
+        }
+    }
+    
+    /**
+     * Place all the characters at hte beginning of the game
+     */
+    public void placeAllCharacters() {
+        ArrayList<Team> allTeams=Team.getAllTeams();
+        
+        for(Team team : allTeams) {
+            ArrayList<Cell> availableCells;
+            if(null==team.getType()) {
+                availableCells=new ArrayList<>();
+            }
+            else switch (team.getType()) {
+                case Elfe:
+                    availableCells=this.SafeZoneElfes;
+                    break;
+                case Human:
+                    availableCells=this.SafeZoneHumans;
+                    break;
+                case Orc:
+                    availableCells=this.SafeZoneOrcs;
+                    break;
+                case Troll:
+                    availableCells=this.SafeZoneTrolls;
+                    break;
+                default:
+                    availableCells=new ArrayList<>();
+            }
+            if(availableCells.size()>0) {
+                for(Character character : team.getListCharacters()) {
+                    int randomIndex = RandomElement.randomThrow(availableCells.size()-1,0);
+                    Cell randomCell = availableCells.get(randomIndex);
+                    character.setCurrentCell(randomCell);
+                    randomCell.setCharacter(character);
+                    availableCells.remove(randomIndex);         
+                }
             }
         }
     }

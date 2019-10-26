@@ -124,15 +124,17 @@ public abstract class Character {
 
                         //Meet another character
                         else {
-                            if(this.isSameRace(nextCell.character)) {
-                                //TODO: Ajout de vie aux deux personnages fonction du nombre de cases restantes à parcourir
+                            Character otherCharacter = nextCell.getCharacter();
+                            if(this.isSameRace(otherCharacter)) {
+                                otherCharacter.addPV(remainingCells);
+                                this.addPV(remainingCells);
                             }
-                            else if(this.isSameSide(nextCell.character)) {
+                            else if(this.isSameSide(otherCharacter)) {
                                    //TODO: Ajout de points d'XP aux personnages
                             }
                                 
                             else {
-                                if(!isInSafeZone() && !nextCell.character.isInSafeZone()) {
+                                if(!isInSafeZone() && !otherCharacter.isInSafeZone()) {
                                 //TODO: FIGHT
                                 }
                             }                   
@@ -192,6 +194,58 @@ public abstract class Character {
         */
     }
     
+    /**
+     * Add Life points to the character
+     * @param pvAdded 
+     */
+    public void addPV(int pvAdded) {
+        if(pVie+pvAdded<pVieMax) {
+            pVie+=pvAdded;
+        }
+        else {
+            pVie=pVieMax;
+        }
+    }
+    
+    /**
+     * Remove Life points from the character
+     * @param pvRemoved 
+     */
+    public void removePV(int pvRemoved) {
+        if(pVie-pvRemoved>0) {
+            pVie-=pvRemoved;
+        }
+        else {
+            pVie=0;
+        }
+    }
+    
+    /**
+     * Add stamina to the character
+     * @param peAdded 
+     */
+    public void addPE(int peAdded) {
+        if(pEnergie+peAdded<pEnergieMax) {
+            this.pEnergie+=peAdded;
+        }
+        else {
+            pEnergie=pEnergieMax;
+        }
+    }
+    
+    /**
+     * Remove stamina from the character
+     * @param peRemoved 
+     */
+    public void removePE(int peRemoved) {
+        if(pEnergie-peRemoved>0) {
+            this.pEnergie-=peRemoved;
+        }
+        else {
+            pEnergie=0;
+        }
+    }
+    
     /*
     Getters
     */
@@ -242,6 +296,12 @@ public abstract class Character {
     public Species getType() {
         return type;
     }
+
+    public Cell getCurrentCell() {
+        return currentCell;
+    }
+
+    
        
     
     
@@ -294,6 +354,10 @@ public abstract class Character {
     
     public void setType(Species type) {
         this.type = type;
+    }
+    
+    public void setCurrentCell(Cell currentCell) {
+        this.currentCell = currentCell;
     }
     
 }
