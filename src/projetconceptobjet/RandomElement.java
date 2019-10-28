@@ -73,7 +73,7 @@ public class RandomElement {
         for(Team teamTargetted:allTeams)
         {
             //Getting of the current team ;
-            ArrayList<Character> listCharactersOfTheTeam=teamTargetted.getListCharacters();
+            ArrayList<? extends Character> listCharactersOfTheTeam=teamTargetted.getListCharacters();
             /*
             Curse of all characters of the current team ;
             */

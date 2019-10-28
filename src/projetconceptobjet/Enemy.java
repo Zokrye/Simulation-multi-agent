@@ -34,7 +34,14 @@ public abstract class Enemy extends Character {
         Enemy.nbEnemiesInGame = nbEnemiesInGame;
     }
     
+    @Override
+    public boolean isSameSide(Character character) {
+        return character instanceof Enemy;
+    }
+
     
+    @Override
+    public abstract boolean isSameRace(Character character);
     //Destruction d'un allié pour récupérer son xp si celui-ci est fatigué ;
     public abstract void sacrifice();
     //Application de malus sur les statistiques adverses ;

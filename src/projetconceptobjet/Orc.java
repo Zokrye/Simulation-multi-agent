@@ -256,6 +256,10 @@ public abstract class Orc extends Enemy {
         }
     }
     
+    @Override
+    public boolean isSameRace(Character character) {
+        return character instanceof Orc;
+    }
     
     /**
      * Function allows to create a team of Orcs with an OrcAlpha and a random
