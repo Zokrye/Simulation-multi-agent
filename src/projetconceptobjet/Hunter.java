@@ -15,7 +15,7 @@ public class Hunter extends Elfe implements Warrior {
     
     public Hunter()
     {
-        super(200,200,300,300);
+        super(200,200,300,300,40,30);
     }
 
     

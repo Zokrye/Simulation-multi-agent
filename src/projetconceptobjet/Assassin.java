@@ -15,7 +15,7 @@ public class Assassin extends Orc implements Warrior {
     
     public Assassin()
     {
-        super(300,300,300,300);
+        super(300,300,300,300,45,30);
     }
 
     

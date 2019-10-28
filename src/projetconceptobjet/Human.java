@@ -16,9 +16,9 @@ public abstract class Human extends Hero {
     private static int nbHumansInGame;
     private static Species weakness;
     
-    public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
-        super(pEnergie,pEnergieMax,pVie,pVieMax);
+        super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
         this.setType(Species.Human);
         Human.weakness=Species.Orc;
         this.safeZoneDirection=new Direction(-1,-1);
@@ -98,16 +98,156 @@ public abstract class Human extends Hero {
         System.out.println("DEPLACEMENT!");
     }
     
+    
+    /**
+     * Function that allows to engage an enemy on the map during a fight;
+     * It make character lose some PVs and some PEs to do this action ;
+     * For humans, this action consumes PE.
+     * @param target : enemy targetted during the fight periode ;
+     */
     @Override
-    public void attaquer()
+    public void attack(Character target)
     {
-        System.out.println("ATTAQUE!");
+        int costAtkPE=5;
+        /*
+        Test the value of PEs of the character and decide if he can attack or not ;
+        */
+        if( this.getpEnergie()>=costAtkPE)
+        {
+            /*
+            Random calcul of the power of each attack and defense turn ;
+            */
+            this.doCalculationPE("-", costAtkPE);
+            int atkRandomValue=RandomElement.randomThrow(this.getStrenghtPoints(),0);
+            int defRandomValue=RandomElement.randomThrow(target.getDefensivePoints(),0);
+            //Add of the bonus given by xp of the character ;
+            double strenghtATK=atkRandomValue+atkRandomValue*(this.getXp()/1000);
+            //Rounding the final attack value to get an integer ;
+            int valueATK=(int)strenghtATK;
+            //Printing the message to the user ;
+            System.out.println(this.getNom()+" attacks with a fast sword dance with a strenght of : "+valueATK+" ;");
+
+            //Add of the bonus given by xp of the character ;
+            double defAction=defRandomValue+defRandomValue*(target.getXp()/1000);
+            //Rounding the final attack value to get an integer ;
+            int valueDEF=(int)defAction;
+            //Printing the message to the user ;
+            System.out.println(target.getNom()+" defends with a resitance of : "+valueDEF+" ;");
+
+            //Calulation of the end of the step ;
+            int result=valueDEF-valueATK;
+
+            /*
+            If the result is negative, the target is shot with damages ;
+            */
+            if(result<0)
+            {
+                int targetLife=target.getpVie();
+                targetLife+=result;
+                target.setpVie(targetLife);
+                System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
+            }
+
+            /*
+            If it is positive, the damages are given to the attacking one ;
+            */
+            else if(result>0)
+            {
+                int persoLife=this.getpVie();
+                persoLife-=result;
+                this.setpVie(persoLife);
+                System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
+            }
+
+            //Printing of the result of the step ;
+            System.out.println("Scoring of the step :\n"
+                    + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n"
+                    + target.getNom()+" : "+target.getpVie()+"/"+target.getpVieMax()+" PV & "+target.getpEnergie()+"/"+target.getpEnergieMax()+" PE ;");
+        }
+        //The character can't attack because of his lack of PEs ;
+        else
+        {
+            System.out.println(this.getNom()+" can't attack, he is too tired to use his sword.");
+        }
     }
     
+    /**
+     * AJOUTER LA FONCTION DE DEPLACEMENT POUR S'ECHAPPER ET UNE FONCTION DE TEST DE PVs ;
+     * Function to try to escape from a fight ;
+     * Humans don't need to pay any PEs to try to escape ;
+     * Some PEs and PVs are lost if it fails.
+     */
     @Override
-    public void fuir()
+    public void escape()
     {
-        System.out.println("FUITE!");
+        /*
+        Cost of the action ;
+        */
+        int costPEEscape=2;
+        int failingCostPE=10;
+        int failingCostPV=5;
+        if(this.getpEnergie()>=costPEEscape)
+        {
+            System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
+            this.doCalculationPE("-",costPEEscape);
+            /*
+            Initializing of all the variable;
+            Some Elfe bonus thanks to their agility ;
+            A random thrown to determine the right to escape from the fight ;
+            */
+            int bonusEscapeElfe=10 ;
+            int valueEscape;
+            int difference;
+            int randomThrown=RandomElement.randomThrow(100, 0);
+
+            /*
+            Test if the sum of the random value and the bonus is lower than 99 to know if we should aplly the bonus or not ;
+            */
+            if((randomThrown+bonusEscapeElfe)<99)
+            {
+                valueEscape=randomThrown+bonusEscapeElfe;
+                System.out.println("Bonus is applied.");
+            }
+            else
+            {
+                valueEscape=randomThrown;
+                System.out.println("Bonus is not applied.");
+            }
+
+            /*
+            Test if the value is perfect and the escape can't be stopped ;
+            */
+            if(valueEscape==99)
+            {
+                    System.out.println("PERFECT! "+this.getNom()+" escapes from the fight without any problems.");
+                    //Moving Function ;
+                    //this.seDeplacer();
+            }
+
+            /*
+            Random thrown form the enemy to keep the character in the fight ;
+            */
+            randomThrown=RandomElement.randomThrow(100, 0);
+            difference=valueEscape-randomThrown;
+            if(difference<0)
+            {
+                System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs.");
+                this.doCalculationPE("-", failingCostPV);
+                this.doCalculationPV("-", failingCostPE);
+                //Funtion to check the life and change the dead state consquently ;
+            }
+            else
+            {
+                System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
+                //Moving Function ;
+                //this.seDeplacer();
+            }
+        }
+        //If the character hasn't enough energy ;
+        else
+        {
+            System.out.println(this.getNom()+" has not enough energy to try to escape. He is stonned.");
+        }
     }
     
     
