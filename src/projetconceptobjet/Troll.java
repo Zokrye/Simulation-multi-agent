@@ -16,10 +16,7 @@ public abstract class Troll extends Enemy {
     private static int nbTrollsInGame;
     private static Species weakness;
     
-    @Override
-    public boolean isInSafeZone() {
-        return this.currentCell.getZone()==Zone.SafeZoneTroll;
-    }
+    
     
     public Troll(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
@@ -30,6 +27,10 @@ public abstract class Troll extends Enemy {
         this.maxMovement=3;
     }
 
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneTroll;
+    }
     
     /*
     Getters ;
@@ -42,7 +43,6 @@ public abstract class Troll extends Enemy {
         return weakness;
     }
 
-    
     /*
     Setters ;
     */
@@ -54,6 +54,10 @@ public abstract class Troll extends Enemy {
         Troll.nbTrollsInGame = nbTrollsInGame;
     }
     
+    @Override
+    public boolean isSameRace(Character character) {
+        return character instanceof Troll;
+    }
     
     //Augmente des caractéristiques défensive du Troll ;
     public void blindage()

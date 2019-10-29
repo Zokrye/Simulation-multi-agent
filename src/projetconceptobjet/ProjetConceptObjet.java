@@ -71,6 +71,10 @@ public class ProjetConceptObjet {
         Team test=Team.recupTeamFromTheList(allTeams, Species.Human);
         System.out.println("Type of entity : "+test.getType()+" ; Nb characters : "+test.getTotalCharacterTeam()+" ; PV : "+test.getLifePointTeam()+"/"+test.getTotalLifePointTeam()+" ;\n"
                 + "PE : "+test.getEnergyPointTeam()+"/"+test.getTotalEnergyPointTeam()+" ; XP : "+test.getXpTeam()+" ;");
+        
+        Map map=Map.getinstance();
+        map.placeAllCharacters();
+        
         ///////////////////////////////////////////////////////////////
         /////////////TEST OF TURNS/////////////////////////////////////
         ProjetConceptObjet.newTurn(1,allTeams);
@@ -97,7 +101,6 @@ public class ProjetConceptObjet {
         
         ///////////////////////////////////////////////////////////////
         /////////////////TEST DE LA MAP////////////////////////////////
-        Map map=Map.getinstance();
         map.displayMap();
         
         

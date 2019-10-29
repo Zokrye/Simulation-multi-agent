@@ -23,6 +23,17 @@ public class Cell {
     protected boolean hasObstacle;
     protected Character character;
 
+    public Cell(Map map, int x, int y) {
+        this.map=map;
+        this.x=x;
+        this.y=y;
+        
+    }
+    
+    /*
+    Getters and Setters
+    */
+    
     public void setZone(Zone zone) {
         this.zone = zone;
     }
@@ -48,15 +59,20 @@ public class Cell {
     }
     public boolean hasCharacter() {
         return this.character!=null;
+    }    
+    
+     public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
     
-    public Cell(Map map, int x, int y) {
-        this.map=map;
-        this.x=x;
-        this.y=y;
-        
-    }
-    
+    /**
+     * Get all direction availaible (with no obstacle) from the current cell
+     * @return List of the available directions
+     */
     public List<Direction> getAvailableDirections() {
         List<Direction> availableDirections =new ArrayList<>();
         for(int i=-1;i<=1;i++) {
@@ -72,6 +88,11 @@ public class Cell {
         return availableDirections;
     }
     
+    /**
+     * Checks if the direction specified is available (with no obstacle)
+     * @param direction chosen
+     * @return Whether it is available or not
+     */
     public boolean checkDirection(Direction direction) {
         Cell targetedCell=map.getCell(x+direction.getX(), y+direction.getY());
         if(targetedCell!=null) {
@@ -80,17 +101,11 @@ public class Cell {
         return false;
     }
 
+    /**
+     * 
+     * @return Whether the cell is available or not
+     */
     public boolean isAvailable() {
         return !hasObstacle && !hasCharacter();
-    }
-    
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-    
-    
+    }    
 }

@@ -250,6 +250,10 @@ public abstract class Human extends Hero {
         }
     }
     
+    @Override
+    public boolean isSameRace(Character character) {
+        return character instanceof Human;
+    }
     
     /**
      * AJOUTER LA MEME FONCTION POUR LES AUTRES CLASSES ;

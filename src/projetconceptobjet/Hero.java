@@ -34,6 +34,11 @@ public abstract class Hero extends Character {
         Hero.nbHeroesInGame = nbHeroesInGame;
     }
     
+    @Override
+    public boolean isSameSide(Character character) {
+        return character instanceof Hero;
+    }
+    
     //Augmente les stats d'un personnage en fonction d'une zone autour de lui et du nombre de ses alliés ;
     public abstract void soutenir();
     //Distribue des points de vie aux alliés rencontrés ;

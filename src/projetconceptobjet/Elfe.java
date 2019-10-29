@@ -16,6 +16,7 @@ public abstract class Elfe extends Hero {
     private static int nbElfesInGame;
     private static Species weakness;
     
+    
     @Override
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneElf;
@@ -166,21 +167,19 @@ public abstract class Elfe extends Hero {
         }
     }
     
-    
-    
+    //Réanime les personnages fatigués avec des PEs ;
     @Override
     public void reanimation()
     {
         System.out.println("REANIMATION!");
     }
         
-    
+    //Distribue des points de vie aux alliés rencontrés ;
     @Override
     public void soin()
     {
         System.out.println("SOIN!");
     }
-    //Réanime les personnages fatigués avec des PEs ;
     
     //Augmente les stats d'un personnage en fonction d'une zone autour de lui et du nombre de ses alliés ;
     @Override
@@ -189,9 +188,12 @@ public abstract class Elfe extends Hero {
         System.out.println("SOUTENIR!");
     }
     
-    //Distribue des points de vie aux alliés rencontrés ;
     
     
+    @Override
+    public boolean isSameRace(Character character) {
+        return character instanceof Elfe;
+    }
 
     
     /*

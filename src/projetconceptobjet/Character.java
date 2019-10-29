@@ -106,6 +106,9 @@ public abstract class Character {
                             currentCell.setCharacter(null);
                             currentCell=nextCell;
                             currentCell.setCharacter(this);
+                            if(pVie<pVieMax) {
+                                pVie++;
+                            }
                             if(isInSafeZone()){
                                 if(this.pEnergie<=pEnergieMax-3) {
                                     pEnergie+=3;
@@ -122,11 +125,22 @@ public abstract class Character {
 
                         //Meet another character
                         else {
-                            //TODO Vérification alliés ou ennemis/ chefs
-                            if(!isInSafeZone() && !nextCell.character.isInSafeZone()) {
-                                //FIGHT
+                            Character otherCharacter = nextCell.getCharacter();
+                            if(this.isSameRace(otherCharacter)) {
+                                otherCharacter.addPV(remainingCells);
+                                this.addPV(remainingCells);
                             }
-                        } 
+                            else if(this.isSameSide(otherCharacter)) {
+                                   //TODO: Ajout de points d'XP aux personnages
+                            }
+                                
+                            else {
+                                if(!isInSafeZone() && !otherCharacter.isInSafeZone()) {
+                                //TODO: FIGHT
+                                }
+                            }                   
+                        }
+                        remainingCells=0;
                     }
                     //Reset remaining cells to 0 in case the character hits an obstacle
                     else {
@@ -138,11 +152,27 @@ public abstract class Character {
         
         
     }
-    
-    
     public abstract void attack(Character target);
     public abstract void escape();
+    /**
+     * 
+     * @return Whether the character is in its own Safezone or not
+     */
     public abstract boolean isInSafeZone();
+    
+    /**
+     * 
+     * @param character
+     * @return Whether the current and specefied characters are in the same team or not
+     */
+    public abstract boolean isSameSide(Character character);
+    
+    /**
+     * 
+     * @param character
+     * @return Whether the current and specefied characters belong to the same race or not
+     */
+    public abstract boolean isSameRace(Character character);
     
     
     /**
@@ -163,6 +193,58 @@ public abstract class Character {
         /*
         End of the turn ;
         */
+    }
+    
+    /**
+     * Add Life points to the character
+     * @param pvAdded 
+     */
+    public void addPV(int pvAdded) {
+        if(pVie+pvAdded<pVieMax) {
+            pVie+=pvAdded;
+        }
+        else {
+            pVie=pVieMax;
+        }
+    }
+    
+    /**
+     * Remove Life points from the character
+     * @param pvRemoved 
+     */
+    public void removePV(int pvRemoved) {
+        if(pVie-pvRemoved>0) {
+            pVie-=pvRemoved;
+        }
+        else {
+            pVie=0;
+        }
+    }
+    
+    /**
+     * Add stamina to the character
+     * @param peAdded 
+     */
+    public void addPE(int peAdded) {
+        if(pEnergie+peAdded<pEnergieMax) {
+            this.pEnergie+=peAdded;
+        }
+        else {
+            pEnergie=pEnergieMax;
+        }
+    }
+    
+    /**
+     * Remove stamina from the character
+     * @param peRemoved 
+     */
+    public void removePE(int peRemoved) {
+        if(pEnergie-peRemoved>0) {
+            this.pEnergie-=peRemoved;
+        }
+        else {
+            pEnergie=0;
+        }
     }
     
     /*
