@@ -13,9 +13,9 @@ public abstract class Enemy extends Character {
     
     private static int nbEnemiesInGame;
     
-    public Enemy(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    public Enemy(int pEnergie,int pEnergieMax,int pVie,int pVieMax, int strenght, int defense)
     {
-        super(pEnergie,pEnergieMax,pVie,pVieMax);
+        super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
     }
 
     
@@ -48,10 +48,5 @@ public abstract class Enemy extends Character {
     public abstract void fleau();
     //Application d'un bonus d'attaque et perte de points d'Energie/Mana accrue pour les 2 ou 3 tours suivants ;
     public abstract void surchargeDePuissance();
-    
-    @Override
-    public abstract void attaquer();
-    @Override
-    public abstract void fuir();
     
 }

@@ -15,7 +15,7 @@ public class TribalChef extends Elfe implements Mediator {
     
     public TribalChef()
     {
-        super(300,300,500,500);
+        super(300,300,500,500,60,40);
     }
 
     /*

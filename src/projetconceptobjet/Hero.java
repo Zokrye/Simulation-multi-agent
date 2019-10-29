@@ -13,9 +13,9 @@ public abstract class Hero extends Character {
     
     private static int nbHeroesInGame;
     
-    public Hero(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    public Hero(int pEnergie,int pEnergieMax,int pVie,int pVieMax, int strenght, int defense)
     {
-        super(pEnergie,pEnergieMax,pVie,pVieMax);
+        super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
     }
 
     
@@ -46,9 +46,5 @@ public abstract class Hero extends Character {
     //Réanime les personnages fatigués avec des PEs ;
     public abstract void reanimation();
     
-    @Override
-    public abstract void attaquer();
-    @Override
-    public abstract void fuir();
     
 }

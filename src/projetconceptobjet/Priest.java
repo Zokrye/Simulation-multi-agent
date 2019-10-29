@@ -17,7 +17,7 @@ public class Priest extends Human implements Wizzard {
     
     public Priest()
     {
-        super(150,150,300,300);
+        super(150,150,300,300,30,40);
         this.mana=200;
         this.manaMax=200;
     }

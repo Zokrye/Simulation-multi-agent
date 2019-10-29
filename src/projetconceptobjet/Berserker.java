@@ -15,7 +15,7 @@ public class Berserker extends Troll implements Warrior {
     
     public Berserker()
     {
-        super(350,350,300,300);
+        super(350,350,300,300,60,50);
     }
 
     

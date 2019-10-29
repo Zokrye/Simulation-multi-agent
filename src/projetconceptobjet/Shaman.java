@@ -17,7 +17,7 @@ public class Shaman extends Troll implements Wizzard {
     
     public Shaman()
     {
-        super(300,300,300,300);
+        super(300,300,300,300,40,50);
         this.mana=200;
         this.manaMax=200;
     }

@@ -78,9 +78,32 @@ public class ProjetConceptObjet {
         ///////////////////////////////////////////////////////////////
         /////////////TEST OF TURNS/////////////////////////////////////
         ProjetConceptObjet.newTurn(1,allTeams);
+        System.out.println("/////////////////////////Tests attaques des classes.////////////////////////");
+        Hunter elfe_test=new Hunter();
+        elfe_test.setNom("Hunter_test");
+        Berserker troll_test=new Berserker();
+        troll_test.setNom("Berserker_test");
+        Assassin orc_test=new Assassin();
+        orc_test.setNom("Assassin_test");
+        Paladin human_test=new Paladin();
+        human_test.setNom("Paladin_test");
+        //elfe_test.attack(troll_test);
+        //elfe_test.doCalculationPE("+", 5);
+        //elfe_test.doCalculationPE("-", 5);
+        //elfe_test.doCalculationPV("+", 10);
+        elfe_test.doCalculationPV("-", 10);
+        troll_test.attack(elfe_test);
+        human_test.attack(orc_test);
+        orc_test.attack(human_test);
         
+        System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
+        elfe_test.escape();
         
+        ///////////////////////////////////////////////////////////////
+        /////////////////TEST DE LA MAP////////////////////////////////
         map.displayMap();
+        
+        
     }
     
     
