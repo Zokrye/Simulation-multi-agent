@@ -15,7 +15,7 @@ public class OrcAlpha extends Orc implements Mediator{
     
     public OrcAlpha()
     {
-        super(350,350,500,500);
+        super(350,350,500,500,65,25);
     }
 
     

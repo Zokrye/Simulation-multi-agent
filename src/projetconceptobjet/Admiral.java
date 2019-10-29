@@ -15,7 +15,7 @@ public class Admiral extends Human implements Mediator {
     
     public Admiral()
     {
-        super(300,300,500,500);
+        super(300,300,500,500,60,40);
     }
 
     

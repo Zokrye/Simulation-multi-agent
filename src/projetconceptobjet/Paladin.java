@@ -15,7 +15,7 @@ public class Paladin extends Human implements Warrior {
     
     public Paladin()
     {
-        super(200,200,300,300);
+        super(200,200,300,300,40,40);
     }
 
     

@@ -15,7 +15,7 @@ public class TrollPackMaster extends Troll implements Mediator {
     
     public TrollPackMaster()
     {
-        super(300,300,500,500);
+        super(300,300,500,500,70,50);
     }
 
     

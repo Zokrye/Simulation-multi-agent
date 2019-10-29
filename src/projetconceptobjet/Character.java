@@ -27,6 +27,8 @@ public abstract class Character {
     protected boolean dead;
     protected Species type;
     protected int[] lastDirection;
+    protected int strenghtPoints;
+    protected int defensivePoints;
     //protected int niveau;
     //protected int nbPasMaxTour;
     //protected int nbPasTour;
@@ -36,12 +38,14 @@ public abstract class Character {
     protected Direction safeZoneDirection;
     protected int maxMovement;
     
-    public Character(int pEnergie,int pEnergieMax,int pVie,int pVieMax)
+    public Character(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         this.pEnergie=pEnergie;
         this.pEnergieMax=pEnergieMax;
         this.pVie=pVie;
         this.pVieMax=pVieMax;
+        this.strenghtPoints=strenght;
+        this.defensivePoints=defense;
         this.xp=0;
         this.etatFatigue=false;
         this.dead=false;
@@ -49,9 +53,6 @@ public abstract class Character {
     
     /*Methods*/
     
-    /**
-     * 
-     */
     public void seDeplacer() {
         int remainingCells = RandomElement.randomThrow(maxMovement, 1);
         
@@ -151,8 +152,8 @@ public abstract class Character {
         
         
     }
-    public abstract void attaquer();
-    public abstract void fuir();
+    public abstract void attack(Character target);
+    public abstract void escape();
     /**
      * 
      * @return Whether the character is in its own Safezone or not
@@ -297,12 +298,28 @@ public abstract class Character {
         return type;
     }
 
+    public int getStrenghtPoints() {
+        return strenghtPoints;
+    }
+
+    public int getDefensivePoints() {
+        return defensivePoints;
+    }
+
     public Cell getCurrentCell() {
         return currentCell;
     }
 
+    public Direction getSafeZoneDirection() {
+        return safeZoneDirection;
+    }
+
+    public int getMaxMovement() {
+        return maxMovement;
+    }
+
     
-       
+     
     
     
     /*
@@ -356,8 +373,83 @@ public abstract class Character {
         this.type = type;
     }
     
+    public void setStrenghtPoints(int strenghtPoints) {
+        this.strenghtPoints = strenghtPoints;
+    }
+    
+    public void setMaxMovement(int maxMovement) {
+        this.maxMovement = maxMovement;
+    }
+    
+    public void setSafeZoneDirection(Direction safeZoneDirection) {
+        this.safeZoneDirection = safeZoneDirection;
+    }
+    
     public void setCurrentCell(Cell currentCell) {
         this.currentCell = currentCell;
     }
     
+    public void setDefensivePoints(int defensivePoints) {
+        this.defensivePoints = defensivePoints;
+    }
+    
+    /*
+    Methods
+    */
+    
+    /**
+     * Function that allows to calculate and set the final number of PEs of a character ;
+     * @param signe : Allows to indicate if the value must be added or substracted to the PEs ;
+     * @param value : Value of the PE to add or put away ;
+     */
+    public void doCalculationPE(String signe, int value)
+    {
+        //Getting the current PE value of the character ;
+        int valuePE=this.getpEnergie();
+        System.out.println("PEs of "+this.getNom()+" were of "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE.");
+        /*
+        Test the signe of the value and do the calculation ;
+        */
+        if(signe.equals("+"))
+        {
+            //Adds PE if the signe is "+" ;
+            valuePE+=value;
+        }
+        else if (signe.equals("-"))
+        {
+            //Substracts PE if the signe is "-" ;
+            valuePE-=value;
+        }
+        //Sets character energy points ;
+        this.setpEnergie(valuePE);
+        System.out.println("They are now of "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE.");
+    }
+    
+    /**
+     * Function that allows to calculate and set the final number of PVs of a character ;
+     * @param signe : Allows to indicate if the value must be added or substracted to the PVs ;
+     * @param value : Value of the PE to add or put away ;
+     */
+    public void doCalculationPV(String signe, int value)
+    {
+        //Getting the current PE value of the character ;
+        int valuePV=this.getpVie();
+        System.out.println("PVs of "+this.getNom()+" were of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");
+        /*
+        Test the signe of the value and do the calculation ;
+        */
+        if(signe.equals("+"))
+        {
+            //Adds PE if the signe is "+" ;
+            valuePV+=value;
+        }
+        else if (signe.equals("-"))
+        {
+            //Substracts PE if the signe is "-" ;
+            valuePV-=value;
+        }
+        //Sets character energy points ;
+        this.setpVie(valuePV);
+        System.out.println("They are now of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");
+    }
 }
