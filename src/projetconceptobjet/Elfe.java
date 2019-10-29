@@ -16,6 +16,7 @@ public abstract class Elfe extends Hero {
     private static int nbElfesInGame;
     private static Species weakness;
     
+    
     @Override
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneElf;
@@ -35,6 +36,7 @@ public abstract class Elfe extends Hero {
         this.safeZoneDirection=new Direction(1,1);
         this.maxMovement=6;
     }
+    
     @Override
     public void attaquer()
     {

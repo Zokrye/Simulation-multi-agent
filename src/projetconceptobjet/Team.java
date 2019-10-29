@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Team {
     
-    private ArrayList listCharacters;
+    private ArrayList<? extends Character> listCharacters;
     private int lifePointTeam;
     private int totalLifePointTeam;
     private int xpTeam;
@@ -22,10 +22,11 @@ public class Team {
     private int totalEnergyPointTeam;
     private Species Type;
     private static int nbOfTeam;
-
+    //private static ArrayList<
+    private static ArrayList<Team> allTeams;
     
     /*Getters*/
-    public ArrayList getListCharacters() {
+    public ArrayList<? extends Character> getListCharacters() {
         return listCharacters;
     }
     
@@ -61,12 +62,12 @@ public class Team {
         return nbOfTeam;
     }
 
-        
-        
-    
+    public static ArrayList<Team> getAllTeams() {
+        return allTeams;
+    }   
     
     /*Setters*/
-    public void setListCharacters(ArrayList listCharacters) {
+    public void setListCharacters(ArrayList<? extends Character> listCharacters) {
         this.listCharacters = listCharacters;
     }
 
@@ -102,6 +103,10 @@ public class Team {
         Team.nbOfTeam = nbOfTeam;
     }
     
+    public static void setAllTeams(ArrayList<Team> allTeams) {
+        Team.allTeams = allTeams;
+    }
+    
     /**
      * Function affording to get the team searched ;
      * @param allTeams : List of all teams of the game ;
@@ -130,8 +135,6 @@ public class Team {
         //Return of the team found ;
         return(team);  
     }
-    
-    
     
     /**
      * Function that call function to create teams of each character class ;
@@ -181,7 +184,7 @@ public class Team {
         */
         Team.setNbOfTeam(allTeams.size());
         System.out.println("Number of Teams : "+Team.getNbOfTeam()+" ;");
-        
+        Team.allTeams=allTeams;
         return(allTeams);
     }
      
