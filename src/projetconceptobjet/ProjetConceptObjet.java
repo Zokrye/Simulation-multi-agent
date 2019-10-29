@@ -68,7 +68,7 @@ public class ProjetConceptObjet {
         ArrayList<Team> allTeams=Team.randomTeamsCreation(12,12);
         
         //Recup of teams ;
-        Team test=Team.recupTeamFromTheList(allTeams, Species.Human);
+        Team test=Team.recupTeamFromTheList(allTeams, Human.class);
         System.out.println("Type of entity : "+test.getType()+" ; Nb characters : "+test.getTotalCharacterTeam()+" ; PV : "+test.getLifePointTeam()+"/"+test.getTotalLifePointTeam()+" ;\n"
                 + "PE : "+test.getEnergyPointTeam()+"/"+test.getTotalEnergyPointTeam()+" ; XP : "+test.getXpTeam()+" ;");
         
@@ -91,7 +91,7 @@ public class ProjetConceptObjet {
         //elfe_test.doCalculationPE("+", 5);
         //elfe_test.doCalculationPE("-", 5);
         //elfe_test.doCalculationPV("+", 10);
-        elfe_test.doCalculationPV("-", 10);
+        elfe_test.doCalculationPV(-10);
         troll_test.attack(elfe_test);
         human_test.attack(orc_test);
         orc_test.attack(human_test);

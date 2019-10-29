@@ -80,7 +80,7 @@ public class RandomElement {
             for(Character character:listCharactersOfTheTeam)
             {
                 
-                if(character.getType()==Species.Elfe)
+                if(Elfe.class.isInstance(character))
                 {
                     character.setDead(true);
                 }
