@@ -132,10 +132,23 @@ public class Map {
         
         for(Team team : allTeams) {
             ArrayList<Cell> availableCells;
-            if(null==team.getType()) {
+            if(team.getType()==Elfe.class) {
+                availableCells=this.SafeZoneElfes;
+            }
+            else if(team.getType()==Human.class) {
+                availableCells=this.SafeZoneHumans;
+            }
+            else if(team.getType()==Orc.class) {
+                availableCells=this.SafeZoneOrcs;
+            }
+            else if(team.getType()==Troll.class) {
+                availableCells=this.SafeZoneTrolls;
+            }
+            else {
                 availableCells=new ArrayList<>();
             }
-            else switch (team.getType()) {
+            
+                /*switch (team.getType()) {
                 case Elfe:
                     availableCells=this.SafeZoneElfes;
                     break;
@@ -150,7 +163,7 @@ public class Map {
                     break;
                 default:
                     availableCells=new ArrayList<>();
-            }
+            }*/
             if(availableCells.size()>0) {
                 for(Character character : team.getListCharacters()) {
                     int randomIndex = RandomElement.randomThrow(availableCells.size()-1,0);

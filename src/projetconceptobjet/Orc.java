@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public abstract class Orc extends Enemy {
     
     private static int nbOrcsInGame;
-    private static Species weakness;
+    private static Class weakness;
     
     
     @Override
@@ -25,8 +25,7 @@ public abstract class Orc extends Enemy {
     public Orc(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
-        this.setType(Species.Orc);
-        Orc.weakness=Species.Elfe;
+        Orc.weakness=Elfe.class;
         this.safeZoneDirection=new Direction(1,-1);
         this.maxMovement=4;
     }
@@ -39,7 +38,7 @@ public abstract class Orc extends Enemy {
         return nbOrcsInGame;
     }
     
-    public static Species getWeakness() {
+    public static Class getWeakness() {
         return weakness;
     }
 
@@ -51,7 +50,7 @@ public abstract class Orc extends Enemy {
         Orc.nbOrcsInGame = nbOrcsInGame;
     }
     
-    public static void setWeakness(Species weakness) {
+    public static void setWeakness(Class weakness) {
         Orc.weakness = weakness;
     }
     
@@ -112,7 +111,7 @@ public abstract class Orc extends Enemy {
     @Override
     public void attack(Character target)
     {
-        int costAtkPE=8;
+        int costAtkPE=-8;
         /*
         Test the value of PEs of the character and decide if he can attack or not ;
         */
@@ -121,7 +120,7 @@ public abstract class Orc extends Enemy {
             /*
             Random calcul of the power of each attack and defense turn ;
             */
-            this.doCalculationPE("-", costAtkPE);
+            this.doCalculationPE(costAtkPE);
             int atkRandomValue=RandomElement.randomThrow(this.getStrenghtPoints(),0);
             int defRandomValue=RandomElement.randomThrow(target.getDefensivePoints(),0);
             //Add of the bonus given by xp of the character ;
@@ -189,13 +188,13 @@ public abstract class Orc extends Enemy {
         /*
         Cost of the action ;
         */
-        int costPEEscape=5;
-        int failingCostPE=15;
-        int failingCostPV=2;
+        int costPEEscape=-5;
+        int failingCostPE=-15;
+        int failingCostPV=-2;
         if(this.getpEnergie()>=costPEEscape)
         {
             System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
-            this.doCalculationPE("-",costPEEscape);
+            this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;
             Some Elfe bonus thanks to their agility ;
@@ -238,8 +237,8 @@ public abstract class Orc extends Enemy {
             if(difference<0)
             {
                 System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs.");
-                this.doCalculationPE("-", failingCostPV);
-                this.doCalculationPV("-", failingCostPE);
+                this.doCalculationPE(failingCostPV);
+                this.doCalculationPV(failingCostPE);
                 //Funtion to check the life and change the dead state consquently ;
             }
             else
@@ -274,7 +273,7 @@ public abstract class Orc extends Enemy {
         //Set the total number of orcs in game ;
         Orc.setNbOrcsInGame(nbPerso);
         o_team.setTotalCharacterTeam(nbPerso);
-        o_team.setType(Species.Orc);
+        o_team.setType(Orc.class);
         //Create the list of the team ;
         ArrayList<Orc> team=new ArrayList<>();
         //Creation of the Admiral of the team ;

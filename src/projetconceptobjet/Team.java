@@ -20,7 +20,7 @@ public class Team {
     private int totalCharacterTeam;
     private int energyPointTeam;
     private int totalEnergyPointTeam;
-    private Species Type;
+    private Class type;
     private static int nbOfTeam;
     //private static ArrayList<
     private static ArrayList<Team> allTeams;
@@ -54,8 +54,8 @@ public class Team {
         return energyPointTeam;
     }
 
-    public Species getType() {
-        return Type;
+    public Class getType() {
+        return type;
     }
 
     public static int getNbOfTeam() {
@@ -95,8 +95,8 @@ public class Team {
         this.energyPointTeam = energyPointTeam;
     }
     
-    public void setType(Species Type) {
-        this.Type = Type;
+    public void setType(Class type) {
+        this.type = type;
     }
     
     public static void setNbOfTeam(int nbOfTeam) {
@@ -113,7 +113,7 @@ public class Team {
      * @param type : Type of the team ;
      * @return : team_found : Team of the type wanted ;
      */
-    public static Team recupTeamFromTheList(ArrayList<Team> allTeams, Species type)
+    public static Team recupTeamFromTheList(ArrayList<Team> allTeams, Class type)
     {   
         /*
         Initializing of the variables used ;

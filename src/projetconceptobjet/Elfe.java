@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public abstract class Elfe extends Hero {
     
     private static int nbElfesInGame;
-    private static Species weakness;
+    private static Class weakness;
     
     
     @Override
@@ -25,14 +25,13 @@ public abstract class Elfe extends Hero {
     public static void setNbElfesInGame(int nbElfesInGame) {
         Elfe.nbElfesInGame = nbElfesInGame;
     }
-    public static void setWeakness(Species weakness) {
+    public static void setWeakness(Class weakness) {
         Elfe.weakness = weakness;
     }
     public Elfe(int pEnergie,int pEnergieMax,int pVie,int pVieMax, int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
-        this.setType(Species.Elfe);
-        Elfe.weakness=Species.Troll;
+        Elfe.weakness=Troll.class;
         this.safeZoneDirection=new Direction(1,1);
         this.maxMovement=6;
     }
@@ -110,8 +109,8 @@ public abstract class Elfe extends Hero {
         /*
         Cost of the action ;
         */
-        int failingCostPE=10;
-        int failingCostPV=5;
+        int failingCostPE=-10;
+        int failingCostPV=-5;
         System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
         /*
         Initializing of all the variable;
@@ -155,8 +154,8 @@ public abstract class Elfe extends Hero {
         if(difference<0)
         {
             System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs.");
-            this.doCalculationPE("-", failingCostPE);
-            this.doCalculationPV("-", failingCostPV);
+            this.doCalculationPE(failingCostPE);
+            this.doCalculationPV(failingCostPV);
             //Test PVs ;
         }
         else
@@ -204,7 +203,7 @@ public abstract class Elfe extends Hero {
         return nbElfesInGame;
     
     }
-    public static Species getWeakness() {
+    public static Class getWeakness() {
     
         return weakness;
     }
@@ -244,7 +243,7 @@ public abstract class Elfe extends Hero {
         //Set the total number of elfes in game ;
         Orc.setNbOrcsInGame(nbPerso);
         e_team.setTotalCharacterTeam(nbPerso);
-        e_team.setType(Species.Elfe);
+        e_team.setType(Elfe.class);
         //Create the list of the team ;
         ArrayList<Elfe> team=new ArrayList<>();
         //Creation of the Admiral of the team ;
