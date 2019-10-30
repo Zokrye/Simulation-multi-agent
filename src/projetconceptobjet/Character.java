@@ -101,10 +101,7 @@ public abstract class Character {
                     nextCell=chosenDirection.applyFrom(currentCell);
                     if(!nextCell.hasObstacle ) {
                         if(nextCell.character==null) {
-
-                            currentCell.setCharacter(null);
-                            currentCell=nextCell;
-                            currentCell.setCharacter(this);
+                            moveTo(nextCell);
                             if(pVie<pVieMax) {
                                 pVie++;
                             }
@@ -125,6 +122,7 @@ public abstract class Character {
                         //Meet another character
                         else {
                             Character otherCharacter = nextCell.getCharacter();
+                            meet(otherCharacter, remainingCells, chosenDirection);
                             if(this.isSameRace(otherCharacter)) {
                                 otherCharacter.addPV(remainingCells);
                                 this.addPV(remainingCells);
@@ -151,6 +149,17 @@ public abstract class Character {
         
         
     }
+    
+    /**
+     * Move the character to the next cell
+     * @param cell 
+     */
+    public void moveTo(Cell cell) {
+        currentCell.setCharacter(null);
+        currentCell=cell;
+        currentCell.setCharacter(this);
+    }
+    public abstract void meet(Character otherCharacter, int remainingCells, Direction direction);
     public abstract void attack(Character target);
     public abstract void escape();
     /**
@@ -394,16 +403,21 @@ public abstract class Character {
      */
     public void doCalculationPE(int value)
     {
-        //Getting the current PE value of the character ;
-        int valuePE=this.getpEnergie();
-        System.out.println("PEs of "+this.getNom()+" were of "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE.");
-        /*
-        Test the signe of the value and do the calculation ;
-        */
-        valuePE+=value;
-        //Sets character energy points ;
-        this.setpEnergie(valuePE);
-        System.out.println("They are now of "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE.");
+        System.out.println("PEs of "+nom+" were of "+pEnergie+"/"+pEnergieMax+" PE.");       
+        //Checks the value after calculation
+        if(pEnergie+value>=pEnergieMax) {
+            pEnergie=pEnergieMax;
+        }
+        else if(pEnergie+value<0) {
+            pEnergie=0;
+        }
+        else {
+            pEnergie+=value;
+            this.etatFatigue=true;
+        }
+        System.out.println("They are now of "+pEnergie+"/"+pEnergieMax+" PE.");
+        
+        
     }
     
     /**
@@ -412,15 +426,17 @@ public abstract class Character {
      */
     public void doCalculationPV(int value)
     {
-        //Getting the current PE value of the character ;
-        int valuePV=this.getpVie();
-        System.out.println("PVs of "+this.getNom()+" were of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");
-        /*
-        do the calculation ;
-        */
-        valuePV+=value;
-        //Sets character energy points ;
-        this.setpVie(valuePV);
-        System.out.println("They are now of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");
+        System.out.println("PVs of "+nom+" were of "+pVie+"/"+pVieMax+" PV.");
+        if(pVie+value>=pVieMax) {
+            pVie=pVieMax;
+        }
+        else if(pVie+value<0) {
+            pVie=0;
+            setDead(true);
+        }
+        else {
+            pVie+=value;
+        }
+        System.out.println("They are now of "+pVie+"/"+pVieMax+" PV.");
     }
 }

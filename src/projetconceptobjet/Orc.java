@@ -52,16 +52,7 @@ public abstract class Orc extends Enemy {
     
     public static void setWeakness(Class weakness) {
         Orc.weakness = weakness;
-    }
-    
-    
-    //Destruction d'un allié pour récupérer son xp si celui-ci est fatigué ;
-    @Override
-    public void sacrifice()
-    {
-        System.out.println("SACRIFICE!");
-    }
-    
+    }    
     
     //Application de malus sur les statistiques adverses ;
     @Override

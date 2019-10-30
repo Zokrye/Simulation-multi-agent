@@ -227,15 +227,7 @@ public abstract class Troll extends Enemy {
         {
             System.out.println(this.getNom()+" has not enough energy to try to escape. He is stonned.");
         }
-    }
-    
-    //Destruction d'un allié pour récupérer son xp si celui-ci est fatigué ;
-    @Override
-    public void sacrifice()
-    {
-        System.out.println("SACRIFICE!");
-    }
-    
+    }    
     
     //Application de malus sur les statistiques adverses ;
     @Override

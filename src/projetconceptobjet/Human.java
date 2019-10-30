@@ -84,12 +84,6 @@ public abstract class Human extends Hero {
     {
         System.out.println("SOIN!");
     }
-    //Réanime les personnages fatigués avec des PEs ;
-    @Override
-    public void reanimation()
-    {
-        System.out.println("REANIMATION!");
-    }
     
     @Override
     public void seDeplacer()

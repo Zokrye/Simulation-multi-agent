@@ -165,13 +165,6 @@ public abstract class Elfe extends Hero {
             //this.seDeplacer();
         }
     }
-    
-    //Réanime les personnages fatigués avec des PEs ;
-    @Override
-    public void reanimation()
-    {
-        System.out.println("REANIMATION!");
-    }
         
     //Distribue des points de vie aux alliés rencontrés ;
     @Override
@@ -210,8 +203,6 @@ public abstract class Elfe extends Hero {
     /*
     Setters ;
     */
-    
-    
 
     //Permet de prendre la main sur les attaques lors des combats après le premier tour de jeux (attaque en premier);
     public void celerite()
