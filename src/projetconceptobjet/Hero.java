@@ -40,13 +40,13 @@ public abstract class Hero extends Character {
     }
     
     @Override
-    public void meet(Character otherCharacter, int remainingCells, Direction direction) {
+    public void meet(Character otherCharacter, int remainingCells) {
         if(this.isSameSide(otherCharacter)) {
             reanimation(otherCharacter, remainingCells);
         }
         else { 
             if(!isInSafeZone() && !otherCharacter.isInSafeZone()) {
-            //TODO: FIGHT
+            fight(otherCharacter);
             }                         
         }
     }

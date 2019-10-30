@@ -75,13 +75,14 @@ public abstract class Character {
 
             List<Direction> directions = new ArrayList<> (Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8));
             //Get the first available cell in the list
-            for(Direction d : directions) {
+            for(Direction direction : directions) {
+                nextCell=direction.applyFrom(currentCell);
                 //If direction leads to an existing cell
-                if(d.applyFrom(currentCell)!=null) {
+                if(nextCell!=null) {
                     //If the cell has no obstacles
-                    if(!d.applyFrom(currentCell).hasObstacle) {
+                    if(nextCell.hasObstacle) {
                         //Save the available direction                   
-                        chosenDirection=d;
+                        chosenDirection=direction;
                         break;
                     }
                 }
@@ -121,7 +122,7 @@ public abstract class Character {
                         //Meet another character
                         else {
                             Character otherCharacter = nextCell.getCharacter();
-                            meet(otherCharacter, remainingCells, chosenDirection);
+                            meet(otherCharacter, remainingCells);
                         }
                         remainingCells=0;
                     }
@@ -145,9 +146,42 @@ public abstract class Character {
         currentCell=cell;
         currentCell.setCharacter(this);
     }
-    public abstract void meet(Character otherCharacter, int remainingCells, Direction direction);
+    
+    public void escapeFrom(Character character) {
+        Cell characterCell=character.getCurrentCell();
+        Direction directionToEscape=new Direction(characterCell.getX()-currentCell.x,characterCell.getY()-currentCell.y);
+        //Opposite direction of the character, best option to escape him
+        Direction bestEscape=new Direction(-directionToEscape.getX(),-directionToEscape.getY());
+        //The 2nd best options for escaping the character
+        Direction escape2=new Direction(bestEscape.getX(),0);
+        Direction escape3=new Direction(0,bestEscape.getY());
+        //The 3rd best options for escaping the character
+        Direction escape4=new Direction(bestEscape.getX(),-bestEscape.getY());
+        Direction escape5=new Direction(-bestEscape.getX(),bestEscape.getY());
+        //Last options and less interesting directions to escape the character
+        Direction escape6=new Direction(-bestEscape.getX(),0);
+        Direction escape7=new Direction(0,-bestEscape.getY());
+        
+        List<Direction> directions = new ArrayList<> (Arrays.asList(bestEscape,escape2,escape3,escape4,escape5,escape6,escape7));
+        //Get the first available cell in the list
+        for(Direction direction : directions) {
+            Cell nextCell=direction.applyFrom(currentCell);
+            //If direction leads to an existing cell
+            if(nextCell!=null) {
+                //If the cell has no obstacles and characters
+                if(!nextCell.hasObstacle && !nextCell.hasCharacter()) {
+                    //Move to the free cell                
+                    moveTo(nextCell);
+                    break;
+                }
+            }
+        }
+        
+    }
+    
+    public abstract void meet(Character otherCharacter, int remainingCells);
     public abstract void attack(Character target);
-    public abstract void escape();
+    public abstract void tryToEscape(Character character);
     /**
      * 
      * @return Whether the character is in its own Safezone or not
@@ -463,7 +497,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        this.escape();
+                        this.tryToEscape(target);
                 }
             }
             System.out.println("\n\n-----------"+target.getNom()+"------------");
@@ -494,7 +528,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        target.escape();
+                        target.tryToEscape(target);
                 }
             }
             System.out.println("************************************\n\n");
