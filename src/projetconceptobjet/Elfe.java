@@ -47,53 +47,70 @@ public abstract class Elfe extends Hero {
     public void attack(Character target)
     {
         /*
-        Random calcul of the power of each attack and defense turn ;
+        Tests the tiredness state of all characters to act and kill opponent directly if it is tired;
         */
-        int atkRandomValue=RandomElement.randomThrow(this.getStrenghtPoints(),0);
-        int defRandomValue=RandomElement.randomThrow(target.getDefensivePoints(),0);
-        //Add of the bonus given by xp of the character ;
-        double strenghtATK=atkRandomValue+atkRandomValue*(this.getXp()/1000);
-        //Rounding the final attack value to get an integer ;
-        int valueATK=(int)strenghtATK;
-        //Printing the message to the user ;
-        System.out.println(this.getNom()+" attacks with multiple shots of powered arrows with a strenght of : "+valueATK+" ;");
-        
-        //Add of the bonus given by xp of the character ;
-        double defAction=defRandomValue+defRandomValue*(target.getXp()/1000);
-        //Rounding the final attack value to get an integer ;
-        int valueDEF=(int)defAction;
-        //Printing the message to the user ;
-        System.out.println(target.getNom()+" defends with a resitance of : "+valueDEF+" ;");
-        
-        //Calulation of the end of the step ;
-        int result=valueDEF-valueATK;
-        
-        /*
-        If the result is negative, the target is shot with damages ;
-        */
-        if(result<0)
+        if(this.isEtatFatigue()==false && target.isEtatFatigue()==false)
         {
-            int targetLife=target.getpVie();
-            targetLife+=result;
-            target.setpVie(targetLife);
-            System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
+            /*
+            Random calcul of the power of each attack and defense turn ;
+            */
+            int atkRandomValue=RandomElement.randomThrow(this.getStrenghtPoints(),0);
+            int defRandomValue=RandomElement.randomThrow(target.getDefensivePoints(),0);
+            //Add of the bonus given by xp of the character ;
+            double strenghtATK=atkRandomValue+atkRandomValue*(this.getXp()/1000);
+            //Rounding the final attack value to get an integer ;
+            int valueATK=(int)strenghtATK;
+            //Printing the message to the user ;
+            System.out.println(this.getNom()+" attacks with multiple shots of powered arrows with a strenght of : "+valueATK+" ;");
+
+            //Add of the bonus given by xp of the character ;
+            double defAction=defRandomValue+defRandomValue*(target.getXp()/1000);
+            //Rounding the final attack value to get an integer ;
+            int valueDEF=(int)defAction;
+            //Printing the message to the user ;
+            System.out.println(target.getNom()+" defends with a resitance of : "+valueDEF+" ;");
+
+            //Calulation of the end of the step ;
+            int result=valueDEF-valueATK;
+
+            /*
+            If the result is negative, the target is shot with damages ;
+            */
+            if(result<0)
+            {
+                int targetLife=target.getpVie();
+                targetLife+=result;
+                target.setpVie(targetLife);
+                target.checkPVCharacter();
+                System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
+            }
+
+            /*
+            If it is positive, the damages are given to the attacking one ;
+            */
+            else if(result>0)
+            {
+                int persoLife=this.getpVie();
+                persoLife-=result;
+                this.setpVie(persoLife);
+                this.checkPVCharacter();
+                System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
+            }
+
+            //Printing of the result of the step ;
+                System.out.println("\nScoring of the step :\n"
+                        + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n"
+                        + target.getNom()+" : "+target.getpVie()+"/"+target.getpVieMax()+" PV & "+target.getpEnergie()+"/"+target.getpEnergieMax()+" PE ;");
         }
-        
-        /*
-        If it is positive, the damages are given to the attacking one ;
-        */
-        else if(result>0)
+        else if (this.isEtatFatigue()==false && target.isEtatFatigue()==true)
         {
-            int persoLife=this.getpVie();
-            persoLife-=result;
-            this.setpVie(persoLife);
-            System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
+            target.setpVie(0);
+            System.out.println(target.getNom()+" was too tired to resist. "+this.getNom()+" pierces him easily.");
         }
-        
-        //Printing of the result of the step ;
-            System.out.println("Scoring of the step :\n"
-                    + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n"
-                    + target.getNom()+" : "+target.getpVie()+"/"+target.getpVieMax()+" PV & "+target.getpEnergie()+"/"+target.getpEnergieMax()+" PE ;");
+        else
+        {
+            System.out.println(this.getNom()+" is tired. He can't attack.");
+        }
     }
     
     
@@ -125,16 +142,15 @@ public abstract class Elfe extends Hero {
         /*
         Test if the sum of the random value and the bonus is lower than 99 to know if we should aplly the bonus or not ;
         */
-        if((randomThrown+bonusEscapeElfe)<99)
+        if((randomThrown+bonusEscapeElfe)<=99)
         {
             valueEscape=randomThrown+bonusEscapeElfe;
-            System.out.println("Bonus is applied.");
         }
         else
         {
-            valueEscape=randomThrown;
-            System.out.println("Bonus is not applied.");
+            valueEscape=99;
         }
+        System.out.println("Elfic bonus is applied.");
         
         /*
         Test if the value is perfect and the escape can't be stopped ;
@@ -146,24 +162,31 @@ public abstract class Elfe extends Hero {
                 //this.seDeplacer();
         }
         
-        /*
-        Random thrown form the enemy to keep the character in the fight ;
-        */
-        randomThrown=RandomElement.randomThrow(100, 0);
-        difference=valueEscape-randomThrown;
-        if(difference<0)
-        {
-            System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs.");
-            this.doCalculationPE(failingCostPE);
-            this.doCalculationPV(failingCostPV);
-            //Test PVs ;
-        }
         else
         {
-            System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
-            //Moving Function to go away ;
-            //this.seDeplacer();
+            /*
+            Random thrown form the enemy to keep the character in the fight ;
+            */
+            randomThrown=RandomElement.randomThrow(100, 0);
+            difference=valueEscape-randomThrown;
+            if(difference<0)
+            {
+                System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs and PVs.");
+                this.doCalculationPE(failingCostPE);
+                this.doCalculationPV(failingCostPV);
+                this.checkPVCharacter();
+                this.checkPECharacter();
+                //Test PVs ;
+            }
+            else
+            {
+                System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
+                //Moving Function to go away ;
+                //this.seDeplacer();
+            }
         }
+        System.out.println("\nScoring of the step :\n"
+                        + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n");
     }
     
     //Réanime les personnages fatigués avec des PEs ;
