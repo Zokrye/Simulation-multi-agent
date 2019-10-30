@@ -25,7 +25,6 @@ public abstract class Character {
     protected boolean etatFatigue;
     protected int turnRanking;
     protected boolean dead;
-    protected Species type;
     protected int[] lastDirection;
     protected int strenghtPoints;
     protected int defensivePoints;
@@ -153,10 +152,12 @@ public abstract class Character {
         
         
     }
-    
-    
     public abstract void attack(Character target);
     public abstract void escape();
+    /**
+     * 
+     * @return Whether the character is in its own Safezone or not
+     */
     public abstract boolean isInSafeZone();
     
     /**
@@ -293,10 +294,6 @@ public abstract class Character {
         return dead;
     }
 
-    public Species getType() {
-        return type;
-    }
-
     public int getStrenghtPoints() {
         return strenghtPoints;
     }
@@ -366,10 +363,6 @@ public abstract class Character {
     
     public void setDead(boolean dead) {
         this.dead = dead;
-    }
-    
-    public void setType(Species type) {
-        this.type = type;
     }
     
     public void setStrenghtPoints(int strenghtPoints) {
@@ -478,10 +471,9 @@ public abstract class Character {
     }
     /**
      * Function that allows to calculate and set the final number of PEs of a character ;
-     * @param signe : Allows to indicate if the value must be added or substracted to the PEs ;
      * @param value : Value of the PE to add or put away ;
      */
-    public void doCalculationPE(String signe, int value)
+    public void doCalculationPE(int value)
     {
         //Getting the current PE value of the character ;
         int valuePE=this.getpEnergie();
@@ -489,16 +481,7 @@ public abstract class Character {
         /*
         Test the signe of the value and do the calculation ;
         */
-        if(signe.equals("+"))
-        {
-            //Adds PE if the signe is "+" ;
-            valuePE+=value;
-        }
-        else if (signe.equals("-"))
-        {
-            //Substracts PE if the signe is "-" ;
-            valuePE-=value;
-        }
+        valuePE+=value;
         //Sets character energy points ;
         this.setpEnergie(valuePE);
         System.out.println("They are now of "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE.");
@@ -506,27 +489,17 @@ public abstract class Character {
     
     /**
      * Function that allows to calculate and set the final number of PVs of a character ;
-     * @param signe : Allows to indicate if the value must be added or substracted to the PVs ;
      * @param value : Value of the PE to add or put away ;
      */
-    public void doCalculationPV(String signe, int value)
+    public void doCalculationPV(int value)
     {
         //Getting the current PE value of the character ;
         int valuePV=this.getpVie();
         System.out.println("PVs of "+this.getNom()+" were of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");
         /*
-        Test the signe of the value and do the calculation ;
+        do the calculation ;
         */
-        if(signe.equals("+"))
-        {
-            //Adds PE if the signe is "+" ;
-            valuePV+=value;
-        }
-        else if (signe.equals("-"))
-        {
-            //Substracts PE if the signe is "-" ;
-            valuePV-=value;
-        }
+        valuePV+=value;
         //Sets character energy points ;
         this.setpVie(valuePV);
         System.out.println("They are now of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");

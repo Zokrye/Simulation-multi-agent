@@ -14,13 +14,12 @@ import java.util.ArrayList;
 public abstract class Human extends Hero {
     
     private static int nbHumansInGame;
-    private static Species weakness;
+    private static Class weakness;
     
     public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
-        this.setType(Species.Human);
-        Human.weakness=Species.Orc;
+        Human.weakness=Orc.class;
         this.safeZoneDirection=new Direction(-1,-1);
         this.maxMovement=5;
     }
@@ -37,7 +36,7 @@ public abstract class Human extends Hero {
         return nbHumansInGame;
     }
     
-    public static Species getWeakness() {
+    public static Class getWeakness() {
         return weakness;
     }
 
@@ -49,7 +48,7 @@ public abstract class Human extends Hero {
         Human.nbHumansInGame = nbHumansInGame;
     }
 
-    public static void setWeakness(Species weakness) {
+    public static void setWeakness(Class weakness) {
         Human.weakness = weakness;
     }
     
@@ -108,7 +107,7 @@ public abstract class Human extends Hero {
     @Override
     public void attack(Character target)
     {
-        int costAtkPE=5;
+        int costAtkPE=-5;
         /*
         Test the value of PEs of the character and decide if he can attack or not ;
         */
@@ -117,7 +116,7 @@ public abstract class Human extends Hero {
             /*
             Random calcul of the power of each attack and defense turn ;
             */
-            this.doCalculationPE("-", costAtkPE);
+            this.doCalculationPE(costAtkPE);
             int atkRandomValue=RandomElement.randomThrow(this.getStrenghtPoints(),0);
             int defRandomValue=RandomElement.randomThrow(target.getDefensivePoints(),0);
             //Add of the bonus given by xp of the character ;
@@ -183,13 +182,13 @@ public abstract class Human extends Hero {
         /*
         Cost of the action ;
         */
-        int costPEEscape=2;
-        int failingCostPE=10;
-        int failingCostPV=5;
+        int costPEEscape=-2;
+        int failingCostPE=-10;
+        int failingCostPV=-5;
         if(this.getpEnergie()>=costPEEscape)
         {
             System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
-            this.doCalculationPE("-",costPEEscape);
+            this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;
             Some Elfe bonus thanks to their agility ;
@@ -232,8 +231,8 @@ public abstract class Human extends Hero {
             if(difference<0)
             {
                 System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs.");
-                this.doCalculationPE("-", failingCostPV);
-                this.doCalculationPV("-", failingCostPE);
+                this.doCalculationPE(failingCostPV);
+                this.doCalculationPV(failingCostPE);
                 //Funtion to check the life and change the dead state consquently ;
                 this.checkPVCharacter();
             }
@@ -270,7 +269,7 @@ public abstract class Human extends Hero {
         //Set the total number of humans in game ;
         Human.setNbHumansInGame(nbPerso);
         h_team.setTotalCharacterTeam(nbPerso);
-        h_team.setType(Species.Human);
+        h_team.setType(Human.class);
         //Create the list of the team ;
         ArrayList<Human> team=new ArrayList<>();
         //Creation of the Admiral of the team ;

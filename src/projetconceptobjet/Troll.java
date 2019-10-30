@@ -14,15 +14,14 @@ import java.util.ArrayList;
 public abstract class Troll extends Enemy {
     
     private static int nbTrollsInGame;
-    private static Species weakness;
+    private static Class weakness;
     
     
     
     public Troll(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght, defense);
-        this.setType(Species.Troll);
-        Troll.weakness=Species.Human;
+        Troll.weakness=Human.class;
         this.safeZoneDirection=new Direction(-1,1);
         this.maxMovement=3;
     }
@@ -39,14 +38,14 @@ public abstract class Troll extends Enemy {
         return nbTrollsInGame;
     }
 
-    public static Species getWeakness() {
+    public static Class getWeakness() {
         return weakness;
     }
 
     /*
     Setters ;
     */
-    public static void setWeakness(Species weakness) {
+    public static void setWeakness(Class weakness) {
         Troll.weakness = weakness;
     }
     
@@ -88,7 +87,7 @@ public abstract class Troll extends Enemy {
     @Override
     public void attack(Character target)
     {
-        int costAtkPE=10;
+        int costAtkPE=-10;
         /*
         Test the value of PEs of the character and decide if he can attack or not ;
         */
@@ -97,7 +96,7 @@ public abstract class Troll extends Enemy {
             /*
             Random calcul of the power of each attack and defense turn ;
             */
-            this.doCalculationPE("-", costAtkPE);
+            this.doCalculationPE(costAtkPE);
             int atkRandomValue=RandomElement.randomThrow(this.getStrenghtPoints(),0);
             int defRandomValue=RandomElement.randomThrow(target.getDefensivePoints(),0);
             //Add of the bonus given by xp of the character ;
@@ -163,13 +162,13 @@ public abstract class Troll extends Enemy {
         /*
         Cost of the action ;
         */
-        int costPEEscape=10;
-        int failingCostPE=15;
-        int failingCostPV=2;
+        int costPEEscape=-10;
+        int failingCostPE=-15;
+        int failingCostPV=-2;
         if(this.getpEnergie()>=costPEEscape)
         {
             System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
-            this.doCalculationPE("-",costPEEscape);
+            this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;
             Some Elfe bonus thanks to their agility ;
@@ -212,8 +211,8 @@ public abstract class Troll extends Enemy {
             if(difference<0)
             {
                 System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs.");
-                this.doCalculationPE("-", failingCostPV);
-                this.doCalculationPV("-", failingCostPE);
+                this.doCalculationPE(failingCostPV);
+                this.doCalculationPV(failingCostPE);
                 //Funtion to check the life and change the dead state consquently ;
                 this.checkPVCharacter();
             }
@@ -268,7 +267,7 @@ public abstract class Troll extends Enemy {
         //Set the total number of elfes in game ;
         Troll.setNbTrollsInGame(nbPerso);
         t_team.setTotalCharacterTeam(nbPerso);
-        t_team.setType(Species.Troll);
+        t_team.setType(Troll.class);
         //Create the list of the team ;
         ArrayList<Troll> team=new ArrayList<>();
         //Creation of the Admiral of the team ;
