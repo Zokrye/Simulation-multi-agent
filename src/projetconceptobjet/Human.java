@@ -172,7 +172,7 @@ public abstract class Human extends Hero {
     }
     
     /**
-     * AJOUTER LA FONCTION DE DEPLACEMENT POUR S'ECHAPPER ET UNE FONCTION DE TEST DE PVs ;
+     * AJOUTER LA FONCTION DE DEPLACEMENT POUR S'ECHAPPER;
      * Function to try to escape from a fight ;
      * Humans don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
@@ -220,7 +220,7 @@ public abstract class Human extends Hero {
             if(valueEscape==99)
             {
                     System.out.println("PERFECT! "+this.getNom()+" escapes from the fight without any problems.");
-                    //Moving Function ;
+                    //Moving Function to go away ;
                     //this.seDeplacer();
             }
 
@@ -235,11 +235,12 @@ public abstract class Human extends Hero {
                 this.doCalculationPE("-", failingCostPV);
                 this.doCalculationPV("-", failingCostPE);
                 //Funtion to check the life and change the dead state consquently ;
+                this.checkPVCharacter();
             }
             else
             {
                 System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
-                //Moving Function ;
+                //Moving Function to go away ;
                 //this.seDeplacer();
             }
         }

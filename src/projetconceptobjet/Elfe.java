@@ -143,7 +143,7 @@ public abstract class Elfe extends Hero {
         if(valueEscape==99)
         {
                 System.out.println("PERFECT! "+this.getNom()+" escapes from the fight without any problems.");
-                //Moving Function ;
+                //Moving Function to go away ;
                 //this.seDeplacer();
         }
         
@@ -157,12 +157,13 @@ public abstract class Elfe extends Hero {
             System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs.");
             this.doCalculationPE("-", failingCostPE);
             this.doCalculationPV("-", failingCostPV);
-            //Test PVs ;
+            //Check the PVs of the character to adapt his situation ;
+            this.checkPVCharacter();
         }
         else
         {
             System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
-            //Moving Function ;
+            //Moving Function to go away ;
             //this.seDeplacer();
         }
     }

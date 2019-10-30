@@ -72,8 +72,6 @@ public class ProjetConceptObjet {
         System.out.println("Type of entity : "+test.getType()+" ; Nb characters : "+test.getTotalCharacterTeam()+" ; PV : "+test.getLifePointTeam()+"/"+test.getTotalLifePointTeam()+" ;\n"
                 + "PE : "+test.getEnergyPointTeam()+"/"+test.getTotalEnergyPointTeam()+" ; XP : "+test.getXpTeam()+" ;");
         
-        Map map=Map.getinstance();
-        map.placeAllCharacters();
         
         ///////////////////////////////////////////////////////////////
         /////////////TEST OF TURNS/////////////////////////////////////
@@ -95,6 +93,7 @@ public class ProjetConceptObjet {
         troll_test.attack(elfe_test);
         human_test.attack(orc_test);
         orc_test.attack(human_test);
+        orc_test.checkPVCharacter();
         
         System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
         elfe_test.escape();
@@ -102,6 +101,7 @@ public class ProjetConceptObjet {
         ///////////////////////////////////////////////////////////////
         /////////////////TEST DE LA MAP////////////////////////////////
         Map map=Map.getinstance();
+        map.placeAllCharacters();
         map.displayMap();
         
         

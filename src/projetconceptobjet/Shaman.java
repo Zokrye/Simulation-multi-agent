@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class Shaman extends Troll implements Wizzard {
+public final class Shaman extends Troll implements Wizzard {
     
     private int mana;
     private int manaMax;

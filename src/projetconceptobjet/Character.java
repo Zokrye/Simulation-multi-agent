@@ -122,7 +122,8 @@ public abstract class Character {
                             }
                             remainingCells--;
                         }
-
+////////////////////////////////////////////////////////////////////////////////
+/////////////////Regrouper dans une même fonction réaction rencontre////////////
                         //Meet another character
                         else {
                             Character otherCharacter = nextCell.getCharacter();
@@ -391,10 +392,90 @@ public abstract class Character {
         this.defensivePoints = defensivePoints;
     }
     
+    
     /*
     Methods
     */
     
+    /**
+     * Function to do a fight between two characters opposed ;
+     * @param target : Character who is the opponent of the character that have
+     * launched the function ;
+     */
+    public void fight(Character target)
+    {
+        int turnChoiceEnergie=10;
+        int count=1;
+        do
+        {
+            if(count==1)
+            {
+                System.out.println("=========================FIGHT=====================\n"
+                        + ""+this.getNom()+" engage his opponent! The fight begins!\n"
+                        + "*************Turn n°"+count+"***************");
+                //First to attack is moving character ;
+                this.attack(target);
+            }
+            else
+            {
+                int random_1=RandomElement.randomThrow(2, 0);
+                switch(random_1)
+                {
+                    case 0:
+                        this.attack(target);
+                        break;
+                    
+                    case 1:
+                        this.escape();
+                }
+            }
+            int random_2=RandomElement.randomThrow(2, 0);
+            switch(random_2)
+            {
+                case 0 :
+                    target.attack(this);
+                    break;
+                case 1 :
+                    target.escape();
+                    break;
+            }
+            count++;
+        }
+        while((target.isDead()!=true
+                && this.isDead()!=true)
+                && target.getpEnergie()>=turnChoiceEnergie
+                && this.getpEnergie()>=turnChoiceEnergie );
+        
+     
+        
+    }
+    
+    /**
+     * Function to test and set correctly PVs of the characters in fight
+     * or in any situation where characters can lose life ;
+     */
+    public void checkPVCharacter()
+    {
+        /*
+        Check if character still has PVs ;
+        */
+        if(this.getpVie()<=0)
+        {
+            //Setting the dead boolean to indicate that the character is dead ;
+            this.setDead(true);
+            //Setting of the PVs to 0 to normalize it ;
+            this.setpVie(0);
+            //Setting the Energie to 0 to avoid any action by a dead character ;
+            this.setpEnergie(0);
+            //Informatrion of the user ;
+            System.out.println(this.getNom()+" is dead.");
+        }
+        else
+        {
+            //No changes the character is still alive ;
+            System.out.println(this.getNom()+" is still alive.");
+        }
+    }
     /**
      * Function that allows to calculate and set the final number of PEs of a character ;
      * @param signe : Allows to indicate if the value must be added or substracted to the PEs ;

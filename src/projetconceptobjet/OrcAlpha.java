@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class OrcAlpha extends Orc implements Mediator{
+public final class OrcAlpha extends Orc implements Mediator{
     
     private static int nbOrcAlphaInGame;
     
