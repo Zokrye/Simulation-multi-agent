@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class Paladin extends Human implements Warrior {
+public final class Paladin extends Human implements Warrior {
     
     private static int nbPaladinInGame;
     

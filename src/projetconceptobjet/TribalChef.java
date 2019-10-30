@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class TribalChef extends Elfe implements Mediator {
+public final class TribalChef extends Elfe implements Mediator {
     
     private static int nbTribalChefInGame;
     

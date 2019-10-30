@@ -121,7 +121,8 @@ public abstract class Character {
                             }
                             remainingCells--;
                         }
-
+////////////////////////////////////////////////////////////////////////////////
+/////////////////Regrouper dans une même fonction réaction rencontre////////////
                         //Meet another character
                         else {
                             Character otherCharacter = nextCell.getCharacter();
@@ -384,10 +385,223 @@ public abstract class Character {
         this.defensivePoints = defensivePoints;
     }
     
+    
     /*
     Methods
     */
     
+    /**
+     * 
+     * 
+     * ATTENTION : TESTER SI LES PERSOS SONT TOUJOURS COTE A COTE DANS LE WHILE :
+     * Déplacement dans la fonction escape doit faire sortir du combat.
+     * 
+     * 
+     * Function to do a fight between two characters opposed ;
+     * @param target : Character who is the opponent of the character that have
+     * launched the function ;
+     */
+    public void fight(Character target)
+    {
+        //Variable of the limit value of energie to get to act in fight ;
+        int limitTurnChoiceEnergie=0;
+        //Count of turns ;
+        int count=1;
+        
+        System.out.println("========================================================================\n"
+                + "=========================FIGHT=====================\n");
+        /*
+        The character who has met the other (the one who was moving) attacks first
+        and then, his opponent chose between escaping or attacking ;
+        After the first turn, the characters attack while they have enough life and energy;
+        When they lack of one of them, the chose randomly to attack or escape from the fight;
+        Tests if the characters are still side to side.
+        */
+        while((target.isDead()!=true
+                && this.isDead()!=true)
+                && target.isEtatFatigue()!=true
+                && this.isEtatFatigue()!=true
+                && target.getpEnergie()>=limitTurnChoiceEnergie
+                && this.getpEnergie()>=limitTurnChoiceEnergie )
+        {
+            /*
+            First turn of the attacking character ;
+            */
+            if(count==1)
+            {
+                System.out.println(this.getNom()+" engage his opponent! The fight begins!\n"
+                        + "*************Turn n°"+count+"***************");
+                System.out.println("\n-----------"+this.getNom()+"------------");
+                //Attack the character targetted ;
+                this.attack(target);
+            }
+            /*
+            Turn with enough PVs and PEs for the attacking character ;
+            */
+            else if (count!=1
+                    && this.getpVie()/this.getpVieMax()>=0.2 
+                    && this.getpEnergie()/this.getpEnergieMax()>=0.2)
+            {
+                System.out.println("*************Turn n°"+count+"***************");
+                System.out.println("\n-----------"+this.getNom()+"------------");
+                //Attack the character targetted ;
+                this.attack(target);
+            }
+            /*
+            Turn with lack of PVs and PEs for the attacking character;
+            */
+            else if (count!=1
+                    && (this.getpVie()/this.getpVieMax()<0.2 
+                    || this.getpEnergie()/this.getpEnergieMax()<0.2)
+                    && this.isDead()==false)
+            {
+                System.out.println("*************Turn n°"+count+"***************");
+                System.out.println("\n-----------"+this.getNom()+"------------");
+                //Throws a random number to chose between escaping or fighting ;
+                int random_1=RandomElement.randomThrow(2, 0);
+                System.out.println("Random decision for "+this.getNom()+" : "+random_1);
+                //Check the PEs of the character ;
+                this.checkPECharacter();
+                switch(random_1)
+                {
+                    case 0:
+                        this.attack(target);
+                        break;
+                    
+                    case 1:
+                        this.escape();
+                }
+            }
+            System.out.println("\n\n-----------"+target.getNom()+"------------");
+            /*
+            Turn with enough PVs and PEs for the target one ;
+            */
+            if ( target.getpVie()/target.getpVieMax()>=0.2 
+                    && target.getpEnergie()/target.getpEnergieMax()>=0.2)
+            {
+                target.attack(this);
+            }
+            /*
+            Turn with lack of PVs and PEs for the attacking character;
+            */
+            else if ( (target.getpVie()/target.getpVieMax()<0.2 
+                    || target.getpEnergie()/target.getpEnergieMax()<0.2)
+                    && target.isDead()==false)
+            {
+                //Throws a random number to chose between escaping or fighting ;
+                int random_2=RandomElement.randomThrow(2, 0);
+                System.out.println("Random decision for "+target.getNom()+" : "+random_2);
+                //Check the PEs of the character ;
+                target.checkPECharacter();
+                switch(random_2)
+                {
+                    case 0:
+                        target.attack(this);
+                        break;
+                    
+                    case 1:
+                        target.escape();
+                }
+            }
+            System.out.println("************************************\n\n");
+            count++;
+        }
+        /*
+        Test of each breaking situation : death or tiredness for each character ;
+        If the character is tired and alive, the opponent kill him with attacking.
+        */
+        if(this.isDead()==true)
+        {
+            System.out.println(this.getNom()+" died during the fight. Make him rest in peace.");
+        }
+        else if(target.isDead()==true)
+        {
+            System.out.println(this.getNom()+" destroyed "+target.getNom()+" during this fight. Glory for the winner.");
+        }
+        else if(this.isEtatFatigue()==true)
+        {
+            System.out.println(this.getNom()+" is out of breath."+target.getNom()+" decides to kill him to close the fight. Glory for the winner.");
+            target.attack(this);
+        }
+        else if(target.isEtatFatigue()==true)
+        {
+            System.out.println(target.getNom()+" is out of breath."+this.getNom()+" decides to kill him to close the fight. Glory for the winner.");
+            this.attack(target);
+        }
+        /*
+        Check the state of each character ;
+        */
+        target.checkPECharacter();
+        target.checkPVCharacter();
+        this.checkPECharacter();
+        this.checkPVCharacter();
+        System.out.println("===========================END OF THE FIGHT===============================\n"
+                + "=======================================================================");
+    }
+    
+    
+    /**
+     * Function to check the remaining points of energie of the character
+     * and to set the variable to the right way ;
+     */
+    public void checkPECharacter()
+    {
+        /*
+        Check if the character has always some energie to continue to act in the simulation ;
+        If it is 0 or less, the character is tired ;
+        If it is 20% or less of energie but it remain some of it,
+        it is urgent to return to the safezone.
+        Else, nothing to signal ;
+        */
+        if(this.getpEnergie()<=0)
+        {
+            /*
+            Set all variables that indicate the character is tired ;
+            */
+            this.setEtatFatigue(true);
+            this.setpEnergie(0);
+            System.out.println(this.getNom()+" is tired.");
+        }
+        else if (this.getpEnergie()/this.getpEnergieMax()<=0.2 && this.getpEnergie()>0)
+        {
+            //this.setEtatFatigue(false);
+            //Informs of the critical state of the energie of the character ;
+            System.out.println(this.getNom()+" is losing his breathe.");
+        }
+        else
+        {
+            //this.setEtatFatigue(false);
+            //Informs that it is all right ;
+            System.out.println(this.getNom()+" is dynamic.");
+        }
+    }
+    
+    /**
+     * Function to test and set correctly PVs of the characters in fight
+     * or in any situation where characters can lose life ;
+     */
+    public void checkPVCharacter()
+    {
+        /*
+        Check if character still has PVs ;
+        */
+        if(this.getpVie()<=0)
+        {
+            //Setting the dead boolean to indicate that the character is dead ;
+            this.setDead(true);
+            //Setting of the PVs to 0 to normalize it ;
+            this.setpVie(0);
+            //Setting the Energie to 0 to avoid any action by a dead character ;
+            this.setpEnergie(0);
+            //Informatrion of the user ;
+            System.out.println(this.getNom()+" is dead.");
+        }
+        else
+        {
+            //No changes the character is still alive ;
+            System.out.println(this.getNom()+" is still alive.");
+        }
+    }
     /**
      * Function that allows to calculate and set the final number of PEs of a character ;
      * @param value : Value of the PE to add or put away ;

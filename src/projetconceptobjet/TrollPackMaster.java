@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class TrollPackMaster extends Troll implements Mediator {
+public final class TrollPackMaster extends Troll implements Mediator {
     
     private static int nbTrollPackMasterInGame;
     
