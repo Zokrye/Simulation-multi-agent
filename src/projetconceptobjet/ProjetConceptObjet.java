@@ -72,8 +72,6 @@ public class ProjetConceptObjet {
         System.out.println("Type of entity : "+test.getType()+" ; Nb characters : "+test.getTotalCharacterTeam()+" ; PV : "+test.getLifePointTeam()+"/"+test.getTotalLifePointTeam()+" ;\n"
                 + "PE : "+test.getEnergyPointTeam()+"/"+test.getTotalEnergyPointTeam()+" ; XP : "+test.getXpTeam()+" ;");
         
-        Map map=Map.getinstance();
-        map.placeAllCharacters();
         
         ///////////////////////////////////////////////////////////////
         /////////////TEST OF TURNS/////////////////////////////////////
@@ -87,20 +85,32 @@ public class ProjetConceptObjet {
         orc_test.setNom("Assassin_test");
         Paladin human_test=new Paladin();
         human_test.setNom("Paladin_test");
+        elfe_test.setpVie(20);
+        orc_test.setpVie(20);
+        elfe_test.setpEnergie(5);
+        orc_test.setpEnergie(5);
+        elfe_test.fight(orc_test);
         //elfe_test.attack(troll_test);
+        //troll_test.setpVie(2);
+        //elfe_test.attack(troll_test);
+        //System.out.println("Troll is dead : "+troll_test.isDead());
         //elfe_test.doCalculationPE("+", 5);
         //elfe_test.doCalculationPE("-", 5);
         //elfe_test.doCalculationPV("+", 10);
-        elfe_test.doCalculationPV(-10);
-        troll_test.attack(elfe_test);
-        human_test.attack(orc_test);
-        orc_test.attack(human_test);
+        //elfe_test.doCalculationPV(-10);
+        //troll_test.attack(elfe_test);
+        //human_test.attack(orc_test);
+        //orc_test.attack(human_test);
+        //orc_test.checkPVCharacter();
         
         System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
         elfe_test.escape();
         
         ///////////////////////////////////////////////////////////////
         /////////////////TEST DE LA MAP////////////////////////////////
+        System.out.println("/////////////////////////Tests Map////////////////////////");
+        Map map=Map.getinstance();
+        map.placeAllCharacters();
         map.displayMap();
         
         

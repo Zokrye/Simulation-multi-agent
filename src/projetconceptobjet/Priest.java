@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class Priest extends Human implements Wizzard {
+public final class Priest extends Human implements Wizzard {
     
     private int mana;
     private int manaMax;

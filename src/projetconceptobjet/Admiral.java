@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class Admiral extends Human implements Mediator {    
+public final class Admiral extends Human implements Mediator {    
     
     private static int nbAdmiralInGame;
     

@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class Berserker extends Troll implements Warrior {
+public final class Berserker extends Troll implements Warrior {
     
     private static int nbBerserkerInGame;
     

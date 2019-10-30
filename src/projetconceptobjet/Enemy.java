@@ -40,13 +40,15 @@ public abstract class Enemy extends Character {
     }
 
     @Override
-    public void meet(Character character, int remainingCells, Direction direction) {
-        if(this.isSameSide(character)) {
-            sacrifice(character);
+    public void meet(Character otherCharacter, int remainingCells, Direction direction) {
+        if(this.isSameSide(otherCharacter)) {
+            sacrifice(otherCharacter);
         }
         else {
-            //Fight
-        }
+            if(!isInSafeZone() && !otherCharacter.isInSafeZone()) {
+            //TODO: FIGHT
+            }                          
+        } 
     }
     
     

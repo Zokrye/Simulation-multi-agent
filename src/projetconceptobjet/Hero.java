@@ -44,8 +44,10 @@ public abstract class Hero extends Character {
         if(this.isSameSide(otherCharacter)) {
             reanimation(otherCharacter, remainingCells);
         }
-        else {
-            //fight
+        else { 
+            if(!isInSafeZone() && !otherCharacter.isInSafeZone()) {
+            //TODO: FIGHT
+            }                         
         }
     }
     

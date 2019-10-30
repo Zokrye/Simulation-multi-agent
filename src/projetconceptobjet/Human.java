@@ -104,8 +104,9 @@ public abstract class Human extends Hero {
         int costAtkPE=-5;
         /*
         Test the value of PEs of the character and decide if he can attack or not ;
+        Tests also the tiredness state of the opponent to kill him directly or not;
         */
-        if( this.getpEnergie()>=costAtkPE)
+        if( this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==false)
         {
             /*
             Random calcul of the power of each attack and defense turn ;
@@ -138,6 +139,7 @@ public abstract class Human extends Hero {
                 int targetLife=target.getpVie();
                 targetLife+=result;
                 target.setpVie(targetLife);
+                target.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
 
@@ -149,13 +151,20 @@ public abstract class Human extends Hero {
                 int persoLife=this.getpVie();
                 persoLife-=result;
                 this.setpVie(persoLife);
+                this.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
 
             //Printing of the result of the step ;
-            System.out.println("Scoring of the step :\n"
+            System.out.println("\nScoring of the step :\n"
                     + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n"
                     + target.getNom()+" : "+target.getpVie()+"/"+target.getpVieMax()+" PV & "+target.getpEnergie()+"/"+target.getpEnergieMax()+" PE ;");
+        }
+        else if (this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
+        {
+            this.doCalculationPE(costAtkPE);
+            target.setpVie(0);
+            System.out.println(target.getNom()+" was too tired to resist. "+this.getNom()+" impales him easily.");
         }
         //The character can't attack because of his lack of PEs ;
         else
@@ -165,7 +174,7 @@ public abstract class Human extends Hero {
     }
     
     /**
-     * AJOUTER LA FONCTION DE DEPLACEMENT POUR S'ECHAPPER ET UNE FONCTION DE TEST DE PVs ;
+     * AJOUTER LA FONCTION DE DEPLACEMENT POUR S'ECHAPPER;
      * Function to try to escape from a fight ;
      * Humans don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
@@ -179,33 +188,16 @@ public abstract class Human extends Hero {
         int costPEEscape=-2;
         int failingCostPE=-10;
         int failingCostPV=-5;
-        if(this.getpEnergie()>=costPEEscape)
+        if(this.getpEnergie()>=(-costPEEscape))
         {
             System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
             this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;
-            Some Elfe bonus thanks to their agility ;
             A random thrown to determine the right to escape from the fight ;
             */
-            int bonusEscapeElfe=10 ;
-            int valueEscape;
             int difference;
-            int randomThrown=RandomElement.randomThrow(100, 0);
-
-            /*
-            Test if the sum of the random value and the bonus is lower than 99 to know if we should aplly the bonus or not ;
-            */
-            if((randomThrown+bonusEscapeElfe)<99)
-            {
-                valueEscape=randomThrown+bonusEscapeElfe;
-                System.out.println("Bonus is applied.");
-            }
-            else
-            {
-                valueEscape=randomThrown;
-                System.out.println("Bonus is not applied.");
-            }
+            int valueEscape=RandomElement.randomThrow(100, 0);
 
             /*
             Test if the value is perfect and the escape can't be stopped ;
@@ -213,27 +205,31 @@ public abstract class Human extends Hero {
             if(valueEscape==99)
             {
                     System.out.println("PERFECT! "+this.getNom()+" escapes from the fight without any problems.");
-                    //Moving Function ;
+                    //Moving Function to go away ;
                     //this.seDeplacer();
-            }
-
-            /*
-            Random thrown form the enemy to keep the character in the fight ;
-            */
-            randomThrown=RandomElement.randomThrow(100, 0);
-            difference=valueEscape-randomThrown;
-            if(difference<0)
-            {
-                System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs.");
-                this.doCalculationPE(failingCostPV);
-                this.doCalculationPV(failingCostPE);
-                //Funtion to check the life and change the dead state consquently ;
             }
             else
             {
-                System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
-                //Moving Function ;
-                //this.seDeplacer();
+                /*
+                Random thrown form the enemy to keep the character in the fight ;
+                */
+                int randomThrown=RandomElement.randomThrow(100, 0);
+                difference=valueEscape-randomThrown;
+                if(difference<0)
+                {
+                    System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs and PVs.");
+                    this.doCalculationPE(failingCostPV);
+                    this.doCalculationPV(failingCostPE);
+                    //Funtion to check the life and change the dead state consquently ;
+                    this.checkPVCharacter();
+                    this.checkPECharacter();
+                }
+                else
+                {
+                    System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
+                    //Moving Function to go away ;
+                    //this.seDeplacer();
+                }
             }
         }
         //If the character hasn't enough energy ;
@@ -241,6 +237,8 @@ public abstract class Human extends Hero {
         {
             System.out.println(this.getNom()+" has not enough energy to try to escape. He is stonned.");
         }
+        System.out.println("\nScoring of the step :\n"
+                        + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n");
     }
     
     @Override

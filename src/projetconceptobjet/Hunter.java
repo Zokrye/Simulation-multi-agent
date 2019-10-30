@@ -9,7 +9,7 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public class Hunter extends Elfe implements Warrior {
+public final class Hunter extends Elfe implements Warrior {
     
     private static int nbHunterInGame;
     
