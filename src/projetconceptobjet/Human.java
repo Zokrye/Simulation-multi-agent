@@ -105,7 +105,7 @@ public abstract class Human extends Hero {
             /*
             Random calcul of the power of each attack and defense turn ;
             */
-            this.doCalculationPE(costAtkPE);
+            //this.doCalculationPE(costAtkPE);
             int atkRandomValue=RandomElement.randomThrow(this.getStrenghtPoints(),0);
             int defRandomValue=RandomElement.randomThrow(target.getDefensivePoints(),0);
             //Add of the bonus given by xp of the character ;
@@ -130,9 +130,10 @@ public abstract class Human extends Hero {
             */
             if(result<0)
             {
-                int targetLife=target.getpVie();
-                targetLife+=result;
-                target.setpVie(targetLife);
+                target.doCalculationPV(result);
+                //int targetLife=target.getpVie();
+                //targetLife+=result;
+                //target.setpVie(targetLife);
                 target.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
@@ -156,7 +157,7 @@ public abstract class Human extends Hero {
         }
         else if (this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
         {
-            this.doCalculationPE(costAtkPE);
+            //this.doCalculationPE(costAtkPE);
             target.setpVie(0);
             System.out.println(target.getNom()+" was too tired to resist. "+this.getNom()+" impales him easily.");
         }
@@ -187,7 +188,7 @@ public abstract class Human extends Hero {
         if(this.getpEnergie()>=(-costPEEscape))
         {
             System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
-            this.doCalculationPE(costPEEscape);
+            //this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;
             A random thrown to determine the right to escape from the fight ;
@@ -215,7 +216,7 @@ public abstract class Human extends Hero {
                 if(difference<0)
                 {
                     System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs and PVs.");
-                    this.doCalculationPE(failingCostPE);
+                    //this.doCalculationPE(failingCostPE);
                     this.doCalculationPV(failingCostPV);
                     //Funtion to check the life and change the dead state consquently ;
                     this.checkPVCharacter();

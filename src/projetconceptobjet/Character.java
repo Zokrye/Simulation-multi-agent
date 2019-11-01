@@ -58,7 +58,7 @@ public abstract class Character {
         Cell nextCell=null;
         Direction chosenDirection=null;
         
-        if(this.pEnergie/this.pEnergieMax<=0.2) {
+        if((double)this.pEnergie/(double)this.pEnergieMax<=0.2) {
             //Use the default direction to join Safezone
             Direction d1=safeZoneDirection;
             //The 2nd best options for joining the safeZone
@@ -105,23 +105,19 @@ public abstract class Character {
                             moveTo(nextCell);
                             doCalculationPV(1);
                             if(isInSafeZone()){
-                                if(this.pEnergie<=pEnergieMax-3) {
-                                    pEnergie+=3;
-                                }
-                                else {
-                                    pEnergie=pEnergieMax;
-                                }
+                                doCalculationPE(3);
                             }
                             else {
-                                pEnergie--;
+                                doCalculationPE(-1);
                             }
-                            remainingCells--;
+                            
                         }
                         //Meet another character
                         else {
                             Character otherCharacter = nextCell.getCharacter();
                             meet(otherCharacter, remainingCells);
                         }
+                        remainingCells--;
                     }
                     //Reset remaining cells to 0 in case the character hits an obstacle
                     else {
@@ -388,6 +384,7 @@ public abstract class Character {
     
     public void setDead(boolean dead) {
         this.dead = dead;
+        this.currentCell.setCharacter(null);
     }
     
     public void setStrenghtPoints(int strenghtPoints) {
@@ -498,7 +495,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        goneAway_1=this.tryToEscape(target);
+                        //goneAway_1=this.tryToEscape(target);
                         break;
                 }
             }
@@ -534,7 +531,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        goneAway_2=target.tryToEscape(target);
+                        //goneAway_2=target.tryToEscape(target);
                         break;
                 }
             }
@@ -579,9 +576,9 @@ public abstract class Character {
         /*
         Check the state of each character ;
         */
-        target.checkPECharacter();
+        //target.checkPECharacter();
         target.checkPVCharacter();
-        this.checkPECharacter();
+        //this.checkPECharacter();
         this.checkPVCharacter();
         System.out.println("===========================END OF THE FIGHT===============================\n"
                 + "=======================================================================");
@@ -606,8 +603,8 @@ public abstract class Character {
             /*
             Set all variables that indicate the character is tired ;
             */
-            this.setEtatFatigue(true);
-            this.setpEnergie(0);
+            //this.setEtatFatigue(true);
+            //this.setpEnergie(0);
             System.out.println(this.getNom()+" is tired.");
         }
         else if (this.getpEnergie()/this.getpEnergieMax()<=0.2 && this.getpEnergie()>0)
@@ -636,11 +633,11 @@ public abstract class Character {
         if(this.getpVie()<=0)
         {
             //Setting the dead boolean to indicate that the character is dead ;
-            this.setDead(true);
+            //this.setDead(true);
             //Setting of the PVs to 0 to normalize it ;
-            this.setpVie(0);
+            //this.setpVie(0);
             //Setting the Energie to 0 to avoid any action by a dead character ;
-            this.setpEnergie(0);
+            //this.setpEnergie(0);
             //Informatrion of the user ;
             System.out.println(this.getNom()+" is dead.");
         }
@@ -663,10 +660,11 @@ public abstract class Character {
         }
         else if(pEnergie+value<0) {
             pEnergie=0;
+            this.etatFatigue=true;
         }
         else {
             pEnergie+=value;
-            this.etatFatigue=true;
+            System.out.println(this.getNom()+" is tired.");
         }
         System.out.println("They are now of "+pEnergie+"/"+pEnergieMax+" PE.");
         
@@ -685,10 +683,10 @@ public abstract class Character {
         }
         else if(pVie+value<0) {
             pVie=0;
-            setDead(true);
+            this.setDead(true);
         }
         else {
-            pVie+=value;
+            pVie+=value;           
         }
         System.out.println("They are now of "+pVie+"/"+pVieMax+" PV.");
     }

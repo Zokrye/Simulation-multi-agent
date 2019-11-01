@@ -78,9 +78,10 @@ public abstract class Elfe extends Hero {
             */
             if(result<0)
             {
-                int targetLife=target.getpVie();
-                targetLife+=result;
-                target.setpVie(targetLife);
+                target.doCalculationPV(result);
+                //int targetLife=target.getpVie();
+                //targetLife+=result;
+                //target.setpVie(targetLife);
                 target.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
@@ -175,7 +176,7 @@ public abstract class Elfe extends Hero {
             if(difference<0)
             {
                 System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs and PVs.");
-                this.doCalculationPE(failingCostPE);
+                //this.doCalculationPE(failingCostPE);
                 this.doCalculationPV(failingCostPV);
                 this.checkPVCharacter();
                 this.checkPECharacter();
