@@ -104,13 +104,13 @@ public class ProjetConceptObjet {
         //orc_test.checkPVCharacter();
         
         System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
-        elfe_test.escape();
+        //elfe_test.tryToEscape();
         
         ///////////////////////////////////////////////////////////////
         /////////////////TEST DE LA MAP////////////////////////////////
         System.out.println("/////////////////////////Tests Map////////////////////////");
         Map map=Map.getinstance();
-        map.placeAllCharacters();
+        map.placeAllCharacters(false);
         map.displayMap();
         
         

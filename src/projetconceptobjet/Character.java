@@ -75,13 +75,14 @@ public abstract class Character {
 
             List<Direction> directions = new ArrayList<> (Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8));
             //Get the first available cell in the list
-            for(Direction d : directions) {
+            for(Direction direction : directions) {
+                nextCell=direction.applyFrom(currentCell);
                 //If direction leads to an existing cell
-                if(d.applyFrom(currentCell)!=null) {
+                if(nextCell!=null) {
                     //If the cell has no obstacles
-                    if(!d.applyFrom(currentCell).hasObstacle) {
+                    if(nextCell.hasObstacle) {
                         //Save the available direction                   
-                        chosenDirection=d;
+                        chosenDirection=direction;
                         break;
                     }
                 }
@@ -101,10 +102,7 @@ public abstract class Character {
                     nextCell=chosenDirection.applyFrom(currentCell);
                     if(!nextCell.hasObstacle ) {
                         if(nextCell.character==null) {
-
-                            currentCell.setCharacter(null);
-                            currentCell=nextCell;
-                            currentCell.setCharacter(this);
+                            moveTo(nextCell);
                             if(pVie<pVieMax) {
                                 pVie++;
                             }
@@ -121,24 +119,10 @@ public abstract class Character {
                             }
                             remainingCells--;
                         }
-////////////////////////////////////////////////////////////////////////////////
-/////////////////Regrouper dans une même fonction réaction rencontre////////////
                         //Meet another character
                         else {
                             Character otherCharacter = nextCell.getCharacter();
-                            if(this.isSameRace(otherCharacter)) {
-                                otherCharacter.addPV(remainingCells);
-                                this.addPV(remainingCells);
-                            }
-                            else if(this.isSameSide(otherCharacter)) {
-                                   //TODO: Ajout de points d'XP aux personnages
-                            }
-                                
-                            else {
-                                if(!isInSafeZone() && !otherCharacter.isInSafeZone()) {
-                                //TODO: FIGHT
-                                }
-                            }                   
+                            meet(otherCharacter, remainingCells);
                         }
                         remainingCells=0;
                     }
@@ -152,8 +136,52 @@ public abstract class Character {
         
         
     }
+    
+    /**
+     * Move the character to the next cell
+     * @param cell 
+     */
+    public void moveTo(Cell cell) {
+        currentCell.setCharacter(null);
+        currentCell=cell;
+        currentCell.setCharacter(this);
+    }
+    
+    public void escapeFrom(Character character) {
+        Cell characterCell=character.getCurrentCell();
+        Direction directionToEscape=new Direction(characterCell.getX()-currentCell.x,characterCell.getY()-currentCell.y);
+        //Opposite direction of the character, best option to escape him
+        Direction bestEscape=new Direction(-directionToEscape.getX(),-directionToEscape.getY());
+        //The 2nd best options for escaping the character
+        Direction escape2=new Direction(bestEscape.getX(),0);
+        Direction escape3=new Direction(0,bestEscape.getY());
+        //The 3rd best options for escaping the character
+        Direction escape4=new Direction(bestEscape.getX(),-bestEscape.getY());
+        Direction escape5=new Direction(-bestEscape.getX(),bestEscape.getY());
+        //Last options and less interesting directions to escape the character
+        Direction escape6=new Direction(-bestEscape.getX(),0);
+        Direction escape7=new Direction(0,-bestEscape.getY());
+        
+        List<Direction> directions = new ArrayList<> (Arrays.asList(bestEscape,escape2,escape3,escape4,escape5,escape6,escape7));
+        //Get the first available cell in the list
+        for(Direction direction : directions) {
+            Cell nextCell=direction.applyFrom(currentCell);
+            //If direction leads to an existing cell
+            if(nextCell!=null) {
+                //If the cell has no obstacles and characters
+                if(!nextCell.hasObstacle && !nextCell.hasCharacter()) {
+                    //Move to the free cell                
+                    moveTo(nextCell);
+                    break;
+                }
+            }
+        }
+        
+    }
+    
+    public abstract void meet(Character otherCharacter, int remainingCells);
     public abstract void attack(Character target);
-    public abstract boolean escape();
+    public abstract void tryToEscape(Character character);
     /**
      * 
      * @return Whether the character is in its own Safezone or not
@@ -473,6 +501,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
+                        this.tryToEscape(target);
                         goneAway_1=this.escape();
                 }
             }
@@ -508,6 +537,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
+                        target.tryToEscape(target);
                         goneAway_2=target.escape();
                 }
             }
@@ -629,16 +659,21 @@ public abstract class Character {
      */
     public void doCalculationPE(int value)
     {
-        //Getting the current PE value of the character ;
-        int valuePE=this.getpEnergie();
-        System.out.println("PEs of "+this.getNom()+" were of "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE.");
-        /*
-        Test the signe of the value and do the calculation ;
-        */
-        valuePE+=value;
-        //Sets character energy points ;
-        this.setpEnergie(valuePE);
-        System.out.println("They are now of "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE.");
+        System.out.println("PEs of "+nom+" were of "+pEnergie+"/"+pEnergieMax+" PE.");       
+        //Checks the value after calculation
+        if(pEnergie+value>=pEnergieMax) {
+            pEnergie=pEnergieMax;
+        }
+        else if(pEnergie+value<0) {
+            pEnergie=0;
+        }
+        else {
+            pEnergie+=value;
+            this.etatFatigue=true;
+        }
+        System.out.println("They are now of "+pEnergie+"/"+pEnergieMax+" PE.");
+        
+        
     }
     
     /**
@@ -647,16 +682,18 @@ public abstract class Character {
      */
     public void doCalculationPV(int value)
     {
-        //Getting the current PE value of the character ;
-        int valuePV=this.getpVie();
-        System.out.println("PVs of "+this.getNom()+" were of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");
-        /*
-        do the calculation ;
-        */
-        valuePV+=value;
-        //Sets character energy points ;
-        this.setpVie(valuePV);
-        System.out.println("They are now of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");
+        System.out.println("PVs of "+nom+" were of "+pVie+"/"+pVieMax+" PV.");
+        if(pVie+value>=pVieMax) {
+            pVie=pVieMax;
+        }
+        else if(pVie+value<0) {
+            pVie=0;
+            setDead(true);
+        }
+        else {
+            pVie+=value;
+        }
+        System.out.println("They are now of "+pVie+"/"+pVieMax+" PV.");
     }
     
     

@@ -127,52 +127,50 @@ public class Map {
     /**
      * Place all the characters at hte beginning of the game
      */
-    public void placeAllCharacters() {
+    public void placeAllCharacters(boolean onlyInSafeZones) {
         ArrayList<Team> allTeams=Team.getAllTeams();
         
         for(Team team : allTeams) {
             ArrayList<Cell> availableCells;
-            if(team.getType()==Elfe.class) {
-                availableCells=this.SafeZoneElfes;
+            if(onlyInSafeZones) {
+                if(team.getType()==Elfe.class) {
+                    availableCells=this.SafeZoneElfes;
+                }
+                else if(team.getType()==Human.class) {
+                    availableCells=this.SafeZoneHumans;
+                }
+                else if(team.getType()==Orc.class) {
+                    availableCells=this.SafeZoneOrcs;
+                }
+                else if(team.getType()==Troll.class) {
+                    availableCells=this.SafeZoneTrolls;
+                }
+                else {
+                    availableCells=new ArrayList<>();
+                }
+                if(availableCells.size()>0) {
+                
             }
-            else if(team.getType()==Human.class) {
-                availableCells=this.SafeZoneHumans;
-            }
-            else if(team.getType()==Orc.class) {
-                availableCells=this.SafeZoneOrcs;
-            }
-            else if(team.getType()==Troll.class) {
-                availableCells=this.SafeZoneTrolls;
             }
             else {
                 availableCells=new ArrayList<>();
+                for(int x=0;x<LENGTH;x++) {
+                    for(int y=0;y<HEIGHT;y++) {
+                        Cell cell=getCell(x,y);
+                        if(!cell.hasObstacle) {
+                            availableCells.add(cell);
+                        }
+                    }
+                }
             }
-            
-                /*switch (team.getType()) {
-                case Elfe:
-                    availableCells=this.SafeZoneElfes;
-                    break;
-                case Human:
-                    availableCells=this.SafeZoneHumans;
-                    break;
-                case Orc:
-                    availableCells=this.SafeZoneOrcs;
-                    break;
-                case Troll:
-                    availableCells=this.SafeZoneTrolls;
-                    break;
-                default:
-                    availableCells=new ArrayList<>();
-            }*/
-            if(availableCells.size()>0) {
-                for(Character character : team.getListCharacters()) {
+            for(Character character : team.getListCharacters()) {
                     int randomIndex = RandomElement.randomThrow(availableCells.size()-1,0);
                     Cell randomCell = availableCells.get(randomIndex);
                     character.setCurrentCell(randomCell);
                     randomCell.setCharacter(character);
                     availableCells.remove(randomIndex);         
                 }
-            }
+            
         }
     }
     

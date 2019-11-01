@@ -160,14 +160,13 @@ public abstract class Troll extends Enemy {
     }
     
     /**
-     * AJOUTER LA FONCTION DE DEPLACEMENT POUR S'ECHAPPER ;
      * Function to try to escape from a fight ;
      * Trolls don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
      * @return : goneAway is a boolean to indicate that the character has escaped from the fight.
      */
     @Override
-    public boolean escape()
+    public void tryToEscape(Character character)
     {
         /*
         Cost of the action ;
@@ -195,7 +194,7 @@ public abstract class Troll extends Enemy {
                     System.out.println("PERFECT! "+this.getNom()+" escapes from the fight without any problems.");
                     goneAway=true;
                     //Moving Function to go away ;
-                    //this.seDeplacer();
+                    escapeFrom(character);
             }
             else
             {
@@ -218,7 +217,7 @@ public abstract class Troll extends Enemy {
                     System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
                     goneAway=true;
                     //Moving Function to go away ;
-                    //this.seDeplacer();
+                    escapeFrom(character);
                 }
             }
         }
@@ -231,14 +230,6 @@ public abstract class Troll extends Enemy {
                         + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n");
         return(goneAway);
     }
-    
-    //Destruction d'un allié pour récupérer son xp si celui-ci est fatigué ;
-    @Override
-    public void sacrifice()
-    {
-        System.out.println("SACRIFICE!");
-    }
-    
     
     //Application de malus sur les statistiques adverses ;
     @Override
