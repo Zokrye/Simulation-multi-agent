@@ -116,7 +116,7 @@ public abstract class Orc extends Enemy {
         Test the value of PEs of the character and decide if he can attack or not ;
         Tests also the tiredness state of the opponent to kill him directly or not;
         */
-        if( this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==false)
+        if( this.getpEnergie()>=(-costAtkPE) && this.isEtatFatigue()==false && target.isEtatFatigue()==false)
         {
             /*
             Random calcul of the power of each attack and defense turn ;
@@ -190,13 +190,15 @@ public abstract class Orc extends Enemy {
      * Function to try to escape from a fight ;
      * Orcs don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
+     * @return : goneAway is a boolean to indicate that the character has escaped from the fight.
      */
     @Override
-    public void escape()
+    public boolean escape()
     {
         /*
         Cost of the action ;
         */
+        boolean goneAway=false;
         int costPEEscape=-5;
         int failingCostPE=-15;
         int failingCostPV=-2;
@@ -217,6 +219,7 @@ public abstract class Orc extends Enemy {
             if(valueEscape==99)
             {
                     System.out.println("PERFECT! "+this.getNom()+" escapes from the fight without any problems.");
+                    goneAway=true;
                     //Moving Function to go away ;
                     //this.seDeplacer();
             }
@@ -231,8 +234,8 @@ public abstract class Orc extends Enemy {
                 if(difference<0)
                 {
                     System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs and PV.");
-                    this.doCalculationPE(failingCostPV);
-                    this.doCalculationPV(failingCostPE);
+                    this.doCalculationPE(failingCostPE);
+                    this.doCalculationPV(failingCostPV);
                     //Funtion to check the life and change the dead state consquently ;
                     this.checkPVCharacter();
                     this.checkPECharacter();
@@ -240,6 +243,7 @@ public abstract class Orc extends Enemy {
                 else
                 {
                     System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
+                    goneAway=true;
                     //Moving Function to go away ;
                     //this.seDeplacer();
                 }
@@ -252,6 +256,7 @@ public abstract class Orc extends Enemy {
         }
         System.out.println("\nScoring of the step :\n"
                         + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n");
+        return(goneAway);
     }
     
     @Override

@@ -11,6 +11,8 @@ package projetconceptobjet;
  */
 public interface Wizzard {
     
+    //Constant
+    final int XP_VALUE=350;
     //Bonus ou malus sur la cible ;
     public abstract void sortStats();
     //Permet d'élargir le champs de perception du personnage lors des déplacements pour éviter ou suprimmer les ennemis

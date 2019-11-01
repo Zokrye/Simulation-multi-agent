@@ -135,9 +135,8 @@ public class ProjetConceptObjet {
         */
         for (Character character:listPlayers)
         {
-            
+            //character.seDeplacer();
         }
-        
         //End of the Turn ;
         System.out.println("=========================END OF THE TURN "+turnPosition+"==============================\n"
                 + "========================================================================");

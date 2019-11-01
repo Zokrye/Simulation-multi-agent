@@ -153,7 +153,7 @@ public abstract class Character {
         
     }
     public abstract void attack(Character target);
-    public abstract void escape();
+    public abstract boolean escape();
     /**
      * 
      * @return Whether the character is in its own Safezone or not
@@ -407,6 +407,8 @@ public abstract class Character {
         int limitTurnChoiceEnergie=0;
         //Count of turns ;
         int count=1;
+        boolean goneAway_1=false;
+        boolean goneAway_2=false;
         
         System.out.println("========================================================================\n"
                 + "=========================FIGHT=====================\n");
@@ -422,7 +424,9 @@ public abstract class Character {
                 && target.isEtatFatigue()!=true
                 && this.isEtatFatigue()!=true
                 && target.getpEnergie()>=limitTurnChoiceEnergie
-                && this.getpEnergie()>=limitTurnChoiceEnergie )
+                && this.getpEnergie()>=limitTurnChoiceEnergie
+                && goneAway_1==false
+                && goneAway_2==false)
         {
             /*
             First turn of the attacking character ;
@@ -469,7 +473,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        this.escape();
+                        goneAway_1=this.escape();
                 }
             }
             System.out.println("\n\n-----------"+target.getNom()+"------------");
@@ -477,7 +481,9 @@ public abstract class Character {
             Turn with enough PVs and PEs for the target one ;
             */
             if ( target.getpVie()/target.getpVieMax()>=0.2 
-                    && target.getpEnergie()/target.getpEnergieMax()>=0.2)
+                    && target.getpEnergie()/target.getpEnergieMax()>=0.2
+                    && this.isDead()!=true
+                    && goneAway_1!=true)
             {
                 target.attack(this);
             }
@@ -486,7 +492,9 @@ public abstract class Character {
             */
             else if ( (target.getpVie()/target.getpVieMax()<0.2 
                     || target.getpEnergie()/target.getpEnergieMax()<0.2)
-                    && target.isDead()==false)
+                    && target.isDead()==false
+                    && this.isDead()!=true
+                    && goneAway_1!=true)
             {
                 //Throws a random number to chose between escaping or fighting ;
                 int random_2=RandomElement.randomThrow(2, 0);
@@ -500,33 +508,46 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        target.escape();
+                        goneAway_2=target.escape();
                 }
             }
             System.out.println("************************************\n\n");
             count++;
         }
         /*
-        Test of each breaking situation : death or tiredness for each character ;
-        If the character is tired and alive, the opponent kill him with attacking.
+        Test of each breaking situation : death, escape or tiredness for each character ;
+        If the character is tired and alive, the opponent kill him attacking,
+        If he escaped he is safe from is opponent.
         */
         if(this.isDead()==true)
         {
             System.out.println(this.getNom()+" died during the fight. Make him rest in peace.");
+            target.winXP(this);
         }
         else if(target.isDead()==true)
         {
             System.out.println(this.getNom()+" destroyed "+target.getNom()+" during this fight. Glory for the winner.");
+            this.winXP(target);
         }
-        else if(this.isEtatFatigue()==true)
+        else if(this.isEtatFatigue()==true && goneAway_1!=true)
         {
             System.out.println(this.getNom()+" is out of breath."+target.getNom()+" decides to kill him to close the fight. Glory for the winner.");
             target.attack(this);
+            target.winXP(this);
         }
-        else if(target.isEtatFatigue()==true)
+        else if(target.isEtatFatigue()==true && goneAway_2!=true)
         {
             System.out.println(target.getNom()+" is out of breath."+this.getNom()+" decides to kill him to close the fight. Glory for the winner.");
             this.attack(target);
+            this.winXP(target);
+        }
+        else if(goneAway_1==true && this.isDead()==false)
+        {
+            System.out.println(target.getNom()+" doesn't understand what have happened. The fight is over. "+this.getNom()+" has escaped himself.");
+        }
+        else if(goneAway_2==true && target.isDead()==false)
+        {
+            System.out.println(this.getNom()+" doesn't understand what have happened. The fight is over. "+target.getNom()+" has escaped himself.");
         }
         /*
         Check the state of each character ;
@@ -636,5 +657,49 @@ public abstract class Character {
         //Sets character energy points ;
         this.setpVie(valuePV);
         System.out.println("They are now of "+this.getpVie()+"/"+this.getpVieMax()+" PV.");
+    }
+    
+    
+    public void winXP(Character target)
+    {
+        if(target.isDead()==true)
+        {
+            System.out.println("%%%%%%%%%%%%%%%%%%%%\n"
+                    + "%%%%%%%XP WON%%%%%%%");
+            int xpWinner=this.getXp();
+            if(target.getClass().getSimpleName().equals("Priest")
+                    || target.getClass().getSimpleName().equals("Prophet")
+                    || target.getClass().getSimpleName().equals("Sorcerer")
+                    || target.getClass().getSimpleName().equals("Shaman"))
+            {
+                xpWinner+=Wizzard.XP_VALUE;
+            }
+            else if(target.getClass().getSimpleName().equals("Paladin")
+                    || target.getClass().getSimpleName().equals("Hunter")
+                    || target.getClass().getSimpleName().equals("Assassin")
+                    || target.getClass().getSimpleName().equals("Berserker"))
+            {
+                xpWinner+=Warrior.XP_VALUE;
+            }
+            else if(target.getClass().getSimpleName().equals("Admiral")
+                    || target.getClass().getSimpleName().equals("TribalChef")
+                    || target.getClass().getSimpleName().equals("OrcAlpha")
+                    || target.getClass().getSimpleName().equals("TrollPackMaster"))
+            {
+                xpWinner+=Mediator.XP_VALUE;
+            }
+            System.out.println(target.getNom()+" was a(n) "+target.getClass().getSimpleName()+", "+this.getNom()+" wins "+xpWinner+" XP.");
+            if(target.getXp()>0)
+            {
+                System.out.println(target.getNom()+" had "+target.getXp()+" XP, "+this.getNom()+" steal them from him.");
+                xpWinner+=target.getXp();
+                target.setXp(0);
+            }
+            this.setXp(xpWinner);
+            System.out.println("Total XP won : "+xpWinner+" XP.\n"
+                    + this.getNom()+" has now "+this.getXp()+" XP.\n"
+                            + "%%%%%%%%%END XP WON%%%%%%%%%%\n"
+                            + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        }
     }
 }

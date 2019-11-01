@@ -11,6 +11,9 @@ package projetconceptobjet;
  */
 public interface Warrior {
     
+    //Constant
+    final int XP_VALUE=500;
+    
     //Attaque accrue;
     public abstract void manimentArmes();
     //Attaque imparable (rarement);
