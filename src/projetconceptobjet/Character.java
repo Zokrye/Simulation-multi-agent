@@ -93,7 +93,7 @@ public abstract class Character {
         else {
             List<Direction> directions=currentCell.getAvailableDirections();
             if(directions.size()>0) {
-                int randomIndex=RandomElement.randomThrow(directions.size()-1, 0);
+                int randomIndex=RandomElement.randomThrow(directions.size(), 0);
                 chosenDirection=directions.get(randomIndex);
             }
         }
@@ -124,7 +124,7 @@ public abstract class Character {
                             Character otherCharacter = nextCell.getCharacter();
                             meet(otherCharacter, remainingCells);
                         }
-                        remainingCells=0;
+                        
                     }
                     //Reset remaining cells to 0 in case the character hits an obstacle
                     else {

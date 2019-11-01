@@ -62,7 +62,7 @@ public class Map {
      */
     public static Map getinstance() {
         if(map==null) {
-            map=new Map(50,50,125);
+            map=new Map(12,12,0);
         }
         return map;
     }
