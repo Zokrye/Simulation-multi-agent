@@ -150,7 +150,8 @@ public class Team {
         //Calculation of the size of the map ;
         int mapDimension=mapLength*mapWidth;
         //Calculation of the number of characters of each team;
-        double eighthOfMap=(mapDimension)/8;
+        //double eighthOfMap=(mapDimension)/8;
+        double eighthOfMap=6;
         System.out.println("Eighth of the map : "+eighthOfMap+"; Map dimension : "+mapDimension+";");
         /*
         Creation of each team ;

@@ -131,6 +131,7 @@ public class Map {
     
     /**
      * Place all the characters at hte beginning of the game
+     * @param onlyInSafeZones :
      */
     public void placeAllCharacters(boolean onlyInSafeZones) {
         ArrayList<Team> allTeams=Team.getAllTeams();

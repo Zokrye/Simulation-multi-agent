@@ -118,13 +118,16 @@ public abstract class Elfe extends Hero {
      * Function to try to escape from a fight ;
      * Elves don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
+     * @param character : targetted character of the fight.
+     * @return : goneAway is a boolean to indicate that the character has escaped from the fight.
      */
     @Override
-    public void tryToEscape(Character character)
+    public boolean tryToEscape(Character character)
     {
         /*
         Cost of the action ;
         */
+        boolean goneAway=false;
         int failingCostPE=-10;
         int failingCostPV=-5;
         System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
@@ -157,6 +160,7 @@ public abstract class Elfe extends Hero {
         if(valueEscape==99)
         {
                 System.out.println("PERFECT! "+this.getNom()+" escapes from the fight without any problems.");
+                goneAway=true;
                 //Moving Function to go away ;
                 escapeFrom(character);
         }
@@ -180,12 +184,14 @@ public abstract class Elfe extends Hero {
             else
             {
                 System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
+                goneAway=true;
                 //Moving Function to go away ;
                 escapeFrom(character);
             }
         }
         System.out.println("\nScoring of the step :\n"
                         + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n");
+        return(goneAway);
     }
         
     //Distribue des points de vie aux alliés rencontrés ;

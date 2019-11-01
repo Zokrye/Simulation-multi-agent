@@ -10,7 +10,8 @@ package projetconceptobjet;
  * @author ISEN
  */
 public interface Mediator {
-    
+    //Constant
+    final int XP_VALUE=750;
     //Permet d'entamer des négociations de paix entre les différentes espèces ;
     public abstract void negociation();
     //Permet d'appeler les alliés à se regrouper aux alentours
