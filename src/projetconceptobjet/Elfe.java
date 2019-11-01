@@ -260,7 +260,7 @@ public abstract class Elfe extends Hero {
         //Initializing of the team instance ;
         Team e_team=new Team();
         //Set the total number of elfes in game ;
-        Orc.setNbOrcsInGame(nbPerso);
+        Elfe.setNbElfesInGame(nbPerso);
         e_team.setTotalCharacterTeam(nbPerso);
         e_team.setType(Elfe.class);
         //Create the list of the team ;

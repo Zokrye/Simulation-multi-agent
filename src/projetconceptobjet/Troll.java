@@ -146,7 +146,7 @@ public abstract class Troll extends Enemy {
                     + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n"
                     + target.getNom()+" : "+target.getpVie()+"/"+target.getpVieMax()+" PV & "+target.getpEnergie()+"/"+target.getpEnergieMax()+" PE ;");
         }
-        else if (this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
+        else if (this.getpEnergie()>=(-costAtkPE) && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
         {
             this.doCalculationPE(costAtkPE);
             target.setpVie(0);

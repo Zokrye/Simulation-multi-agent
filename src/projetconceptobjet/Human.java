@@ -154,7 +154,7 @@ public abstract class Human extends Hero {
                     + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n"
                     + target.getNom()+" : "+target.getpVie()+"/"+target.getpVieMax()+" PV & "+target.getpEnergie()+"/"+target.getpEnergieMax()+" PE ;");
         }
-        else if (this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
+        else if (this.getpEnergie()>=(-costAtkPE) && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
         {
             this.doCalculationPE(costAtkPE);
             target.setpVie(0);
@@ -266,6 +266,8 @@ public abstract class Human extends Hero {
         Admiral captain=new Admiral();
         //Rename the new instance ;
         captain.setNom("Admiral_1");
+        //Adding one Admiral to the count;
+        Admiral.setNbAdmiralInGame(1);
         //Adding of the Admiral to the team ;
         team.add(captain);
         

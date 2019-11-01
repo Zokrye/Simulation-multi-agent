@@ -646,6 +646,7 @@ public abstract class Character {
             this.setpEnergie(0);
             //Informatrion of the user ;
             System.out.println(this.getNom()+" is dead.");
+            //Update statistics of the simulation
         }
         else
         {
@@ -739,4 +740,7 @@ public abstract class Character {
                             + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         }
     }
+    
+    
+    //public abstract void updateStats();
 }
