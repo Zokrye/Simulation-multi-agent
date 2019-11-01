@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class Map {
     protected final int SIZE_SAFE_ZONE=5;
-    protected Integer HEIGHT;
-    protected Integer LENGTH;
+    protected static Integer HEIGHT=0;
+    protected static Integer LENGTH=0;
     protected Integer NB_OBSTACLES;
     //protected List<Cell> cells;
     protected Cell[][] cells;
@@ -62,7 +62,12 @@ public class Map {
      */
     public static Map getinstance() {
         if(map==null) {
-            map=new Map(50,50,125);
+            if(HEIGHT!=0 && LENGTH!=0) {
+                map=new Map(LENGTH,HEIGHT, (int) (0.5*LENGTH*HEIGHT)); 
+            }
+            else {
+                map=new Map(12,12,0); 
+            }
         }
         return map;
     }
@@ -164,7 +169,7 @@ public class Map {
                 }
             }
             for(Character character : team.getListCharacters()) {
-                    int randomIndex = RandomElement.randomThrow(availableCells.size()-1,0);
+                    int randomIndex = RandomElement.randomThrow(availableCells.size(),0);
                     Cell randomCell = availableCells.get(randomIndex);
                     character.setCurrentCell(randomCell);
                     randomCell.setCharacter(character);

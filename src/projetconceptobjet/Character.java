@@ -53,7 +53,7 @@ public abstract class Character {
     /*Methods*/
     
     public void seDeplacer() {
-        int remainingCells = RandomElement.randomThrow(maxMovement, 1);
+        int remainingCells = RandomElement.randomThrow(maxMovement+1, 1);
         
         Cell nextCell=null;
         Direction chosenDirection=null;
@@ -93,7 +93,7 @@ public abstract class Character {
         else {
             List<Direction> directions=currentCell.getAvailableDirections();
             if(directions.size()>0) {
-                int randomIndex=RandomElement.randomThrow(directions.size()-1, 0);
+                int randomIndex=RandomElement.randomThrow(directions.size(), 0);
                 chosenDirection=directions.get(randomIndex);
             }
         }
@@ -103,9 +103,7 @@ public abstract class Character {
                     if(!nextCell.hasObstacle ) {
                         if(nextCell.character==null) {
                             moveTo(nextCell);
-                            if(pVie<pVieMax) {
-                                pVie++;
-                            }
+                            doCalculationPV(1);
                             if(isInSafeZone()){
                                 if(this.pEnergie<=pEnergieMax-3) {
                                     pEnergie+=3;
@@ -124,7 +122,6 @@ public abstract class Character {
                             Character otherCharacter = nextCell.getCharacter();
                             meet(otherCharacter, remainingCells);
                         }
-                        remainingCells=0;
                     }
                     //Reset remaining cells to 0 in case the character hits an obstacle
                     else {
