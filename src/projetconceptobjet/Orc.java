@@ -86,12 +86,7 @@ public abstract class Orc extends Enemy {
     {
         System.out.println("HARCELEMENT!");
     }
-    
-    @Override
-    public void seDeplacer()
-    {
-        System.out.println("DEPLACEMENT!");
-    }
+
     
     /**
      * Function that allows to engage an enemy on the map during a fight;

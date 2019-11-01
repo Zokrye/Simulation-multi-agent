@@ -65,7 +65,7 @@ public class ProjetConceptObjet {
             }*/
         //////////////////////////////////////////////////////////////
         //////////////TEST CREATION D'EQUIPES ALEATOIRE////////////
-        ArrayList<Team> allTeams=Team.randomTeamsCreation(12,12);
+        /*ArrayList<Team> allTeams=Team.randomTeamsCreation(12,12);
         
         //Recup of teams ;
         Team test=Team.recupTeamFromTheList(allTeams, Human.class);
@@ -75,7 +75,6 @@ public class ProjetConceptObjet {
         
         ///////////////////////////////////////////////////////////////
         /////////////TEST OF TURNS/////////////////////////////////////
-        ProjetConceptObjet.newTurn(1,allTeams);
         System.out.println("/////////////////////////Tests attaques des classes.////////////////////////");
         Hunter elfe_test=new Hunter();
         elfe_test.setNom("Hunter_test");
@@ -89,7 +88,7 @@ public class ProjetConceptObjet {
         orc_test.setpVie(20);
         elfe_test.setpEnergie(5);
         orc_test.setpEnergie(5);
-        elfe_test.fight(orc_test);
+        //elfe_test.fight(orc_test);
         //elfe_test.attack(troll_test);
         //troll_test.setpVie(2);
         //elfe_test.attack(troll_test);
@@ -111,11 +110,31 @@ public class ProjetConceptObjet {
         System.out.println("/////////////////////////Tests Map////////////////////////");
         Map map=Map.getinstance();
         map.placeAllCharacters(false);
-        map.displayMap();
+        ProjetConceptObjet.newTurn(1,allTeams);
+        map.displayMap();*/
         
-        
+        ProjetConceptObjet.allGame();
     }
     
+    
+    public static void allGame()
+    {
+        //Map creation
+        Map mapOfGame=Map.getinstance();
+        //Team creation
+        ArrayList<Team> allTeams=Team.randomTeamsCreation(mapOfGame.HEIGHT, mapOfGame.LENGTH);
+        //Place chracters on the map
+        mapOfGame.placeAllCharacters(false);
+        //Number of turns to do in game ;
+        int nb_Turns=2;
+        //Display of the map
+        mapOfGame.displayMap();
+        //Browse of turns
+        for(int turn=0;turn<nb_Turns; turn++)
+        {
+            ProjetConceptObjet.newTurn(0, allTeams);
+        }
+    }
     
     /**
      * Function launching a new turn in the simulation ;
@@ -125,18 +144,35 @@ public class ProjetConceptObjet {
     public static void newTurn(int turnPosition, ArrayList<Team> allTeams)
     {
         //Limit of the beggining of the new turn ;
-        System.out.println("---------------------------------------------------------------\n"
-                + "--------------------------TURN "+turnPosition+"-------------------------------");
+        System.out.println("=====================================================================\n"
+                + "=======================TURN "+turnPosition+"====================================");
         //List of characters ordered for the turn ;
         ArrayList<Character> listPlayers=RandomElement.randomOrderOfGameForTheTurn(allTeams);
+        Map mapOfGame=Map.getinstance();
         
         /*
         Cursing of the list to make each character play ;
         */
         for (Character character:listPlayers)
         {
-            //character.seDeplacer();
+            System.out.println("#####################################################################\n"
+                    + "#####################TURN PERSO : "+character.getNom()+"#########################");
+            /*
+            Action of each character ;
+            Test if the character is dead or not ;
+            */
+            if(character.isDead()==false && character.isEtatFatigue()==false)
+            {
+                character.seDeplacer();
+            }
+            else if(character.isEtatFatigue())
+            {
+                System.out.println(character.getNom()+" is tired, he can't play this turn and waits for some help.");
+            }
+            System.out.println("#######################END OF THE TURN : "+character.getNom()+"################################\n"
+                    + "########################################################################################\n");
         }
+        mapOfGame.displayMap();
         //End of the Turn ;
         System.out.println("=========================END OF THE TURN "+turnPosition+"==============================\n"
                 + "========================================================================");

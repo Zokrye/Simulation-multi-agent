@@ -85,12 +85,6 @@ public abstract class Human extends Hero {
         System.out.println("SOIN!");
     }
     
-    @Override
-    public void seDeplacer()
-    {
-        System.out.println("DEPLACEMENT!");
-    }
-    
     
     /**
      * Function that allows to engage an enemy on the map during a fight;
