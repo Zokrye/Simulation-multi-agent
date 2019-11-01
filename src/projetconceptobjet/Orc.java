@@ -180,6 +180,7 @@ public abstract class Orc extends Enemy {
      * Function to try to escape from a fight ;
      * Orcs don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
+     * @param character : targetted character of the fight;
      * @return : goneAway is a boolean to indicate that the character has escaped from the fight.
      */
     @Override

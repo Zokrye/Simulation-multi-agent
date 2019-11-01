@@ -181,7 +181,7 @@ public abstract class Character {
     
     public abstract void meet(Character otherCharacter, int remainingCells);
     public abstract void attack(Character target);
-    public abstract void tryToEscape(Character character);
+    public abstract boolean tryToEscape(Character character);
     /**
      * 
      * @return Whether the character is in its own Safezone or not
@@ -501,8 +501,8 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        this.tryToEscape(target);
-                        goneAway_1=this.escape();
+                        goneAway_1=this.tryToEscape(target);
+                        break;
                 }
             }
             System.out.println("\n\n-----------"+target.getNom()+"------------");
@@ -537,8 +537,8 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        target.tryToEscape(target);
-                        goneAway_2=target.escape();
+                        goneAway_2=target.tryToEscape(target);
+                        break;
                 }
             }
             System.out.println("************************************\n\n");

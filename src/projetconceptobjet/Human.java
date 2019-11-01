@@ -177,6 +177,7 @@ public abstract class Human extends Hero {
      * Function to try to escape from a fight ;
      * Humans don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
+     * @param character : targetted character of the fight.
      * @return : goneAway is a boolean to indicate that the character has escaped from the fight.
      */
     @Override

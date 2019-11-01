@@ -163,6 +163,7 @@ public abstract class Troll extends Enemy {
      * Function to try to escape from a fight ;
      * Trolls don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
+     * @param character : targetted character of the fight,
      * @return : goneAway is a boolean to indicate that the character has escaped from the fight.
      */
     @Override
