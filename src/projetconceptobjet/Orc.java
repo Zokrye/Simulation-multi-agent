@@ -183,7 +183,7 @@ public abstract class Orc extends Enemy {
      * @return : goneAway is a boolean to indicate that the character has escaped from the fight.
      */
     @Override
-    public void tryToEscape(Character character)
+    public boolean tryToEscape(Character character)
     {
         /*
         Cost of the action ;
