@@ -88,7 +88,7 @@ public class ProjetConceptObjet {
         orc_test.setpVie(20);
         elfe_test.setpEnergie(5);
         orc_test.setpEnergie(5);
-        //elfe_test.fight(orc_test);
+        elfe_test.fight(orc_test);
         //elfe_test.attack(troll_test);
         //troll_test.setpVie(2);
         //elfe_test.attack(troll_test);
@@ -102,7 +102,7 @@ public class ProjetConceptObjet {
         //orc_test.attack(human_test);
         //orc_test.checkPVCharacter();
         
-        System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
+        /*System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
         //elfe_test.tryToEscape();
         
         ///////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ public class ProjetConceptObjet {
         //Place chracters on the map
         mapOfGame.placeAllCharacters(false);
         //Number of turns to do in game ;
-        int nb_Turns=2;
+        int nb_Turns=10000;
         //Display of the map
         mapOfGame.displayMap();
         //Browse of turns

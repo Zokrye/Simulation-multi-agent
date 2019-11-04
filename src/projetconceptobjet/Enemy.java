@@ -60,7 +60,7 @@ public abstract class Enemy extends Character {
     public void sacrifice(Character character) {     
         if(this.isSameRace(character)) {
             //Steal the half of his life
-            character.doCalculationPE(-character.getpVie()/2);
+            character.doCalculationPV(-character.getpVie()/2);
             this.doCalculationPV(character.getpVie()/2);
             
         }
