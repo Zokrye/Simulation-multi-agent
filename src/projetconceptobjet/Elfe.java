@@ -15,6 +15,7 @@ public abstract class Elfe extends Hero {
     
     private static int nbElfesInGame;
     private static Class weakness;
+    private static Team elfeTeam;
     
     
     @Override
@@ -22,12 +23,41 @@ public abstract class Elfe extends Hero {
         return this.currentCell.getZone()==Zone.SafeZoneElf;
     }
     
+    /*
+    Getters ;
+    */
+    public static int getNbElfesInGame() {
+    
+        return nbElfesInGame;
+    
+    }
+    public static Class getWeakness() {
+    
+        return weakness;
+    }
+
+    public static Team getElfeTeam() {
+        return elfeTeam;
+    }
+    
+    
+    /*
+    Setters ;
+    */
     public static void setNbElfesInGame(int nbElfesInGame) {
         Elfe.nbElfesInGame = nbElfesInGame;
     }
     public static void setWeakness(Class weakness) {
         Elfe.weakness = weakness;
     }
+    
+    public static void setElfeTeam(Team elfeTeam) {
+        Elfe.elfeTeam = elfeTeam;
+    }
+    
+    /*
+    Constructor ;
+    */
     public Elfe(int pEnergie,int pEnergieMax,int pVie,int pVieMax, int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
@@ -91,9 +121,10 @@ public abstract class Elfe extends Hero {
             */
             else if(result>0)
             {
-                int persoLife=this.getpVie();
-                persoLife-=result;
-                this.setpVie(persoLife);
+                this.doCalculationPV(-result);
+                //int persoLife=this.getpVie();
+                //persoLife-=result;
+                //this.setpVie(persoLife);
                 this.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
@@ -216,22 +247,6 @@ public abstract class Elfe extends Hero {
         return character instanceof Elfe;
     }
 
-    
-    /*
-    Getters ;
-    */
-    public static int getNbElfesInGame() {
-    
-        return nbElfesInGame;
-    
-    }
-    public static Class getWeakness() {
-    
-        return weakness;
-    }
-    /*
-    Setters ;
-    */
 
     //Permet de prendre la main sur les attaques lors des combats après le premier tour de jeux (attaque en premier);
     public void celerite()
@@ -346,8 +361,10 @@ public abstract class Elfe extends Hero {
         */
         Prophet.setNbProphettInGame(nbProphets);
         Hunter.setNbHunterInGame(nbHunters);
+        //Set the static variable of the team ;
+        Elfe.setElfeTeam(e_team);
         //Returns the list of Elfe team mates;
-        return(e_team);
+        return(elfeTeam);
     }
     
 }

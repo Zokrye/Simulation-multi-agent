@@ -135,9 +135,10 @@ public abstract class Troll extends Enemy {
             */
             else if(result>0)
             {
-                int persoLife=this.getpVie();
-                persoLife-=result;
-                this.setpVie(persoLife);
+                this.doCalculationPV(-result);
+                //int persoLife=this.getpVie();
+                //persoLife-=result;
+                //this.setpVie(persoLife);
                 this.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
@@ -282,11 +283,11 @@ public abstract class Troll extends Enemy {
         /*
         Preapre the variables to get the total number of each element of the characters ;
         */
-        int nbPVTeamMax=0;
-        int nbPVTeam=0;
-        int nbPETeamMax=0;
-        int nbPETeam=0;
-        int nbXpTeam=0;
+        int nbPVTeamMax=captain.getpVieMax();
+        int nbPVTeam=captain.getpVie();
+        int nbPETeamMax=captain.getpEnergieMax();
+        int nbPETeam=captain.getpEnergie();
+        int nbXpTeam=captain.getXp();
         /*
         Creation of the right number of characters to put them in the list ;
         */
@@ -300,12 +301,14 @@ public abstract class Troll extends Enemy {
                 Instantiation of a Paladin,increasing of the number of instance and setting of its name ;
                 */
                 newPerso = new Berserker();
+                //System.out.println("Troll berserker : "+newPerso.getpVie()+" PV ;");
                 nbBerserkers++;
                 newPerso.setNom("Berserker_"+nbBerserkers);
                 /*
                 Initializing of the all elements of the team ;
                 */
                 nbPVTeam+=newPerso.getpVie();
+                //System.out.println("Warrior PV troll team : "+nbPVTeam+" PV ; pv ajout : "+newPerso.getpVie()+" PV ;");
                 nbPVTeamMax+=newPerso.getpVieMax();
                 nbPETeam+=newPerso.getpEnergie();
                 nbPETeamMax+=newPerso.getpEnergieMax();
@@ -323,6 +326,7 @@ public abstract class Troll extends Enemy {
                 Initializing of the all elements of the team ;
                 */
                 nbPVTeam+=newPerso.getpVie();
+                //System.out.println("Mage PV troll team : "+nbPVTeam+" PV ; pv ajout : "+newPerso.getpVie()+" PV ;");
                 nbPVTeamMax+=newPerso.getpVieMax();
                 nbPETeam+=newPerso.getpEnergie();
                 nbPETeamMax+=newPerso.getpEnergieMax();

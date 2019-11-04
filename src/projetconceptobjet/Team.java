@@ -22,7 +22,6 @@ public class Team {
     private int totalEnergyPointTeam;
     private Class type;
     private static int nbOfTeam;
-    //private static ArrayList<
     private static ArrayList<Team> allTeams;
     
     /*Getters*/
@@ -192,5 +191,58 @@ public class Team {
         return(allTeams);
     }
      
+    
+    /**
+     * Function to calculate and set the values of all teams in the list : total life, total energie, total xp ;
+     * @param allTeams : List of teams ;
+     * @param orderedList : List of characters in game ;
+     */
+    public static void updateTeamLife(ArrayList<Team> allTeams,ArrayList<Character> orderedList)
+    {
+        /*
+        Initializing the sums of each parameter ;
+        */
+        int e_life;
+        int e_xp;
+        int e_energie;        
+        
+        /*
+        Go through all teams of the list ;
+        */
+        for(Team team:allTeams)
+        {
+            /*
+            Initializing values of each sums to 0 ;
+            */
+           e_life=0;
+           e_xp=0;
+           e_energie=0;
+           /*
+           Go through the list of characters ordered ;
+           */
+           for(Character character:orderedList)
+           {
+               /*
+               Test if the character is a part of the team ;
+               */
+               if(team.getType().isInstance(character))
+               {
+                   /*
+                   Add his stats to the sums ;
+                   */
+                   e_life+=character.getpVie();
+                   //System.out.println(character.getNom()+" : "+character.getpVie()+"/"+character.getpVieMax()+" PV et pour le total : "+e_life+" PV;");
+                   e_xp+=character.getXp();
+                   e_energie+=character.getpEnergie();
+               }
+           }
+           /*
+           Set the team stats with the sums ;
+           */
+           team.setLifePointTeam(e_life);
+           team.setEnergyPointTeam(e_energie);
+           team.setXpTeam(e_xp);
+        }
+    }
     
 }

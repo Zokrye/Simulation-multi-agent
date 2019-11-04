@@ -143,9 +143,10 @@ public abstract class Human extends Hero {
             */
             else if(result>0)
             {
-                int persoLife=this.getpVie();
-                persoLife-=result;
-                this.setpVie(persoLife);
+                this.doCalculationPV(-result);
+                //int persoLife=this.getpVie();
+                //persoLife-=result;
+                //this.setpVie(persoLife);
                 this.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }

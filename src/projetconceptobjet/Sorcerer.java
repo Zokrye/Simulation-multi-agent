@@ -17,7 +17,7 @@ public final class Sorcerer extends Orc implements Wizzard{
     
     public Sorcerer()
     {
-        super(200,200,300,300,35,25);
+        super(300,300,200,200,35,25);
         this.mana=200;
         this.manaMax=200;
     }

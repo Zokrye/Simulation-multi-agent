@@ -693,13 +693,24 @@ public abstract class Character {
     }
     
     
+    /**
+     * Function that allows to win some xp for the winning character of the fight ;
+     * @param target : Target who has been killed by the character.
+     */
     public void winXP(Character target)
     {
+        //Tests if the target is dead ;
         if(target.isDead()==true)
         {
+            //If the target is dead, the xp winnig phase can begin ;
             System.out.println("%%%%%%%%%%%%%%%%%%%%\n"
                     + "%%%%%%%XP WON%%%%%%%");
+            //We get the existing xp value of the winning character ;
             int xpWinner=this.getXp();
+            /*
+            We test to which class the target was a part of 
+            and we attribute the required value of xps;
+            */
             if(target.getClass().getSimpleName().equals("Priest")
                     || target.getClass().getSimpleName().equals("Prophet")
                     || target.getClass().getSimpleName().equals("Sorcerer")
@@ -721,14 +732,21 @@ public abstract class Character {
             {
                 xpWinner+=Mediator.XP_VALUE;
             }
+            //Print some information about the victime ;
             System.out.println(target.getNom()+" was a(n) "+target.getClass().getSimpleName()+", "+this.getNom()+" wins "+xpWinner+" XP.");
+            /*
+            We test if the target had some xp points,
+            If it is the case, the winner take all xp points from the loser ;
+            */
             if(target.getXp()>0)
             {
                 System.out.println(target.getNom()+" had "+target.getXp()+" XP, "+this.getNom()+" steal them from him.");
                 xpWinner+=target.getXp();
                 target.setXp(0);
             }
+            //We set the xp points of the winner ;
             this.setXp(xpWinner);
+            //We print the result of the match ;
             System.out.println("Total XP won : "+xpWinner+" XP.\n"
                     + this.getNom()+" has now "+this.getXp()+" XP.\n"
                             + "%%%%%%%%%END XP WON%%%%%%%%%%\n"
