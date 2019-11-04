@@ -268,6 +268,12 @@ public abstract class Character {
         }
     }
     
+    public void kill() {
+        this.pVie=0;
+        this.dead = true;
+        this.currentCell.setCharacter(null);
+    }
+    
     /*
     Getters
     */
@@ -384,7 +390,6 @@ public abstract class Character {
     
     public void setDead(boolean dead) {
         this.dead = dead;
-        this.currentCell.setCharacter(null);
     }
     
     public void setStrenghtPoints(int strenghtPoints) {
@@ -495,7 +500,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        //goneAway_1=this.tryToEscape(target);
+                        goneAway_1=this.tryToEscape(target);
                         break;
                 }
             }
@@ -531,7 +536,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        //goneAway_2=target.tryToEscape(target);
+                        goneAway_2=this.tryToEscape(target);
                         break;
                 }
             }
@@ -658,13 +663,13 @@ public abstract class Character {
         if(pEnergie+value>=pEnergieMax) {
             pEnergie=pEnergieMax;
         }
-        else if(pEnergie+value<0) {
+        else if(pEnergie+value<=0) {
             pEnergie=0;
             this.etatFatigue=true;
         }
         else {
             pEnergie+=value;
-            System.out.println(this.getNom()+" is tired.");
+            this.etatFatigue=false;
         }
         System.out.println("They are now of "+pEnergie+"/"+pEnergieMax+" PE.");
         

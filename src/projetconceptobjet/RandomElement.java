@@ -79,7 +79,6 @@ public class RandomElement {
             */
             for(Character character:listCharactersOfTheTeam)
             {
-                
                 if(Elfe.class.isInstance(character))
                 {
                     character.setDead(true);

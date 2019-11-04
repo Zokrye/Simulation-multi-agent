@@ -68,7 +68,7 @@ public abstract class Enemy extends Character {
             //Kills the character, steal the half of his life and his strenght
             this.doCalculationPV(character.getpVie()/2);
             this.strenghtPoints+=character.getStrenghtPoints()/2;
-            character.setDead(true);
+            character.kill();
         }
     }
     

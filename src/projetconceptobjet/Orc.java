@@ -127,16 +127,13 @@ public abstract class Orc extends Enemy {
             //Calulation of the end of the step ;
             int result=valueDEF-valueATK;
 
+            target.doCalculationPV(result);
+            target.checkPVCharacter();
             /*
             If the result is negative, the target is shot with damages ;
             */
             if(result<0)
-            {
-                target.doCalculationPV(result);
-                //int targetLife=target.getpVie();
-                //targetLife+=result;
-                //target.setpVie(targetLife);
-                target.checkPVCharacter();
+            {  
                 System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
 
@@ -145,10 +142,6 @@ public abstract class Orc extends Enemy {
             */
             else if(result>0)
             {
-                int persoLife=this.getpVie();
-                persoLife-=result;
-                this.setpVie(persoLife);
-                this.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
 
@@ -160,7 +153,7 @@ public abstract class Orc extends Enemy {
         else if (this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
         {
             //this.doCalculationPE(costAtkPE);
-            target.setpVie(0);
+            target.kill();
             System.out.println(target.getNom()+" was too tired to resist. "+this.getNom()+" slices him easily.");
         }
         //The character can't attack because of his lack of PEs ;
