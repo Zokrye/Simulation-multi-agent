@@ -45,4 +45,32 @@ public final class TrollPackMaster extends Troll implements Mediator {
     {
         System.out.println("RALLIEMENT!");
     }
+    
+    
+    /**
+     * Function to update the number of each type of charaters when one is killed ;
+     */
+    /*@Override
+    public void updateStats()
+    {
+       if(this.isDead()==true)
+       {
+           //Decrease the number of characters alive ;
+           int nbCharacterInGame=Character.getNbCharactersInGame();
+           nbCharacterInGame--;
+           Character.setNbCharactersInGame(nbCharacterInGame);
+           //Decrease the number of Enemies alive ;
+           int nbEnemies=Enemy.getNbEnemiesInGame();
+           nbEnemies--;
+           Enemy.setNbEnemiesInGame(nbEnemies);
+           //Decrease the number of Trolls alive ;
+           int nbTrolls=Troll.getNbTrollsInGame();
+           nbTrolls--;
+           Troll.setNbTrollsInGame(nbTrolls);
+           //Decrease the number of TPM alive ;
+           int nbTPM=TrollPackMaster.getNbTrollPackMasterInGame();
+           nbTPM--;
+           TrollPackMaster.setNbTrollPackMasterInGame(nbTPM);
+       }
+    }*/
 }

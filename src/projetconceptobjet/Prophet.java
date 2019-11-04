@@ -17,7 +17,7 @@ public class Prophet extends Elfe implements Wizzard  {
     
     public Prophet()
     {
-        super(150,150,300,300,35,35);
+        super(300,300,150,150,35,35);
         this.mana=200;
         this.manaMax=200;
     }
