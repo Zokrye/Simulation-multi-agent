@@ -13,13 +13,21 @@ public class Prophet extends Elfe implements Wizzard  {
     
     private int mana;
     private int manaMax;
-    private static int nbProphetInGame;
+    private static int nbProphetsInGame;
     
     public Prophet()
     {
         super(300,300,150,150,35,35);
         this.mana=200;
         this.manaMax=200;
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbProphetsInGame--;
+        nbElfesInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
     }
 
     
@@ -35,7 +43,7 @@ public class Prophet extends Elfe implements Wizzard  {
     }
     
     public static int getNbProphetInGame() {
-        return nbProphetInGame;
+        return nbProphetsInGame;
     }
 
     
@@ -51,7 +59,7 @@ public class Prophet extends Elfe implements Wizzard  {
     }
 
     public static void setNbProphettInGame(int nbProphetInGame) {
-        Prophet.nbProphetInGame = nbProphetInGame;
+        Prophet.nbProphetsInGame = nbProphetInGame;
     }
     
     

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class Orc extends Enemy {
     
-    private static int nbOrcsInGame;
+    protected static int nbOrcsInGame;
     private static Class weakness;
     
     
@@ -30,6 +30,8 @@ public abstract class Orc extends Enemy {
         this.maxMovement=4;
     }
 
+    @Override
+    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -134,7 +136,7 @@ public abstract class Orc extends Enemy {
             */
             if(result<0)
             {  
-                System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+target.getNom()+" : his life is now : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
 
             /*
@@ -142,7 +144,7 @@ public abstract class Orc extends Enemy {
             */
             else if(result>0)
             {
-                System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+this.getNom()+" : his life is now : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
 
             //Printing of the result of the step ;
@@ -184,7 +186,7 @@ public abstract class Orc extends Enemy {
         int failingCostPV=-2;
         if(this.getpEnergie()>=(-costPEEscape))
         {
-            System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
+            System.out.println("ESCAPE : "+this.getNom()+" try to escape the fight.");
             //this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;
@@ -245,7 +247,7 @@ public abstract class Orc extends Enemy {
     }
     
     /**
-     * Function allows to create a team of Orcs with an OrcAlpha and a random
+     * Function allows to create a team of Orcs with an AlphaOrc and a random
      * distribution of Mage and Warriors, whose the number of team mates is given ;
      * @param nbPerso : number of team mates ;
      * @return : team : ArrayList of Orcs containning all characters of the team ;
@@ -261,10 +263,10 @@ public abstract class Orc extends Enemy {
         //Create the list of the team ;
         ArrayList<Orc> team=new ArrayList<>();
         //Creation of the Admiral of the team ;
-        OrcAlpha captain=new OrcAlpha();
+        AlphaOrc captain=new AlphaOrc();
         //Rename the new instance ;
         captain.setNom("OrcAlpha_1");
-        OrcAlpha.setNbOrcAlphaInGame(1);
+        AlphaOrc.setNbOrcAlphaInGame(1);
         //Adding of the Admiral to the team ;
         team.add(captain);
         

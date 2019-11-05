@@ -13,7 +13,7 @@ public final class Priest extends Human implements Wizzard {
     
     private int mana;
     private int manaMax;
-    private static int nbPriestInGame;
+    private static int nbPriestsInGame;
     
     public Priest()
     {
@@ -35,7 +35,15 @@ public final class Priest extends Human implements Wizzard {
     }
     
     public static int getNbPriestInGame() {
-        return nbPriestInGame;
+        return nbPriestsInGame;
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbPriestsInGame--;
+        nbHumansInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
     }
 
     
@@ -51,7 +59,7 @@ public final class Priest extends Human implements Wizzard {
     }
 
     public static void setNbPriestInGame(int nbPriestInGame) {
-        Priest.nbPriestInGame = nbPriestInGame;
+        Priest.nbPriestsInGame = nbPriestInGame;
     }
     
     

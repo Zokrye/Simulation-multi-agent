@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class Human extends Hero {
     
-    private static int nbHumansInGame;
+    protected static int nbHumansInGame;
     private static Class weakness;
     
     public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
@@ -28,6 +28,9 @@ public abstract class Human extends Hero {
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneMan;
     }
+    
+    @Override
+    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -132,7 +135,7 @@ public abstract class Human extends Hero {
             if(result<0)
             {
                 
-                System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+target.getNom()+" : his life is now : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
 
             /*
@@ -140,7 +143,7 @@ public abstract class Human extends Hero {
             */
             else if(result>0)
             {
-                System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+this.getNom()+" : his life is now : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
 
             //Printing of the result of the step ;
@@ -179,7 +182,7 @@ public abstract class Human extends Hero {
         int failingCostPV=-5;
         if(this.getpEnergie()>=(-costPEEscape))
         {
-            System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
+            System.out.println("ESCAPE : "+this.getNom()+" try to escape the fight.");
             //this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;

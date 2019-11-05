@@ -130,10 +130,13 @@ public class ProjetConceptObjet {
         //Display of the map
         mapOfGame.displayMap();
         //Browse of turns
-        for(int turn=1;turn<=nb_Turns; turn++)
-        {
+        int turn=0;
+        while(Hero.nbHeroesInGame!=0 && Enemy.nbEnemiesInGame!=0) {
             ProjetConceptObjet.newTurn(turn, allTeams);
+            turn++;
         }
+        System.out.println("The game has ended");
+        
     }
     
     /**
@@ -164,9 +167,9 @@ public class ProjetConceptObjet {
             */
             if(character.isDead()==false && character.isEtatFatigue()==false)
             {
-                System.out.println("Cellule du personnage : "+character.getCurrentCell().x+" ; "+character.getCurrentCell().y);
+                System.out.println("Cell of the character : "+character.getCurrentCell().x+" ; "+character.getCurrentCell().y);
                 character.seDeplacer();
-                System.out.println("Cellule du personnage : "+character.getCurrentCell().x+" ; "+character.getCurrentCell().y);
+                System.out.println("Cell of the character : "+character.getCurrentCell().x+" ; "+character.getCurrentCell().y);
             }
             else if(character.isEtatFatigue())
             {
@@ -194,7 +197,7 @@ public class ProjetConceptObjet {
                 + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Orc.class).getEnergyPointTeam()+"/"+Team.recupTeamFromTheList(allTeams, Orc.class).getTotalEnergyPointTeam()+" PE ;\n"
                 + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Orc.class).getXpTeam()+" XP ;\n"
                 + "\t\tNumber of Orcs in game : "+Orc.getNbOrcsInGame()+" ;\n"
-                + "\t\tNumber of Orc Alpha alive : "+OrcAlpha.getNbOrcAlphaInGame()+" ;\n"
+                + "\t\tNumber of Orc Alpha alive : "+AlphaOrc.getNbOrcAlphaInGame()+" ;\n"
                 + "\t\tNumber of Sorcerer alive : "+Sorcerer.getNbSorcererInGame()+" ;\n"
                 + "\t\tNumber of Assassins alive : "+Assassin.getNbAssassinInGame()+" ;\n"
                 + "\to Team Human :\n"
@@ -210,7 +213,7 @@ public class ProjetConceptObjet {
                 + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Elfe.class).getEnergyPointTeam()+"/"+Team.recupTeamFromTheList(allTeams, Elfe.class).getTotalEnergyPointTeam()+" PE ;\n"
                 + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Elfe.class).getXpTeam()+" XP ;\n"
                 + "\t\tNumber of Elves in game : "+Elfe.getNbElfesInGame()+" ;\n"
-                + "\t\tNumber of Tribal Chef alive : "+TribalChef.getNbTribalChefInGame()+" ;\n"
+                + "\t\tNumber of Tribal Chef alive : "+TribalChief.getNbTribalChefInGame()+" ;\n"
                 + "\t\tNumber of Prophets alive : "+Prophet.getNbProphetInGame()+" ;\n"
                 + "\t\tNumber of Hunters alive : "+Hunter.getNbHunterInGame()+" ;\n");
         mapOfGame.displayMap();

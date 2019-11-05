@@ -11,19 +11,25 @@ package projetconceptobjet;
  */
 public final class Admiral extends Human implements Mediator {    
     
-    private static int nbAdmiralInGame;
+    private static int nbAdmiralsInGame;
     
     public Admiral()
     {
         super(300,300,500,500,60,40);
     }
 
-    
+    @Override
+    public void removeOneCharacter() {
+        nbAdmiralsInGame--;
+        nbHumansInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
+    }
     /*
     Getters ;
     */
     public static int getNbAdmiralInGame() {
-        return nbAdmiralInGame;
+        return nbAdmiralsInGame;
     }
     
     
@@ -31,7 +37,7 @@ public final class Admiral extends Human implements Mediator {
     Setters ;
     */
     public static void setNbAdmiralInGame(int nbAdmiralInGame) {
-        Admiral.nbAdmiralInGame = nbAdmiralInGame;
+        Admiral.nbAdmiralsInGame = nbAdmiralInGame;
     }
        
     

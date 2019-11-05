@@ -81,7 +81,7 @@ public class RandomElement {
             {
                 if(Elfe.class.isInstance(character))
                 {
-                    character.setDead(true);
+                    //character.setDead(true);
                 }
                 
                 if(character.isDead()==false)

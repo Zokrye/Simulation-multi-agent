@@ -11,19 +11,26 @@ package projetconceptobjet;
  */
 public final class Assassin extends Orc implements Warrior {
     
-    private static int nbAssassinInGame;
+    private static int nbAssassinsInGame;
     
     public Assassin()
     {
         super(300,300,300,300,45,30);
     }
 
+    @Override
+    public void removeOneCharacter() {
+        nbAssassinsInGame--;
+        nbOrcsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
+    }
     
     /*
     Getters ;
     */
     public static int getNbAssassinInGame() {
-        return nbAssassinInGame;
+        return nbAssassinsInGame;
     }
 
     
@@ -31,7 +38,7 @@ public final class Assassin extends Orc implements Warrior {
     Setters    
     */
     public static void setNbAssassinInGame(int nbAssassinInGame) {
-        Assassin.nbAssassinInGame = nbAssassinInGame;
+        Assassin.nbAssassinsInGame = nbAssassinInGame;
     }
     
     
