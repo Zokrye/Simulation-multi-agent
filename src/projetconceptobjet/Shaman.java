@@ -13,13 +13,21 @@ public final class Shaman extends Troll implements Wizzard {
     
     private int mana;
     private int manaMax;
-    private static int nbShamanInGame;
+    private static int nbShamansInGame;
     
     public Shaman()
     {
         super(300,300,300,300,40,50);
         this.mana=200;
         this.manaMax=200;
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbShamansInGame--;
+        nbTrollsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
     }
 
     
@@ -35,7 +43,7 @@ public final class Shaman extends Troll implements Wizzard {
     }
     
     public static int getNbShamanInGame() {
-        return nbShamanInGame;
+        return nbShamansInGame;
     }
 
     
@@ -51,7 +59,7 @@ public final class Shaman extends Troll implements Wizzard {
     }
 
     public static void setNbShamanInGame(int nbShamanInGame) {
-        Shaman.nbShamanInGame = nbShamanInGame;
+        Shaman.nbShamansInGame = nbShamanInGame;
     }
     
     //Bonus ou malus sur la cible ;

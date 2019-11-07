@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class Troll extends Enemy {
     
-    private static int nbTrollsInGame;
+    protected static int nbTrollsInGame;
     private static Class weakness;
     
     
@@ -30,6 +30,9 @@ public abstract class Troll extends Enemy {
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneTroll;
     }
+    
+    @Override
+    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -117,17 +120,14 @@ public abstract class Troll extends Enemy {
             //Calulation of the end of the step ;
             int result=valueDEF-valueATK;
 
+            target.doCalculationPV(result);
+            target.checkPVCharacter();
             /*
             If the result is negative, the target is shot with damages ;
             */
             if(result<0)
             {
-                target.doCalculationPV(result);
-                //int targetLife=target.getpVie();
-                //targetLife+=result;
-                //target.setpVie(targetLife);
-                target.checkPVCharacter();
-                System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+target.getNom()+" : his life is now : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
 
             /*
@@ -135,12 +135,7 @@ public abstract class Troll extends Enemy {
             */
             else if(result>0)
             {
-                this.doCalculationPV(-result);
-                //int persoLife=this.getpVie();
-                //persoLife-=result;
-                //this.setpVie(persoLife);
-                this.checkPVCharacter();
-                System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+this.getNom()+" : his life is now : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
 
             //Printing of the result of the step ;
@@ -150,8 +145,7 @@ public abstract class Troll extends Enemy {
         }
         else if (this.getpEnergie()>=(-costAtkPE) && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
         {
-            //this.doCalculationPE(costAtkPE);
-            target.setpVie(0);
+            target.kill();
             System.out.println(target.getNom()+" was too tired to resist. "+this.getNom()+" cruhes him easily.");
         }
         //The character can't attack because of his lack of PEs ;
@@ -180,7 +174,7 @@ public abstract class Troll extends Enemy {
         boolean goneAway=false;
         if(this.getpEnergie()>=(-costPEEscape))
         {
-            System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
+            System.out.println("ESCAPE : "+this.getNom()+" try to escape the fight.");
             //this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;

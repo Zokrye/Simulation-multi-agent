@@ -11,19 +11,26 @@ package projetconceptobjet;
  */
 public final class Berserker extends Troll implements Warrior {
     
-    private static int nbBerserkerInGame;
+    private static int nbBerserkersInGame;
     
     public Berserker()
     {
         super(300,300,350,350,60,50);
     }
 
+    @Override
+    public void removeOneCharacter() {
+        nbBerserkersInGame--;
+        nbTrollsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
+    }
     
     /*
     Getters ;
     */
     public static int getNbBerserkerInGame() {
-        return nbBerserkerInGame;
+        return nbBerserkersInGame;
     }
 
     
@@ -31,7 +38,7 @@ public final class Berserker extends Troll implements Warrior {
     Setters ;
     */
     public static void setNbBerserkerInGame(int nbBerserkerInGame) {
-        Berserker.nbBerserkerInGame = nbBerserkerInGame;
+        Berserker.nbBerserkersInGame = nbBerserkerInGame;
     }
     
     

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class Elfe extends Hero {
     
-    private static int nbElfesInGame;
+    protected static int nbElfesInGame;
     private static Class weakness;
     private static Team elfeTeam;
     
@@ -22,6 +22,9 @@ public abstract class Elfe extends Hero {
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneElf;
     }
+    
+    @Override
+    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -103,17 +106,14 @@ public abstract class Elfe extends Hero {
             //Calulation of the end of the step ;
             int result=valueDEF-valueATK;
 
+            target.doCalculationPV(result);
+            target.checkPVCharacter();
             /*
             If the result is negative, the target is shot with damages ;
             */
             if(result<0)
             {
-                target.doCalculationPV(result);
-                //int targetLife=target.getpVie();
-                //targetLife+=result;
-                //target.setpVie(targetLife);
-                target.checkPVCharacter();
-                System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+target.getNom()+" : his life is now : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
 
             /*
@@ -121,12 +121,7 @@ public abstract class Elfe extends Hero {
             */
             else if(result>0)
             {
-                this.doCalculationPV(-result);
-                //int persoLife=this.getpVie();
-                //persoLife-=result;
-                //this.setpVie(persoLife);
-                this.checkPVCharacter();
-                System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+this.getNom()+" : his life is now : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
 
             //Printing of the result of the step ;
@@ -136,7 +131,7 @@ public abstract class Elfe extends Hero {
         }
         else if (this.isEtatFatigue()==false && target.isEtatFatigue()==true)
         {
-            target.setpVie(0);
+            target.kill();
             System.out.println(target.getNom()+" was too tired to resist. "+this.getNom()+" pierces him easily.");
         }
         else
@@ -162,7 +157,7 @@ public abstract class Elfe extends Hero {
         boolean goneAway=false;
         int failingCostPE=-10;
         int failingCostPV=-5;
-        System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
+        System.out.println("ESCAPE : "+this.getNom()+" try to escape the fight.");
         /*
         Initializing of all the variable;
         Some Elfe bonus thanks to their agility ;
@@ -265,7 +260,7 @@ public abstract class Elfe extends Hero {
     }
     
     /**
-     * Function allows to create a team of Elfes with a TribalChef and a random
+     * Function allows to create a team of Elfes with a TribalChief and a random
      * distribution of Mage and Warriors, whose the number of team mates is given ;
      * @param nbPerso : number of team mates ;
      * @return : team : ArrayList of Elfes containning all characters of the team ;
@@ -282,10 +277,10 @@ public abstract class Elfe extends Hero {
         //Create the list of the team ;
         ArrayList<Elfe> team=new ArrayList<>();
         //Creation of the Admiral of the team ;
-        TribalChef captain=new TribalChef();
+        TribalChief captain=new TribalChief();
         //Rename the new instance ;
         captain.setNom("TribalChef_1");
-        TribalChef.setNbTribalChefInGame(1);
+        TribalChief.setNbTribalChefInGame(1);
         //Adding of the Admiral to the team ;
         team.add(captain);
         

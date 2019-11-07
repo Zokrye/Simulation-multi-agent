@@ -31,7 +31,7 @@ public abstract class Character {
     //protected int niveau;
     //protected int nbPasMaxTour;
     //protected int nbPasTour;
-    private static int nbCharactersInGame;
+    protected static int nbCharactersInGame;
     
     protected Cell currentCell;
     protected Direction safeZoneDirection;
@@ -57,74 +57,92 @@ public abstract class Character {
         
         Cell nextCell=null;
         Direction chosenDirection=null;
-        
-        if((double)this.pEnergie/(double)this.pEnergieMax<=0.2) {
-            //Use the default direction to join Safezone
-            Direction d1=safeZoneDirection;
-            //The 2nd best options for joining the safeZone
-            Direction d2=new Direction(safeZoneDirection.getX(),0);
-            Direction d3=new Direction(0,safeZoneDirection.getY());
-            //The 3rd best options for joining the safezone
-            Direction d4=new Direction(safeZoneDirection.getX(),-safeZoneDirection.getY());
-            Direction d5=new Direction(-safeZoneDirection.getX(),safeZoneDirection.getY());
-            //Last options and less interesting directions to join SafeZone
-            Direction d6=new Direction(-safeZoneDirection.getX(),0);
-            Direction d7=new Direction(0,-safeZoneDirection.getY());
-            
-            Direction d8=new Direction(-safeZoneDirection.getX(),-safeZoneDirection.getY());
+        if(!this.isEtatFatigue()) {
+            if((double)this.pEnergie/(double)this.pEnergieMax<=0.2) {
+                //Use the default direction to join Safezone
+                Direction d1=safeZoneDirection;
+                //The 2nd best options for joining the safeZone
+                Direction d2=new Direction(safeZoneDirection.getX(),0);
+                Direction d3=new Direction(0,safeZoneDirection.getY());
+                //The 3rd best options for joining the safezone
+                Direction d4=new Direction(safeZoneDirection.getX(),-safeZoneDirection.getY());
+                Direction d5=new Direction(-safeZoneDirection.getX(),safeZoneDirection.getY());
+                //Last options and less interesting directions to join SafeZone
+                Direction d6=new Direction(-safeZoneDirection.getX(),0);
+                Direction d7=new Direction(0,-safeZoneDirection.getY());
 
-            List<Direction> directions = new ArrayList<> (Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8));
-            //Get the first available cell in the list
-            for(Direction direction : directions) {
-                nextCell=direction.applyFrom(currentCell);
-                //If direction leads to an existing cell
-                if(nextCell!=null) {
-                    //If the cell has no obstacles
-                    if(nextCell.hasObstacle) {
-                        //Save the available direction                   
-                        chosenDirection=direction;
-                        break;
+                Direction d8=new Direction(-safeZoneDirection.getX(),-safeZoneDirection.getY());
+
+                List<Direction> directions = new ArrayList<> (Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8));
+                //Get the first available cell in the list
+                for(Direction direction : directions) {
+                    nextCell=direction.applyFrom(currentCell);
+                    //If direction leads to an existing cell
+                    if(nextCell!=null) {
+                        //If the cell has no obstacles
+                        if(nextCell.hasObstacle) {
+                            //Save the available direction                   
+                            chosenDirection=direction;
+                            break;
+                        }
+                    }
+
+                }
+            }
+            //Déplacment random quand les PE sont suffisants
+            else {
+                List<Direction> directions=currentCell.getAvailableDirections();
+                //If the character has more than 20% of life, aggressive behaviour
+                if((double)this.pVie/(double)this.pVieMax>0.2) {
+                    for(Direction direction : directions){
+                        //If there is a nearby enemy character, move in his direction
+                        Character otherCharacter=direction.applyFrom(currentCell).character;
+                        if(otherCharacter!=null) {
+                            if(!otherCharacter.isSameSide(this) && !otherCharacter.isInSafeZone()) {
+                                chosenDirection=direction;
+                                break;
+                            }
+                        }
                     }
                 }
+                //If not enough life or no nearby ennemy, random move
+                if(chosenDirection==null && directions.size()>0) {
+                    int randomIndex=RandomElement.randomThrow(directions.size(), 0);
+                    chosenDirection=directions.get(randomIndex);
+                }
+            }
+            if(chosenDirection!=null) {
+                while(remainingCells>0 && pEnergie>0 && chosenDirection.applyFrom(currentCell)!=null) {
+                        nextCell=chosenDirection.applyFrom(currentCell);
+                        if(!nextCell.hasObstacle ) {
+                            if(nextCell.character==null) {
+                                moveTo(nextCell);
+                                doCalculationPV(1);
+                                if(isInSafeZone()){
+                                    doCalculationPE(3);
+                                }
+                                else {
+                                    doCalculationPE(-1);
+                                }
 
-            }
-        }
-        //Déplacment random quand les PE sont suffisants
-        else {
-            List<Direction> directions=currentCell.getAvailableDirections();
-            if(directions.size()>0) {
-                int randomIndex=RandomElement.randomThrow(directions.size(), 0);
-                chosenDirection=directions.get(randomIndex);
-            }
-        }
-        if(chosenDirection!=null) {
-            while(remainingCells>0 && pEnergie>0 && chosenDirection.applyFrom(currentCell)!=null) {
-                    nextCell=chosenDirection.applyFrom(currentCell);
-                    if(!nextCell.hasObstacle ) {
-                        if(nextCell.character==null) {
-                            moveTo(nextCell);
-                            doCalculationPV(1);
-                            if(isInSafeZone()){
-                                doCalculationPE(3);
                             }
+                            //Meet another character
                             else {
-                                doCalculationPE(-1);
+                                Character otherCharacter = nextCell.getCharacter();
+                                meet(otherCharacter, remainingCells);
                             }
-                            
+                            remainingCells--;
                         }
-                        //Meet another character
+                        //Reset remaining cells to 0 in case the character hits an obstacle
                         else {
-                            Character otherCharacter = nextCell.getCharacter();
-                            meet(otherCharacter, remainingCells);
+                            remainingCells=0;
                         }
-                        remainingCells--;
-                    }
-                    //Reset remaining cells to 0 in case the character hits an obstacle
-                    else {
-                        remainingCells=0;
-                    }
-            }     
+                }     
 
+            }
+        }
+        else {
+            this.doCalculationPE(1);
         }
         
         
@@ -268,6 +286,14 @@ public abstract class Character {
         }
     }
     
+    public void kill() {
+        this.pVie=0;
+        this.dead = true;
+        this.removeOneCharacter();
+        this.currentCell.setCharacter(null);
+    }
+    
+    public abstract void removeOneCharacter();
     /*
     Getters
     */
@@ -384,7 +410,6 @@ public abstract class Character {
     
     public void setDead(boolean dead) {
         this.dead = dead;
-        this.currentCell.setCharacter(null);
     }
     
     public void setStrenghtPoints(int strenghtPoints) {
@@ -495,7 +520,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        //goneAway_1=this.tryToEscape(target);
+                        goneAway_1=this.tryToEscape(target);
                         break;
                 }
             }
@@ -531,7 +556,7 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        //goneAway_2=target.tryToEscape(target);
+                        goneAway_2=this.tryToEscape(target);
                         break;
                 }
             }
@@ -567,11 +592,11 @@ public abstract class Character {
         }
         else if(goneAway_1==true && this.isDead()==false)
         {
-            System.out.println(target.getNom()+" doesn't understand what have happened. The fight is over. "+this.getNom()+" has escaped himself.");
+            System.out.println(target.getNom()+" doesn't understand what happened. The fight is over. "+this.getNom()+" has escaped himself.");
         }
         else if(goneAway_2==true && target.isDead()==false)
         {
-            System.out.println(this.getNom()+" doesn't understand what have happened. The fight is over. "+target.getNom()+" has escaped himself.");
+            System.out.println(this.getNom()+" doesn't understand what happened. The fight is over. "+target.getNom()+" has escaped himself.");
         }
         /*
         Check the state of each character ;
@@ -659,15 +684,15 @@ public abstract class Character {
         if(pEnergie+value>=pEnergieMax) {
             pEnergie=pEnergieMax;
         }
-        else if(pEnergie+value<0) {
+        else if(pEnergie+value<=0) {
             pEnergie=0;
             this.etatFatigue=true;
         }
         else {
             pEnergie+=value;
-            System.out.println(this.getNom()+" is tired.");
+            this.etatFatigue=false;
         }
-        System.out.println("They are now of "+pEnergie+"/"+pEnergieMax+" PE.");
+        System.out.println("They are now "+pEnergie+"/"+pEnergieMax+" PE.");
         
         
     }
@@ -683,13 +708,12 @@ public abstract class Character {
             pVie=pVieMax;
         }
         else if(pVie+value<0) {
-            pVie=0;
-            this.setDead(true);
+            this.kill();
         }
         else {
             pVie+=value;           
         }
-        System.out.println("They are now of "+pVie+"/"+pVieMax+" PV.");
+        System.out.println("They are now "+pVie+"/"+pVieMax+" PV.");
     }
     
     

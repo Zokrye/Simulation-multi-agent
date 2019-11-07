@@ -46,6 +46,13 @@ public final class TrollPackMaster extends Troll implements Mediator {
         System.out.println("RALLIEMENT!");
     }
     
+    @Override
+    public void removeOneCharacter() {
+        nbTrollPackMasterInGame--;
+        nbTrollsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
+    }
     
     /**
      * Function to update the number of each type of charaters when one is killed ;
