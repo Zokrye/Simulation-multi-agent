@@ -13,11 +13,14 @@ import java.util.ArrayList;
  */
 public abstract class Troll extends Enemy {
     
+    /*
+    Attributes
+    */
     protected static int nbTrollsInGame;
     private static Class weakness;
     
     
-    
+    //Constructor
     public Troll(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght, defense);
@@ -26,13 +29,6 @@ public abstract class Troll extends Enemy {
         this.maxMovement=3;
     }
 
-    @Override
-    public boolean isInSafeZone() {
-        return this.currentCell.getZone()==Zone.SafeZoneTroll;
-    }
-    
-    @Override
-    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -56,10 +52,23 @@ public abstract class Troll extends Enemy {
         Troll.nbTrollsInGame = nbTrollsInGame;
     }
     
+    /*
+    Methods
+    */
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneTroll;
+    }
+    
+    @Override
+    public abstract void removeOneCharacter();
+    
+    
     @Override
     public boolean isSameRace(Character character) {
         return character instanceof Troll;
     }
+    
     
     //Augmente des caractéristiques défensive du Troll ;
     public void blindage()
@@ -67,11 +76,13 @@ public abstract class Troll extends Enemy {
         System.out.println("BLINDAGE!");
     }
     
+    
     //Permet de déplacer les obstacles du terrain;
     public void modificationTerrain()
     {
         System.out.println("MODIFICATION TERRAIN!");
     }
+    
     
     //Diminu les stats des adversaire lors des combats ;
     public void impressionnant()
@@ -155,6 +166,7 @@ public abstract class Troll extends Enemy {
         }
     }
     
+    
     /**
      * Function to try to escape from a fight ;
      * Trolls don't need to pay any PEs to try to escape ;
@@ -227,6 +239,7 @@ public abstract class Troll extends Enemy {
                         + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n");
         return(goneAway);
     }
+    
     
     //Application de malus sur les statistiques adverses ;
     @Override

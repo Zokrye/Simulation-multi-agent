@@ -11,8 +11,10 @@ package projetconceptobjet;
  */
 public final class TrollPackMaster extends Troll implements Mediator {
     
+    //Attribute
     private static int nbTrollPackMasterInGame;
     
+    //Constructor
     public TrollPackMaster()
     {
         super(300,300,500,500,70,50);
@@ -34,6 +36,9 @@ public final class TrollPackMaster extends Troll implements Mediator {
     }
     
     
+    /*
+    Methods
+    */
     @Override
     public void negociation()
     {

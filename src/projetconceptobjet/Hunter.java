@@ -11,21 +11,17 @@ package projetconceptobjet;
  */
 public final class Hunter extends Elfe implements Warrior {
     
+    
+    //Attribute
     private static int nbHuntersInGame;
     
+    
+    //Constructor
     public Hunter()
     {
         super(200,200,300,300,40,30);
     }
     
-    @Override
-    public void removeOneCharacter() {
-        nbHuntersInGame--;
-        nbElfesInGame--;
-        nbHeroesInGame--;
-        nbCharactersInGame--;
-    }
-
     
     /*
     Getter ;
@@ -42,12 +38,27 @@ public final class Hunter extends Elfe implements Warrior {
         Hunter.nbHuntersInGame = nbHunterInGame;
     }
     
+    /*
+    Methods
+    */
+    
+    @Override
+    public void removeOneCharacter() {
+        nbHuntersInGame--;
+        nbElfesInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
+    }
+    
+    
     //Attaque accrue;
     @Override
     public void manimentArmes()
     {
         System.out.println("MANIMENT ARMES");
     }
+    
+    
     //Attaque imparable (rarement);
     @Override
     public void perforationDefense()

@@ -11,15 +11,16 @@ package projetconceptobjet;
  */
 public abstract class Hero extends Character {
     
+    //Attribute
     protected static int nbHeroesInGame;
     
+    
+    //Constructor
     public Hero(int pEnergie,int pEnergieMax,int pVie,int pVieMax, int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
     }
-
-    @Override
-    public abstract void removeOneCharacter();
+    
     
     /*
     Getters ;
@@ -35,6 +36,13 @@ public abstract class Hero extends Character {
     public static void setNbHeroesInGame(int nbHeroesInGame) {
         Hero.nbHeroesInGame = nbHeroesInGame;
     }
+    
+    
+    /*
+    Methods
+    */
+    @Override
+    public abstract void removeOneCharacter();
     
     @Override
     public boolean isSameSide(Character character) {
@@ -65,7 +73,5 @@ public abstract class Hero extends Character {
     public abstract void soutenir();
     //Distribue des points de vie aux alliés rencontrés ;
     public abstract void soin();
-    
-    
     
 }

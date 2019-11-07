@@ -13,9 +13,14 @@ import java.util.ArrayList;
  */
 public abstract class Human extends Hero {
     
+    /*
+    Attributes
+    */
     protected static int nbHumansInGame;
     private static Class weakness;
     
+    
+    //Constructor
     public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
@@ -24,13 +29,6 @@ public abstract class Human extends Hero {
         this.maxMovement=5;
     }
     
-    @Override
-    public boolean isInSafeZone() {
-        return this.currentCell.getZone()==Zone.SafeZoneMan;
-    }
-    
-    @Override
-    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -56,6 +54,10 @@ public abstract class Human extends Hero {
     }
     
     
+    
+    /*
+    Methods
+    */
     //Regain de PV par tours ;
     public void secondSouffle()
     {
@@ -87,6 +89,15 @@ public abstract class Human extends Hero {
     {
         System.out.println("SOIN!");
     }
+    
+        
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneMan;
+    }
+    
+    @Override
+    public abstract void removeOneCharacter();
     
     
     /**

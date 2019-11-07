@@ -13,6 +13,10 @@ import java.util.ArrayList;
  */
 public class Team {
     
+    
+    /*
+    Attributes
+    */
     private ArrayList<? extends Character> listCharacters;
     private int lifePointTeam;
     private int totalLifePointTeam;
@@ -106,6 +110,10 @@ public class Team {
         Team.allTeams = allTeams;
     }
     
+    
+    /*
+    Methods
+    */
     /**
      * Function affording to get the team searched ;
      * @param allTeams : List of all teams of the game ;
@@ -134,6 +142,7 @@ public class Team {
         //Return of the team found ;
         return(team);  
     }
+    
     
     /**
      * Function that call function to create teams of each character class ;

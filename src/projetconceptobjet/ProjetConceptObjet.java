@@ -17,102 +17,7 @@ public class ProjetConceptObjet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        /////////////////////////////////////////////////////////////
-        ////////////////TEST TIRAGE ALEATOIRE////////////////////////
-        //Fonction ok pour un tirage unique de nombre ;
-        //RandomElement.tirageListValeursUniques(72);
-        /*ArrayList<Integer> numberThrown=new ArrayList<>();
-        int indexMax=20;
-        int indexMin=0;
-        int n=20;
-        int comparison;
-
-            
-            for(int index=0; index<n; index++)
-            {
-                if(numberThrown.isEmpty())
-                {
-                    int test=RandomElement.randomThrow(indexMax, indexMin);
-                    numberThrown.add(test);
-                    System.out.println("Rand : "+test+" ; nbList : "+numberThrown.get(0));
-                }
-                else if(!numberThrown.isEmpty())
-                {
-                    boolean eq;
-                    do{
-                        eq=false;
-                        comparison=RandomElement.randomThrow(indexMax, indexMin);
-                        //System.out.println("OK ici c'est bon : ELSE IF !");
-                        for(int index1=0;index1<numberThrown.size();index1++)
-                        {
-                            System.out.println("Index : "+index1+" ; Rand : "+comparison+" ; nbList : "+numberThrown.get(index1)+" ; Equal : "+eq);
-                            if(comparison==numberThrown.get(index1))
-                            {
-                                eq=true;
-                            }
-                        }
-                    }
-                    while(eq==true);
-                    System.out.println("Après WHILE.");
-                    numberThrown.add(comparison);
-                }
-            }
-         
-            for (int t=0;t<numberThrown.size();t++)
-            {
-                System.out.println("Nombre : "+numberThrown.get(t));
-            }*/
-        //////////////////////////////////////////////////////////////
-        //////////////TEST CREATION D'EQUIPES ALEATOIRE////////////
-        /*ArrayList<Team> allTeams=Team.randomTeamsCreation(12,12);
-        
-        //Recup of teams ;
-        Team test=Team.recupTeamFromTheList(allTeams, Human.class);
-        System.out.println("Type of entity : "+test.getType()+" ; Nb characters : "+test.getTotalCharacterTeam()+" ; PV : "+test.getLifePointTeam()+"/"+test.getTotalLifePointTeam()+" ;\n"
-                + "PE : "+test.getEnergyPointTeam()+"/"+test.getTotalEnergyPointTeam()+" ; XP : "+test.getXpTeam()+" ;");
-        
-        
-        ///////////////////////////////////////////////////////////////
-        /////////////TEST OF TURNS/////////////////////////////////////
-        System.out.println("/////////////////////////Tests attaques des classes.////////////////////////");
-        Hunter elfe_test=new Hunter();
-        elfe_test.setNom("Hunter_test");
-        Berserker troll_test=new Berserker();
-        troll_test.setNom("Berserker_test");
-        Assassin orc_test=new Assassin();
-        orc_test.setNom("Assassin_test");
-        Paladin human_test=new Paladin();
-        human_test.setNom("Paladin_test");
-        elfe_test.setpVie(20);
-        orc_test.setpVie(20);
-        elfe_test.setpEnergie(5);
-        orc_test.setpEnergie(5);
-        elfe_test.fight(orc_test);
-        //elfe_test.attack(troll_test);
-        //troll_test.setpVie(2);
-        //elfe_test.attack(troll_test);
-        //System.out.println("Troll is dead : "+troll_test.isDead());
-        //elfe_test.doCalculationPE("+", 5);
-        //elfe_test.doCalculationPE("-", 5);
-        //elfe_test.doCalculationPV("+", 10);
-        //elfe_test.doCalculationPV(-10);
-        //troll_test.attack(elfe_test);
-        //human_test.attack(orc_test);
-        //orc_test.attack(human_test);
-        //orc_test.checkPVCharacter();
-        
-        /*System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
-        //elfe_test.tryToEscape();
-        
-        ///////////////////////////////////////////////////////////////
-        /////////////////TEST DE LA MAP////////////////////////////////
-        System.out.println("/////////////////////////Tests Map////////////////////////");
-        Map map=Map.getinstance();
-        map.placeAllCharacters(false);
-        ProjetConceptObjet.newTurn(1,allTeams);
-        map.displayMap();*/
-        
+        //Call to the simulation function ;
         ProjetConceptObjet.allGame();
     }
     
@@ -155,6 +60,7 @@ public class ProjetConceptObjet {
         }
         
     }
+    
     
     /**
      * Function launching a new turn in the simulation ;

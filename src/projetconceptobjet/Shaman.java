@@ -11,23 +11,20 @@ package projetconceptobjet;
  */
 public final class Shaman extends Troll implements Wizzard {
     
+    /*
+    Attributes
+    */
     private int mana;
     private int manaMax;
     private static int nbShamansInGame;
     
+    
+    //Constructor
     public Shaman()
     {
         super(300,300,300,300,40,50);
         this.mana=200;
         this.manaMax=200;
-    }
-    
-    @Override
-    public void removeOneCharacter() {
-        nbShamansInGame--;
-        nbTrollsInGame--;
-        nbEnemiesInGame--;
-        nbCharactersInGame--;
     }
 
     
@@ -62,6 +59,18 @@ public final class Shaman extends Troll implements Wizzard {
         Shaman.nbShamansInGame = nbShamanInGame;
     }
     
+    
+    /*
+    Methods
+    */
+    @Override
+    public void removeOneCharacter() {
+        nbShamansInGame--;
+        nbTrollsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
+    }
+    
     //Bonus ou malus sur la cible ;
     @Override
     public void sortStats()
@@ -77,30 +86,4 @@ public final class Shaman extends Troll implements Wizzard {
         System.out.println("DETECTION");
     }
     
-    /**
-     * Function to update the number of each type of charaters when one is killed ;
-     */
-    /*@Override
-    public void updateStats()
-    {
-       if(this.isDead()==true)
-       {
-           //Decrease the number of characters alive ;
-           int nbCharacterInGame=Character.getNbCharactersInGame();
-           nbCharacterInGame--;
-           Character.setNbCharactersInGame(nbCharacterInGame);
-           //Decrease the number of Enemies alive ;
-           int nbEnemies=Enemy.getNbEnemiesInGame();
-           nbEnemies--;
-           Enemy.setNbEnemiesInGame(nbEnemies);
-           //Decrease the number of Trolls alive ;
-           int nbTrolls=Troll.getNbTrollsInGame();
-           nbTrolls--;
-           Troll.setNbTrollsInGame(nbTrolls);
-           //Decrease the number of TPM alive ;
-           int nbShamans=Shaman.getNbShamanInGame();
-           nbShamans--;
-           TrollPackMaster.setNbTrollPackMasterInGame(nbShamans);
-       }
-    }*/
 }

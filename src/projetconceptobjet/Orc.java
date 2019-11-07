@@ -13,15 +13,14 @@ import java.util.ArrayList;
  */
 public abstract class Orc extends Enemy {
     
+    /*
+    Attributes
+    */
     protected static int nbOrcsInGame;
     private static Class weakness;
     
     
-    @Override
-    public boolean isInSafeZone() {
-        return this.currentCell.getZone()==Zone.SafeZoneOrc;
-    }
-    
+    //Constructor
     public Orc(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
@@ -30,8 +29,6 @@ public abstract class Orc extends Enemy {
         this.maxMovement=4;
     }
 
-    @Override
-    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -56,6 +53,14 @@ public abstract class Orc extends Enemy {
         Orc.weakness = weakness;
     }    
     
+    
+    /*
+    Methods
+    */
+    @Override
+    public abstract void removeOneCharacter();
+    
+    
     //Application de malus sur les statistiques adverses ;
     @Override
     public void fleau()
@@ -71,11 +76,13 @@ public abstract class Orc extends Enemy {
         System.out.println("SURCHARGE DE PUISSANCE!");
     }
 
+    
     //Permet de finir le combat en un coup (peu de chance d'arriver) ;
     public void execution()
     {
         System.out.println("EXECUTER!");
     }
+    
     
     //Permet d'augmeter la quantité d'xp reçut à la fin d'un combat ;
     public void experienceAccrue()
@@ -83,12 +90,19 @@ public abstract class Orc extends Enemy {
         System.out.println("EXPERIENCE ACCRUE!");
     }
     
+    
 //Permet de bloquer la fuite à la victime ;
     public void harcelement()
     {
         System.out.println("HARCELEMENT!");
     }
-
+    
+    
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneOrc;
+    }
+    
     
     /**
      * Function that allows to engage an enemy on the map during a fight;
@@ -166,7 +180,6 @@ public abstract class Orc extends Enemy {
     }
     
     
-    
     /**
      * Function to try to escape from a fight ;
      * Orcs don't need to pay any PEs to try to escape ;
@@ -241,10 +254,12 @@ public abstract class Orc extends Enemy {
         return(goneAway);
     }
     
+    
     @Override
     public boolean isSameRace(Character character) {
         return character instanceof Orc;
     }
+    
     
     /**
      * Function allows to create a team of Orcs with an AlphaOrc and a random

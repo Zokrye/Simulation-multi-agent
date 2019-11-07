@@ -11,10 +11,15 @@ package projetconceptobjet;
  */
 public final class Priest extends Human implements Wizzard {
     
+    /*
+    Attributes
+    */
     private int mana;
     private int manaMax;
     private static int nbPriestsInGame;
     
+    
+    //Constructor
     public Priest()
     {
         super(150,150,300,300,30,40);
@@ -38,14 +43,6 @@ public final class Priest extends Human implements Wizzard {
         return nbPriestsInGame;
     }
     
-    @Override
-    public void removeOneCharacter() {
-        nbPriestsInGame--;
-        nbHumansInGame--;
-        nbHeroesInGame--;
-        nbCharactersInGame--;
-    }
-
     
     /*
     Setters ;
@@ -63,12 +60,25 @@ public final class Priest extends Human implements Wizzard {
     }
     
     
+    /*
+    Methods
+    */
+    @Override
+    public void removeOneCharacter() {
+        nbPriestsInGame--;
+        nbHumansInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
+    }
+    
+    
     //Bonus ou malus sur la cible ;
     @Override
     public void sortStats()
     {
         System.out.println("SORTS STATS");
     }
+    
     
     //Permet d'élargir le champs de perception du personnage lors des déplacements pour éviter ou suprimmer les ennemis
     //ou soutenir les alliés ;

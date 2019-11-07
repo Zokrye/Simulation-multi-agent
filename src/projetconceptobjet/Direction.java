@@ -10,14 +10,23 @@ package projetconceptobjet;
  * @author Alexandre
  */
 public class Direction {
+    /*
+    Attributes
+    */
     private int x;
     private int y;
     
+    
+    //Constructor
     public Direction(int x, int y) {
         this.x=x;
         this.y=y;
     }
 
+    
+    /*
+    Getters
+    */
     public int getX() {
         return x;
     }
@@ -26,6 +35,10 @@ public class Direction {
         return y;
     }
     
+    
+    /*
+    Methods
+    */
     /**
      * Apply a direction of move from a cell and return the next cell in this direction
      * @param departureCell

@@ -74,6 +74,11 @@ public class Cell {
         return y;
     }
     
+    
+    /*
+    Methods
+    */
+    
     /**
      * Get all direction availaible (with no obstacle) from the current cell
      * @return List of the available directions

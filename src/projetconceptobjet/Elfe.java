@@ -13,18 +13,13 @@ import java.util.ArrayList;
  */
 public abstract class Elfe extends Hero {
     
+    /*
+    Attributes
+    */
     protected static int nbElfesInGame;
     private static Class weakness;
     private static Team elfeTeam;
     
-    
-    @Override
-    public boolean isInSafeZone() {
-        return this.currentCell.getZone()==Zone.SafeZoneElf;
-    }
-    
-    @Override
-    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -68,6 +63,20 @@ public abstract class Elfe extends Hero {
         this.safeZoneDirection=new Direction(1,1);
         this.maxMovement=6;
     }
+    
+    
+    
+    /*
+    Methods
+    */
+    
+     @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneElf;
+    }
+    
+    @Override
+    public abstract void removeOneCharacter();
     
     
     /**
@@ -220,6 +229,7 @@ public abstract class Elfe extends Hero {
                         + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n");
         return(goneAway);
     }
+    
         
     //Distribue des points de vie aux alliés rencontrés ;
     @Override
@@ -228,13 +238,13 @@ public abstract class Elfe extends Hero {
         System.out.println("SOIN!");
     }
     
+    
     //Augmente les stats d'un personnage en fonction d'une zone autour de lui et du nombre de ses alliés ;
     @Override
     public void soutenir()
     {
         System.out.println("SOUTENIR!");
     }
-    
     
     
     @Override

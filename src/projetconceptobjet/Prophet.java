@@ -11,10 +11,15 @@ package projetconceptobjet;
  */
 public class Prophet extends Elfe implements Wizzard  {
     
+    /*
+    Attributes
+    */
     private int mana;
     private int manaMax;
     private static int nbProphetsInGame;
     
+    
+    //Constructor
     public Prophet()
     {
         super(300,300,150,150,35,35);
@@ -22,14 +27,6 @@ public class Prophet extends Elfe implements Wizzard  {
         this.manaMax=200;
     }
     
-    @Override
-    public void removeOneCharacter() {
-        nbProphetsInGame--;
-        nbElfesInGame--;
-        nbHeroesInGame--;
-        nbCharactersInGame--;
-    }
-
     
     /*
     Getters ;
@@ -62,6 +59,17 @@ public class Prophet extends Elfe implements Wizzard  {
         Prophet.nbProphetsInGame = nbProphetInGame;
     }
     
+    
+    /*
+    Methods
+    */
+    @Override
+    public void removeOneCharacter() {
+        nbProphetsInGame--;
+        nbElfesInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
+    }
     
     //Bonus ou malus sur la cible ;
     @Override
