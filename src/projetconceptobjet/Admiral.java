@@ -11,20 +11,16 @@ package projetconceptobjet;
  */
 public final class Admiral extends Human implements Mediator {    
     
+    //Attribute
     private static int nbAdmiralsInGame;
     
+    //Constructor
     public Admiral()
     {
         super(300,300,500,500,60,40);
     }
-
-    @Override
-    public void removeOneCharacter() {
-        nbAdmiralsInGame--;
-        nbHumansInGame--;
-        nbHeroesInGame--;
-        nbCharactersInGame--;
-    }
+   
+    
     /*
     Getters ;
     */
@@ -41,6 +37,9 @@ public final class Admiral extends Human implements Mediator {
     }
        
     
+    /*
+    Methods
+    */
     @Override
     public void negociation()
     {
@@ -53,6 +52,12 @@ public final class Admiral extends Human implements Mediator {
         System.out.println("RALLIEMENT!");
     }
     
-    
+    @Override
+    public void removeOneCharacter() {
+        nbAdmiralsInGame--;
+        nbHumansInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
+    }
     
 }

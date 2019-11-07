@@ -16,6 +16,10 @@ import projetconceptobjet.Direction;
  * @author Alexandre
  */
 public class Cell {
+    
+    /*
+    Attributes
+    */
     protected Map map;
     protected Zone zone;
     protected int x;
@@ -23,6 +27,7 @@ public class Cell {
     protected boolean hasObstacle;
     protected Character character;
 
+    //Constructor
     public Cell(Map map, int x, int y) {
         this.map=map;
         this.x=x;

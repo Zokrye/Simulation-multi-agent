@@ -11,20 +11,18 @@ package projetconceptobjet;
  */
 public final class AlphaOrc extends Orc implements Mediator{
     
+    //Attribute
     private static int nbAlphaOrcsInGame;
     
+    
+    /*
+    Constructor
+    */
     public AlphaOrc()
     {
         super(350,350,500,500,65,25);
     }
-
-    @Override
-    public void removeOneCharacter() {
-        nbAlphaOrcsInGame--;
-        nbOrcsInGame--;
-        nbEnemiesInGame--;
-        nbCharactersInGame--;
-    }
+    
     
     /*
     Getters ;
@@ -32,6 +30,7 @@ public final class AlphaOrc extends Orc implements Mediator{
     public static int getNbOrcAlphaInGame() {
         return nbAlphaOrcsInGame;
     }
+    
 
     /*
     Setters ;
@@ -40,6 +39,10 @@ public final class AlphaOrc extends Orc implements Mediator{
         AlphaOrc.nbAlphaOrcsInGame = nbOrcAlphaInGame;
     }
     
+    
+    /*
+    Methods
+    */
     @Override
     public void negociation()
     {
@@ -50,6 +53,14 @@ public final class AlphaOrc extends Orc implements Mediator{
     public void ralliement()
     {
         System.out.println("RALLIEMENT!");
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbAlphaOrcsInGame--;
+        nbOrcsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
     }
     
 }
