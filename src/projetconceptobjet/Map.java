@@ -66,7 +66,7 @@ public class Map {
                 map=new Map(LENGTH,HEIGHT, (int) (0.5*LENGTH*HEIGHT)); 
             }
             else {
-                map=new Map(12,12,0); 
+                map=new Map(20,20,0); 
             }
         }
         return map;
