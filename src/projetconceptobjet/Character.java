@@ -80,7 +80,7 @@ public abstract class Character {
                     //If direction leads to an existing cell
                     if(nextCell!=null) {
                         //If the cell has no obstacles
-                        if(nextCell.hasObstacle) {
+                        if(!nextCell.hasObstacle) {
                             //Save the available direction                   
                             chosenDirection=direction;
                             break;
@@ -119,7 +119,7 @@ public abstract class Character {
                                 moveTo(nextCell);
                                 doCalculationPV(1);
                                 if(isInSafeZone()){
-                                    doCalculationPE(3);
+                                    doCalculationPE(pEnergieMax);
                                 }
                                 else {
                                     doCalculationPE(-1);
@@ -183,6 +183,7 @@ public abstract class Character {
                 if(!nextCell.hasObstacle && !nextCell.hasCharacter()) {
                     //Move to the free cell                
                     moveTo(nextCell);
+                    doCalculationPE(-1);
                     break;
                 }
             }
@@ -679,7 +680,7 @@ public abstract class Character {
      */
     public void doCalculationPE(int value)
     {
-        System.out.println("PEs of "+nom+" were of "+pEnergie+"/"+pEnergieMax+" PE.");       
+        System.out.println("PEs of "+nom+" were "+pEnergie+"/"+pEnergieMax+" PE.");       
         //Checks the value after calculation
         if(pEnergie+value>=pEnergieMax) {
             pEnergie=pEnergieMax;
