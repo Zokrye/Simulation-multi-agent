@@ -49,7 +49,7 @@ public class ProjetConceptObjet {
         if(Hero.nbHeroesInGame==0 && Enemy.nbEnemiesInGame!=0)
         {
             System.out.println("The game has ended. ENEMIES have WON this battle!\n"
-                    + "BUT THE WAR IS FINISHED!");
+                    + "BUT THE WAR ISN'T FINISHED!");
             return(Enemy.class);
         }
         else
