@@ -11,24 +11,23 @@ package projetconceptobjet;
  */
 public final class Sorcerer extends Orc implements Wizzard{
     
+    
+    /*
+    Attributes
+    */
     private int mana;
     private int manaMax;
     private static int nbSorcerersInGame;
     
+    
+    //Constuctor
     public Sorcerer()
     {
         super(300,300,200,200,35,25);
         this.mana=200;
         this.manaMax=200;
     }
-
-    @Override
-    public void removeOneCharacter() {
-        nbSorcerersInGame--;
-        nbOrcsInGame--;
-        nbEnemiesInGame--;
-        nbCharactersInGame--;
-    }
+    
     
     /*
     Getters
@@ -61,12 +60,26 @@ public final class Sorcerer extends Orc implements Wizzard{
         this.manaMax = manaMax;
     }
      
+     
+     /*
+     Methods
+     */
+     @Override
+    public void removeOneCharacter() {
+        nbSorcerersInGame--;
+        nbOrcsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
+    }
+    
+    
      //Bonus ou malus sur la cible ;
     @Override
     public void sortStats()
     {
         System.out.println("SORTS STATS");
     }
+    
     
     //Permet d'élargir le champs de perception du personnage lors des déplacements pour éviter ou suprimmer les ennemis
     //ou soutenir les alliés ;

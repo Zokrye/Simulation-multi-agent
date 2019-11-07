@@ -13,9 +13,14 @@ import java.util.ArrayList;
  */
 public abstract class Human extends Hero {
     
+    /*
+    Attributes
+    */
     protected static int nbHumansInGame;
     private static Class weakness;
     
+    
+    //Constructor
     public Human(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
@@ -24,13 +29,6 @@ public abstract class Human extends Hero {
         this.maxMovement=5;
     }
     
-    @Override
-    public boolean isInSafeZone() {
-        return this.currentCell.getZone()==Zone.SafeZoneMan;
-    }
-    
-    @Override
-    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -56,6 +54,10 @@ public abstract class Human extends Hero {
     }
     
     
+    
+    /*
+    Methods
+    */
     //Regain de PV par tours ;
     public void secondSouffle()
     {
@@ -87,6 +89,15 @@ public abstract class Human extends Hero {
     {
         System.out.println("SOIN!");
     }
+    
+        
+    @Override
+    public boolean isInSafeZone() {
+        return this.currentCell.getZone()==Zone.SafeZoneMan;
+    }
+    
+    @Override
+    public abstract void removeOneCharacter();
     
     
     /**
@@ -276,11 +287,11 @@ public abstract class Human extends Hero {
         /*
         Preapre the variables to get the total number of each element of the characters ;
         */
-        int nbPVTeamMax=0;
-        int nbPVTeam=0;
-        int nbPETeamMax=0;
-        int nbPETeam=0;
-        int nbXpTeam=0;
+        int nbPVTeamMax=captain.getpVieMax();
+        int nbPVTeam=captain.getpVie();
+        int nbPETeamMax=captain.getpEnergieMax();
+        int nbPETeam=captain.getpEnergie();
+        int nbXpTeam=captain.getXp();
         /*
         Creation of the right number of characters to put them in the list ;
         */

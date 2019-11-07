@@ -13,6 +13,10 @@ import java.util.ArrayList;
  */
 public class Team {
     
+    
+    /*
+    Attributes
+    */
     private ArrayList<? extends Character> listCharacters;
     private int lifePointTeam;
     private int totalLifePointTeam;
@@ -106,6 +110,10 @@ public class Team {
         Team.allTeams = allTeams;
     }
     
+    
+    /*
+    Methods
+    */
     /**
      * Function affording to get the team searched ;
      * @param allTeams : List of all teams of the game ;
@@ -134,6 +142,7 @@ public class Team {
         //Return of the team found ;
         return(team);  
     }
+    
     
     /**
      * Function that call function to create teams of each character class ;
@@ -231,9 +240,10 @@ public class Team {
                    Add his stats to the sums ;
                    */
                    e_life+=character.getpVie();
+                   e_energie+=character.getpEnergie();
                    //System.out.println(character.getNom()+" : "+character.getpVie()+"/"+character.getpVieMax()+" PV et pour le total : "+e_life+" PV;");
                    e_xp+=character.getXp();
-                   e_energie+=character.getpEnergie();
+                   
                }
            }
            /*

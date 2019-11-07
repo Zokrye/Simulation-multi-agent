@@ -11,8 +11,11 @@ package projetconceptobjet;
  */
 public final class TribalChief extends Elfe implements Mediator {
     
+    //Attribute
     private static int nbTribalChiefsInGame;
     
+    
+    //Constructor
     public TribalChief()
     {
         super(300,300,500,500,60,40);
@@ -33,6 +36,9 @@ public final class TribalChief extends Elfe implements Mediator {
         TribalChief.nbTribalChiefsInGame = nbTribalChefInGame;
     }
     
+    /*
+    Methods
+    */
     @Override
     public void removeOneCharacter() {
         nbTribalChiefsInGame--;
@@ -47,6 +53,7 @@ public final class TribalChief extends Elfe implements Mediator {
     {
         System.out.println("NEGOCIATION!");
     }
+    
     
     @Override
     public void ralliement()

@@ -13,11 +13,13 @@ import java.util.List;
  * @author Alexandre
  */
 public class Map {
+    /*
+    Attributes
+    */
     protected final int SIZE_SAFE_ZONE=5;
     protected static Integer HEIGHT=0;
     protected static Integer LENGTH=0;
     protected Integer NB_OBSTACLES;
-    //protected List<Cell> cells;
     protected Cell[][] cells;
     private static Map map;
     private ArrayList<Cell> SafeZoneElfes = new ArrayList<>();
@@ -25,7 +27,9 @@ public class Map {
     private ArrayList<Cell> SafeZoneOrcs = new ArrayList<>();
     private ArrayList<Cell> SafeZoneTrolls = new ArrayList<>();
     
-    public Map(int height, int length, int nbObstacles) {
+    
+    //Constructor
+    private Map(int height, int length, int nbObstacles) {
         this.HEIGHT=height;
         this.LENGTH=length;
         cells=new Cell[LENGTH][HEIGHT];
@@ -40,6 +44,10 @@ public class Map {
 
     }
     
+    
+    /*
+    Getters
+    */
     /**
      * 
      * @param x horizontal position of the cell on the map
@@ -74,6 +82,10 @@ public class Map {
         return map;
     }
     
+    
+    /*
+    Methods
+    */
     /**
      * Spread the obstacles on the map based on NB_OBSTACLES
      */
@@ -96,6 +108,7 @@ public class Map {
         }
         
     }
+    
     
     /**
      * Set the different safezones on the map based on SIZE_SAFE_ZONE
@@ -130,6 +143,7 @@ public class Map {
             }
         }
     }
+    
     
     /**
      * Place all the characters at hte beginning of the game
@@ -181,6 +195,7 @@ public class Map {
             
         }
     }
+    
     
     /**
      * Display the map into the console using ASCII characters

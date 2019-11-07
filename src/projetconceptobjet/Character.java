@@ -15,7 +15,7 @@ import java.util.List;
  */
 public abstract class Character {
     
-    /*Attributs*/
+    /*Attributes*/
     protected String nom;
     protected int pEnergie ;
     protected int pEnergieMax ;
@@ -28,15 +28,13 @@ public abstract class Character {
     protected int[] lastDirection;
     protected int strenghtPoints;
     protected int defensivePoints;
-    //protected int niveau;
-    //protected int nbPasMaxTour;
-    //protected int nbPasTour;
     protected static int nbCharactersInGame;
-    
     protected Cell currentCell;
     protected Direction safeZoneDirection;
     protected int maxMovement;
     
+    
+    //Constructor
     public Character(int pEnergie,int pEnergieMax,int pVie,int pVieMax,int strenght, int defense)
     {
         this.pEnergie=pEnergie;
@@ -50,8 +48,150 @@ public abstract class Character {
         this.dead=false;
     }
     
+    
+    /*
+    Getters
+    */
+    public String getNom() {
+        return nom;
+    }
+    
+    public int getpEnergie() {
+        return pEnergie;
+    }
+
+    public int getpEnergieMax() {
+        return pEnergieMax;
+    }
+    
+    public int getpVie() {
+        return pVie;
+    }
+    
+    public int getpVieMax() {
+        return pVieMax;
+    }
+    
+    public int getXp() {
+        return xp;
+    }
+    
+    public boolean isEtatFatigue() {
+        return etatFatigue;
+    }
+    
+    public int[] getLastDirection() {
+        return lastDirection;
+    }
+    
+    public static int getNbCharactersInGame() {
+        return nbCharactersInGame;
+    }
+
+    public int getTurnRanking() {
+        return turnRanking;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public int getStrenghtPoints() {
+        return strenghtPoints;
+    }
+
+    public int getDefensivePoints() {
+        return defensivePoints;
+    }
+
+    public Cell getCurrentCell() {
+        return currentCell;
+    }
+
+    public Direction getSafeZoneDirection() {
+        return safeZoneDirection;
+    }
+
+    public int getMaxMovement() {
+        return maxMovement;
+    }
+
+    
+    /*
+    Setters
+    */
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setpEnergie(int pEnergie) {
+        this.pEnergie = pEnergie;
+    }
+
+    public void setpEnergieMax(int pEnergieMax) {
+        this.pEnergieMax = pEnergieMax;
+    }
+
+    public void setpVie(int pVie) {
+        this.pVie = pVie;
+    }
+
+    public void setpVieMax(int pVieMax) {
+        this.pVieMax = pVieMax;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public void setEtatFatigue(boolean etatFatigue) {
+        this.etatFatigue = etatFatigue;
+    }
+    
+    public void setLastDirection(int[] lastDirection) {
+        this.lastDirection = lastDirection;
+    }
+
+    public static void setNbCharactersInGame(int nbCharactersInGame) {
+        Character.nbCharactersInGame = nbCharactersInGame;
+    }
+    
+    public void setTurnRanking(int turnRanking) {
+        this.turnRanking = turnRanking;
+    }
+    
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+    
+    public void setStrenghtPoints(int strenghtPoints) {
+        this.strenghtPoints = strenghtPoints;
+    }
+    
+    public void setMaxMovement(int maxMovement) {
+        this.maxMovement = maxMovement;
+    }
+    
+    public void setSafeZoneDirection(Direction safeZoneDirection) {
+        this.safeZoneDirection = safeZoneDirection;
+    }
+    
+    public void setCurrentCell(Cell currentCell) {
+        this.currentCell = currentCell;
+    }
+    
+    public void setDefensivePoints(int defensivePoints) {
+        this.defensivePoints = defensivePoints;
+    }
+    
+    
+    
     /*Methods*/
     
+    /**
+     * Function that allows the character to move and react following
+     * what he meet on his way ;
+     */
     public void seDeplacer() {
         int remainingCells = RandomElement.randomThrow(maxMovement+1, 1);
         
@@ -148,6 +288,7 @@ public abstract class Character {
         
     }
     
+    
     /**
      * Move the character to the next cell
      * @param cell 
@@ -157,6 +298,7 @@ public abstract class Character {
         currentCell=cell;
         currentCell.setCharacter(this);
     }
+    
     
     public void escapeFrom(Character character) {
         Cell characterCell=character.getCurrentCell();
@@ -191,49 +333,30 @@ public abstract class Character {
         
     }
     
+    
     public abstract void meet(Character otherCharacter, int remainingCells);
     public abstract void attack(Character target);
     public abstract boolean tryToEscape(Character character);
     /**
-     * 
+     * Check if the character is in the SafeZone ;
      * @return Whether the character is in its own Safezone or not
      */
     public abstract boolean isInSafeZone();
     
     /**
-     * 
+     * Test if two characters are in the same team : Hero or Enemy ;
      * @param character
      * @return Whether the current and specefied characters are in the same team or not
      */
     public abstract boolean isSameSide(Character character);
     
     /**
-     * 
+     * Test the type of two characters ;
      * @param character
      * @return Whether the current and specefied characters belong to the same race or not
      */
     public abstract boolean isSameRace(Character character);
     
-    
-    /**
-     * Actions of the character during its gaming period ;
-     */
-    public void characterTurn()
-    {
-        /*
-        Test of the free cells around him ;
-        Avoid obstacles but search an enemy ;
-        */
-        /*
-        If there is no enemy and its PE are ok, go forward to search enemies ;
-        If there is an enemy and its PE and PV are ok, go to attack him ;
-        If there is an enemy and its PE or PV are low, return to the safe zone and try to get them again ;
-        If there is no enemy and its PE are low, return to the safe zone to get them again ;
-        */
-        /*
-        End of the turn ;
-        */
-    }
     
     /**
      * Add Life points to the character
@@ -295,156 +418,9 @@ public abstract class Character {
     }
     
     public abstract void removeOneCharacter();
-    /*
-    Getters
-    */
-    public String getNom() {
-        return nom;
-    }
     
-    public int getpEnergie() {
-        return pEnergie;
-    }
-
-    public int getpEnergieMax() {
-        return pEnergieMax;
-    }
-    
-    public int getpVie() {
-        return pVie;
-    }
-    
-    public int getpVieMax() {
-        return pVieMax;
-    }
-    
-    public int getXp() {
-        return xp;
-    }
-    
-    public boolean isEtatFatigue() {
-        return etatFatigue;
-    }
-    
-    public int[] getLastDirection() {
-        return lastDirection;
-    }
-    
-    public static int getNbCharactersInGame() {
-        return nbCharactersInGame;
-    }
-
-    public int getTurnRanking() {
-        return turnRanking;
-    }
-
-    public boolean isDead() {
-        return dead;
-    }
-
-    public int getStrenghtPoints() {
-        return strenghtPoints;
-    }
-
-    public int getDefensivePoints() {
-        return defensivePoints;
-    }
-
-    public Cell getCurrentCell() {
-        return currentCell;
-    }
-
-    public Direction getSafeZoneDirection() {
-        return safeZoneDirection;
-    }
-
-    public int getMaxMovement() {
-        return maxMovement;
-    }
-
-    
-     
-    
-    
-    /*
-    Setters
-    */
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public void setpEnergie(int pEnergie) {
-        this.pEnergie = pEnergie;
-    }
-
-    public void setpEnergieMax(int pEnergieMax) {
-        this.pEnergieMax = pEnergieMax;
-    }
-
-    public void setpVie(int pVie) {
-        this.pVie = pVie;
-    }
-
-    public void setpVieMax(int pVieMax) {
-        this.pVieMax = pVieMax;
-    }
-
-    public void setXp(int xp) {
-        this.xp = xp;
-    }
-
-    public void setEtatFatigue(boolean etatFatigue) {
-        this.etatFatigue = etatFatigue;
-    }
-    
-    public void setLastDirection(int[] lastDirection) {
-        this.lastDirection = lastDirection;
-    }
-
-    public static void setNbCharactersInGame(int nbCharactersInGame) {
-        Character.nbCharactersInGame = nbCharactersInGame;
-    }
-    
-    public void setTurnRanking(int turnRanking) {
-        this.turnRanking = turnRanking;
-    }
-    
-    public void setDead(boolean dead) {
-        this.dead = dead;
-    }
-    
-    public void setStrenghtPoints(int strenghtPoints) {
-        this.strenghtPoints = strenghtPoints;
-    }
-    
-    public void setMaxMovement(int maxMovement) {
-        this.maxMovement = maxMovement;
-    }
-    
-    public void setSafeZoneDirection(Direction safeZoneDirection) {
-        this.safeZoneDirection = safeZoneDirection;
-    }
-    
-    public void setCurrentCell(Cell currentCell) {
-        this.currentCell = currentCell;
-    }
-    
-    public void setDefensivePoints(int defensivePoints) {
-        this.defensivePoints = defensivePoints;
-    }
-    
-    
-    /*
-    Methods
-    */
     
     /**
-     * 
-     * 
-     * ATTENTION : TESTER SI LES PERSOS SONT TOUJOURS COTE A COTE DANS LE WHILE :
-     * Déplacement dans la fonction escape doit faire sortir du combat.
-     * 
-     * 
      * Function to do a fight between two characters opposed ;
      * @param target : Character who is the opponent of the character that have
      * launched the function ;
@@ -674,6 +650,8 @@ public abstract class Character {
             System.out.println(this.getNom()+" is still alive.");
         }
     }
+    
+    
     /**
      * Function that allows to calculate and set the final number of PEs of a character ;
      * @param value : Value of the PE to add or put away ;
@@ -697,6 +675,7 @@ public abstract class Character {
         
         
     }
+    
     
     /**
      * Function that allows to calculate and set the final number of PVs of a character ;

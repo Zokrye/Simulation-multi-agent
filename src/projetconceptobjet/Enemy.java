@@ -11,15 +11,16 @@ package projetconceptobjet;
  */
 public abstract class Enemy extends Character {
     
+    //Attributes
     protected static int nbEnemiesInGame;
     
+    
+    //Constructor
     public Enemy(int pEnergie,int pEnergieMax,int pVie,int pVieMax, int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
     }
 
-    @Override
-    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -35,6 +36,13 @@ public abstract class Enemy extends Character {
     public static void setNbEnemiesInGame(int nbEnemiesInGame) {
         Enemy.nbEnemiesInGame = nbEnemiesInGame;
     }
+    
+    /*
+    Methods
+    */
+    
+    @Override
+    public abstract void removeOneCharacter();
     
     @Override
     public boolean isSameSide(Character character) {
@@ -53,8 +61,7 @@ public abstract class Enemy extends Character {
         } 
     }
     
-    
-    
+
     @Override
     public abstract boolean isSameRace(Character character);
     

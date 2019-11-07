@@ -14,28 +14,10 @@ import java.util.Random;
  */
 public class RandomElement {
     
-    /**
-     * Function that allows to create a new game table with a random choice of its size, chosing it in a list of predicted sizes
-     */
-    public static void randomCreationOfTable()
-    {
-        //List of lists of predicted dimensions;
-        //First index of the list;
-        int firstTableListIndex=0;
-        //Should be the length of the tables list (constante/the number of the length isn't reached through the throw) ;
-        int lengthTableList = 10;
-        
-        //Random throw to chose the one to use;
-        randomThrow(lengthTableList,firstTableListIndex);
-        //Take the good instance in the list of dimensions ;
-        //Create the instance of the table ;
-        //Calculation of the map dimensions (number of squares), use the random throw to dertermine the number of obstacles between 1/5 et 3/5 of the map;
-        //Go through each lines and put the number of obstacles indicated by a random throw between 0 and 1/2 of the number of squares of the ligne (decrease the number of available obstacles);
-        //Keep à list of their coordinates to know where they are ;
-        //Return the Table instance to the game with obstacles;
-        
-    }
     
+    /*
+    Methods
+    */    
     
     /**
      * Funtion allowing to make a random throw when it is necessary;
@@ -120,7 +102,6 @@ public class RandomElement {
         
         return(rankingForTheTurn);
     }
-    
     
     
     /**
