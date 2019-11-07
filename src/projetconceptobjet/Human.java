@@ -287,11 +287,11 @@ public abstract class Human extends Hero {
         /*
         Preapre the variables to get the total number of each element of the characters ;
         */
-        int nbPVTeamMax=0;
-        int nbPVTeam=0;
-        int nbPETeamMax=0;
-        int nbPETeam=0;
-        int nbXpTeam=0;
+        int nbPVTeamMax=captain.getpVieMax();
+        int nbPVTeam=captain.getpVie();
+        int nbPETeamMax=captain.getpEnergieMax();
+        int nbPETeam=captain.getpEnergie();
+        int nbXpTeam=captain.getXp();
         /*
         Creation of the right number of characters to put them in the list ;
         */

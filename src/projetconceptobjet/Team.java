@@ -240,9 +240,10 @@ public class Team {
                    Add his stats to the sums ;
                    */
                    e_life+=character.getpVie();
+                   e_energie+=character.getpEnergie();
                    //System.out.println(character.getNom()+" : "+character.getpVie()+"/"+character.getpVieMax()+" PV et pour le total : "+e_life+" PV;");
                    e_xp+=character.getXp();
-                   e_energie+=character.getpEnergie();
+                   
                }
            }
            /*
