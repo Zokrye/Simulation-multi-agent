@@ -121,7 +121,7 @@ public class ProjetConceptObjet {
      * Main function of the simulation, it calls all the initializing functions
      * and acting functions to make characters acting. 
      */
-    public static void allGame()
+    public static Class allGame()
     {
         //Map creation
         Map mapOfGame=Map.getinstance();
@@ -137,7 +137,22 @@ public class ProjetConceptObjet {
             ProjetConceptObjet.newTurn(turn, allTeams);
             turn++;
         }
-        System.out.println("The game has ended");
+        
+        /*
+        Message of the END of the GAME ;
+        */
+        if(Hero.nbHeroesInGame==0 && Enemy.nbEnemiesInGame!=0)
+        {
+            System.out.println("The game has ended. ENEMIES have WON this battle!\n"
+                    + "BUT THE WAR IS FINISHED!");
+            return(Enemy.class);
+        }
+        else
+        {
+            System.out.println("The game has ended. HEROES have WON this battle!\n"
+                    + "VICTORY AND GLORY WILL BE UP TO THEM!");
+            return(Hero.class);
+        }
         
     }
     

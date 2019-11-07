@@ -11,20 +11,16 @@ package projetconceptobjet;
  */
 public final class Berserker extends Troll implements Warrior {
     
+    //Attribute
     private static int nbBerserkersInGame;
     
+    
+    //Constructor
     public Berserker()
     {
         super(300,300,350,350,60,50);
     }
-
-    @Override
-    public void removeOneCharacter() {
-        nbBerserkersInGame--;
-        nbTrollsInGame--;
-        nbEnemiesInGame--;
-        nbCharactersInGame--;
-    }
+    
     
     /*
     Getters ;
@@ -42,6 +38,9 @@ public final class Berserker extends Troll implements Warrior {
     }
     
     
+    /*
+    Methods
+    */
     //Attaque accrue;
     @Override
     public void manimentArmes()
@@ -53,5 +52,13 @@ public final class Berserker extends Troll implements Warrior {
     public void perforationDefense()
     {
         System.out.println("PERFORATION DEFENSE");
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbBerserkersInGame--;
+        nbTrollsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
     }
 }

@@ -11,20 +11,16 @@ package projetconceptobjet;
  */
 public final class Assassin extends Orc implements Warrior {
     
+    //Attributes
     private static int nbAssassinsInGame;
     
+    
+    //Constructor
     public Assassin()
     {
         super(300,300,300,300,45,30);
     }
 
-    @Override
-    public void removeOneCharacter() {
-        nbAssassinsInGame--;
-        nbOrcsInGame--;
-        nbEnemiesInGame--;
-        nbCharactersInGame--;
-    }
     
     /*
     Getters ;
@@ -42,6 +38,9 @@ public final class Assassin extends Orc implements Warrior {
     }
     
     
+    /*
+    Methods
+    */
     //Attaque accrue;
     @Override
     public void manimentArmes()
@@ -53,5 +52,13 @@ public final class Assassin extends Orc implements Warrior {
     public void perforationDefense()
     {
         System.out.println("PERFORATION DEFENSE");
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbAssassinsInGame--;
+        nbOrcsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
     }
 }
