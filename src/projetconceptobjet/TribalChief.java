@@ -9,11 +9,11 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public final class TribalChef extends Elfe implements Mediator {
+public final class TribalChief extends Elfe implements Mediator {
     
-    private static int nbTribalChefInGame;
+    private static int nbTribalChiefsInGame;
     
-    public TribalChef()
+    public TribalChief()
     {
         super(300,300,500,500,60,40);
     }
@@ -22,7 +22,7 @@ public final class TribalChef extends Elfe implements Mediator {
     Getters ;
     */
     public static int getNbTribalChefInGame() {
-        return nbTribalChefInGame;
+        return nbTribalChiefsInGame;
     }
 
     
@@ -30,7 +30,15 @@ public final class TribalChef extends Elfe implements Mediator {
     Setters ;
     */
     public static void setNbTribalChefInGame(int nbTribalChefInGame) {
-        TribalChef.nbTribalChefInGame = nbTribalChefInGame;
+        TribalChief.nbTribalChiefsInGame = nbTribalChefInGame;
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbTribalChiefsInGame--;
+        nbElfesInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
     }
     
     

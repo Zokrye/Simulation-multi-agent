@@ -13,15 +13,22 @@ public final class Sorcerer extends Orc implements Wizzard{
     
     private int mana;
     private int manaMax;
-    private static int nbSorcererInGame;
+    private static int nbSorcerersInGame;
     
     public Sorcerer()
     {
-        super(200,200,300,300,35,25);
+        super(300,300,200,200,35,25);
         this.mana=200;
         this.manaMax=200;
     }
 
+    @Override
+    public void removeOneCharacter() {
+        nbSorcerersInGame--;
+        nbOrcsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
+    }
     
     /*
     Getters
@@ -35,7 +42,7 @@ public final class Sorcerer extends Orc implements Wizzard{
     }
 
     public static int getNbSorcererInGame() {
-        return nbSorcererInGame;
+        return nbSorcerersInGame;
     }
 
     
@@ -43,7 +50,7 @@ public final class Sorcerer extends Orc implements Wizzard{
     Setters ;
     */
     public static void setNbSorcererInGame(int nbSorcererInGame) {
-        Sorcerer.nbSorcererInGame = nbSorcererInGame;
+        Sorcerer.nbSorcerersInGame = nbSorcererInGame;
     }
     
     public void setMana(int mana) {

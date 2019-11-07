@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class Troll extends Enemy {
     
-    private static int nbTrollsInGame;
+    protected static int nbTrollsInGame;
     private static Class weakness;
     
     
@@ -30,6 +30,9 @@ public abstract class Troll extends Enemy {
     public boolean isInSafeZone() {
         return this.currentCell.getZone()==Zone.SafeZoneTroll;
     }
+    
+    @Override
+    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -92,12 +95,12 @@ public abstract class Troll extends Enemy {
         Tests the value of PEs of the character and decide if he can attack or not ;
         Tests also the tiredness state of the opponent to kill him directly or not;
         */
-        if( this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==false)
+        if( this.getpEnergie()>=(-costAtkPE) && this.isEtatFatigue()==false && target.isEtatFatigue()==false)
         {
             /*
             Random calcul of the power of each attack and defense turn ;
             */
-            this.doCalculationPE(costAtkPE);
+            //this.doCalculationPE(costAtkPE);
             int atkRandomValue=RandomElement.randomThrow(this.getStrenghtPoints(),0);
             int defRandomValue=RandomElement.randomThrow(target.getDefensivePoints(),0);
             //Add of the bonus given by xp of the character ;
@@ -117,16 +120,14 @@ public abstract class Troll extends Enemy {
             //Calulation of the end of the step ;
             int result=valueDEF-valueATK;
 
+            target.doCalculationPV(result);
+            target.checkPVCharacter();
             /*
             If the result is negative, the target is shot with damages ;
             */
             if(result<0)
             {
-                int targetLife=target.getpVie();
-                targetLife+=result;
-                target.setpVie(targetLife);
-                target.checkPVCharacter();
-                System.out.println("Dammages of : "+result+" are got by "+target.getNom()+" : his life is now of : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+target.getNom()+" : his life is now : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
 
             /*
@@ -134,11 +135,7 @@ public abstract class Troll extends Enemy {
             */
             else if(result>0)
             {
-                int persoLife=this.getpVie();
-                persoLife-=result;
-                this.setpVie(persoLife);
-                this.checkPVCharacter();
-                System.out.println("Dammages of : "+result+" are got by "+this.getNom()+" : his life is now of : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
+                System.out.println("Dammages of : "+result+" taken by "+this.getNom()+" : his life is now : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
 
             //Printing of the result of the step ;
@@ -146,10 +143,9 @@ public abstract class Troll extends Enemy {
                     + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n"
                     + target.getNom()+" : "+target.getpVie()+"/"+target.getpVieMax()+" PV & "+target.getpEnergie()+"/"+target.getpEnergieMax()+" PE ;");
         }
-        else if (this.getpEnergie()>=costAtkPE && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
+        else if (this.getpEnergie()>=(-costAtkPE) && this.isEtatFatigue()==false && target.isEtatFatigue()==true)
         {
-            this.doCalculationPE(costAtkPE);
-            target.setpVie(0);
+            target.kill();
             System.out.println(target.getNom()+" was too tired to resist. "+this.getNom()+" cruhes him easily.");
         }
         //The character can't attack because of his lack of PEs ;
@@ -163,9 +159,11 @@ public abstract class Troll extends Enemy {
      * Function to try to escape from a fight ;
      * Trolls don't need to pay any PEs to try to escape ;
      * Some PEs and PVs are lost if it fails.
+     * @param character : targetted character of the fight,
+     * @return : goneAway is a boolean to indicate that the character has escaped from the fight.
      */
     @Override
-    public void tryToEscape(Character character)
+    public boolean tryToEscape(Character character)
     {
         /*
         Cost of the action ;
@@ -173,10 +171,11 @@ public abstract class Troll extends Enemy {
         int costPEEscape=-10;
         int failingCostPE=-15;
         int failingCostPV=-2;
+        boolean goneAway=false;
         if(this.getpEnergie()>=(-costPEEscape))
         {
-            System.out.println("ESCAPE : "+this.getNom()+" try to escape himself from the fight.");
-            this.doCalculationPE(costPEEscape);
+            System.out.println("ESCAPE : "+this.getNom()+" try to escape the fight.");
+            //this.doCalculationPE(costPEEscape);
             /*
             Initializing of all the variable;
             A random thrown to determine the right to escape from the fight ;
@@ -190,6 +189,7 @@ public abstract class Troll extends Enemy {
             if(valueEscape==99)
             {
                     System.out.println("PERFECT! "+this.getNom()+" escapes from the fight without any problems.");
+                    goneAway=true;
                     //Moving Function to go away ;
                     escapeFrom(character);
             }
@@ -203,8 +203,8 @@ public abstract class Troll extends Enemy {
                 if(difference<0)
                 {
                     System.out.println("Escape : "+difference+". The attempt to escape from the fight has failed!\n"+this.getNom()+" lose some PEs and PVs.");
-                    this.doCalculationPE(failingCostPV);
-                    this.doCalculationPV(failingCostPE);
+                    //this.doCalculationPE(failingCostPE);
+                    this.doCalculationPV(failingCostPV);
                     //Funtion to check the life and change the dead state consquently ;
                     this.checkPVCharacter();
                     this.checkPECharacter();
@@ -212,6 +212,7 @@ public abstract class Troll extends Enemy {
                 else
                 {
                     System.out.println("Escape : "+difference+". The attempt to escape from the fight is successful!\n"+this.getNom()+" goes away.");
+                    goneAway=true;
                     //Moving Function to go away ;
                     escapeFrom(character);
                 }
@@ -224,6 +225,7 @@ public abstract class Troll extends Enemy {
         }
         System.out.println("\nScoring of the step :\n"
                         + this.getNom()+" : "+this.getpVie()+"/"+this.getpVieMax()+" PV  & "+this.getpEnergie()+"/"+this.getpEnergieMax()+" PE ;\n");
+        return(goneAway);
     }
     
     //Application de malus sur les statistiques adverses ;
@@ -275,11 +277,11 @@ public abstract class Troll extends Enemy {
         /*
         Preapre the variables to get the total number of each element of the characters ;
         */
-        int nbPVTeamMax=0;
-        int nbPVTeam=0;
-        int nbPETeamMax=0;
-        int nbPETeam=0;
-        int nbXpTeam=0;
+        int nbPVTeamMax=captain.getpVieMax();
+        int nbPVTeam=captain.getpVie();
+        int nbPETeamMax=captain.getpEnergieMax();
+        int nbPETeam=captain.getpEnergie();
+        int nbXpTeam=captain.getXp();
         /*
         Creation of the right number of characters to put them in the list ;
         */
@@ -293,12 +295,14 @@ public abstract class Troll extends Enemy {
                 Instantiation of a Paladin,increasing of the number of instance and setting of its name ;
                 */
                 newPerso = new Berserker();
+                //System.out.println("Troll berserker : "+newPerso.getpVie()+" PV ;");
                 nbBerserkers++;
                 newPerso.setNom("Berserker_"+nbBerserkers);
                 /*
                 Initializing of the all elements of the team ;
                 */
                 nbPVTeam+=newPerso.getpVie();
+                //System.out.println("Warrior PV troll team : "+nbPVTeam+" PV ; pv ajout : "+newPerso.getpVie()+" PV ;");
                 nbPVTeamMax+=newPerso.getpVieMax();
                 nbPETeam+=newPerso.getpEnergie();
                 nbPETeamMax+=newPerso.getpEnergieMax();
@@ -316,6 +320,7 @@ public abstract class Troll extends Enemy {
                 Initializing of the all elements of the team ;
                 */
                 nbPVTeam+=newPerso.getpVie();
+                //System.out.println("Mage PV troll team : "+nbPVTeam+" PV ; pv ajout : "+newPerso.getpVie()+" PV ;");
                 nbPVTeamMax+=newPerso.getpVieMax();
                 nbPETeam+=newPerso.getpEnergie();
                 nbPETeamMax+=newPerso.getpEnergieMax();

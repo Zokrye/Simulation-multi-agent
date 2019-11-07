@@ -11,11 +11,19 @@ package projetconceptobjet;
  */
 public final class Hunter extends Elfe implements Warrior {
     
-    private static int nbHunterInGame;
+    private static int nbHuntersInGame;
     
     public Hunter()
     {
         super(200,200,300,300,40,30);
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbHuntersInGame--;
+        nbElfesInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
     }
 
     
@@ -23,7 +31,7 @@ public final class Hunter extends Elfe implements Warrior {
     Getter ;
     */
     public static int getNbHunterInGame() {
-        return nbHunterInGame;
+        return nbHuntersInGame;
     }
 
     
@@ -31,7 +39,7 @@ public final class Hunter extends Elfe implements Warrior {
     Setters ;
     */
     public static void setNbHunterInGame(int nbHunterInGame) {
-        Hunter.nbHunterInGame = nbHunterInGame;
+        Hunter.nbHuntersInGame = nbHunterInGame;
     }
     
     //Attaque accrue;

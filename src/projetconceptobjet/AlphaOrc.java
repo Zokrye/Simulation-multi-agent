@@ -9,28 +9,35 @@ package projetconceptobjet;
  *
  * @author ISEN
  */
-public final class OrcAlpha extends Orc implements Mediator{
+public final class AlphaOrc extends Orc implements Mediator{
     
-    private static int nbOrcAlphaInGame;
+    private static int nbAlphaOrcsInGame;
     
-    public OrcAlpha()
+    public AlphaOrc()
     {
         super(350,350,500,500,65,25);
     }
 
+    @Override
+    public void removeOneCharacter() {
+        nbAlphaOrcsInGame--;
+        nbOrcsInGame--;
+        nbEnemiesInGame--;
+        nbCharactersInGame--;
+    }
     
     /*
     Getters ;
     */
     public static int getNbOrcAlphaInGame() {
-        return nbOrcAlphaInGame;
+        return nbAlphaOrcsInGame;
     }
 
     /*
     Setters ;
     */
     public static void setNbOrcAlphaInGame(int nbOrcAlphaInGame) {
-        OrcAlpha.nbOrcAlphaInGame = nbOrcAlphaInGame;
+        AlphaOrc.nbAlphaOrcsInGame = nbOrcAlphaInGame;
     }
     
     @Override

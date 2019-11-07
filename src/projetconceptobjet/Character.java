@@ -31,7 +31,7 @@ public abstract class Character {
     //protected int niveau;
     //protected int nbPasMaxTour;
     //protected int nbPasTour;
-    private static int nbCharactersInGame;
+    protected static int nbCharactersInGame;
     
     protected Cell currentCell;
     protected Direction safeZoneDirection;
@@ -53,85 +53,96 @@ public abstract class Character {
     /*Methods*/
     
     public void seDeplacer() {
-        int remainingCells = RandomElement.randomThrow(maxMovement, 1);
+        int remainingCells = RandomElement.randomThrow(maxMovement+1, 1);
         
         Cell nextCell=null;
         Direction chosenDirection=null;
-        
-        if(this.pEnergie/this.pEnergieMax<=0.2) {
-            //Use the default direction to join Safezone
-            Direction d1=safeZoneDirection;
-            //The 2nd best options for joining the safeZone
-            Direction d2=new Direction(safeZoneDirection.getX(),0);
-            Direction d3=new Direction(0,safeZoneDirection.getY());
-            //The 3rd best options for joining the safezone
-            Direction d4=new Direction(safeZoneDirection.getX(),-safeZoneDirection.getY());
-            Direction d5=new Direction(-safeZoneDirection.getX(),safeZoneDirection.getY());
-            //Last options and less interesting directions to join SafeZone
-            Direction d6=new Direction(-safeZoneDirection.getX(),0);
-            Direction d7=new Direction(0,-safeZoneDirection.getY());
-            
-            Direction d8=new Direction(-safeZoneDirection.getX(),-safeZoneDirection.getY());
+        if(!this.isEtatFatigue()) {
+            if((double)this.pEnergie/(double)this.pEnergieMax<=0.2) {
+                //Use the default direction to join Safezone
+                Direction d1=safeZoneDirection;
+                //The 2nd best options for joining the safeZone
+                Direction d2=new Direction(safeZoneDirection.getX(),0);
+                Direction d3=new Direction(0,safeZoneDirection.getY());
+                //The 3rd best options for joining the safezone
+                Direction d4=new Direction(safeZoneDirection.getX(),-safeZoneDirection.getY());
+                Direction d5=new Direction(-safeZoneDirection.getX(),safeZoneDirection.getY());
+                //Last options and less interesting directions to join SafeZone
+                Direction d6=new Direction(-safeZoneDirection.getX(),0);
+                Direction d7=new Direction(0,-safeZoneDirection.getY());
 
-            List<Direction> directions = new ArrayList<> (Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8));
-            //Get the first available cell in the list
-            for(Direction direction : directions) {
-                nextCell=direction.applyFrom(currentCell);
-                //If direction leads to an existing cell
-                if(nextCell!=null) {
-                    //If the cell has no obstacles
-                    if(nextCell.hasObstacle) {
-                        //Save the available direction                   
-                        chosenDirection=direction;
-                        break;
+                Direction d8=new Direction(-safeZoneDirection.getX(),-safeZoneDirection.getY());
+
+                List<Direction> directions = new ArrayList<> (Arrays.asList(d1,d2,d3,d4,d5,d6,d7,d8));
+                //Get the first available cell in the list
+                for(Direction direction : directions) {
+                    nextCell=direction.applyFrom(currentCell);
+                    //If direction leads to an existing cell
+                    if(nextCell!=null) {
+                        //If the cell has no obstacles
+                        if(!nextCell.hasObstacle) {
+                            //Save the available direction                   
+                            chosenDirection=direction;
+                            break;
+                        }
+                    }
+
+                }
+            }
+            //Déplacment random quand les PE sont suffisants
+            else {
+                List<Direction> directions=currentCell.getAvailableDirections();
+                //If the character has more than 20% of life, aggressive behaviour
+                if((double)this.pVie/(double)this.pVieMax>0.2) {
+                    for(Direction direction : directions){
+                        //If there is a nearby enemy character, move in his direction
+                        Character otherCharacter=direction.applyFrom(currentCell).character;
+                        if(otherCharacter!=null) {
+                            if(!otherCharacter.isSameSide(this) && !otherCharacter.isInSafeZone()) {
+                                chosenDirection=direction;
+                                break;
+                            }
+                        }
                     }
                 }
-
+                //If not enough life or no nearby ennemy, random move
+                if(chosenDirection==null && directions.size()>0) {
+                    int randomIndex=RandomElement.randomThrow(directions.size(), 0);
+                    chosenDirection=directions.get(randomIndex);
+                }
             }
-        }
-        //Déplacment random quand les PE sont suffisants
-        else {
-            List<Direction> directions=currentCell.getAvailableDirections();
-            if(directions.size()>0) {
-                int randomIndex=RandomElement.randomThrow(directions.size()-1, 0);
-                chosenDirection=directions.get(randomIndex);
-            }
-        }
-        if(chosenDirection!=null) {
-            while(remainingCells>0 && pEnergie>0 && chosenDirection.applyFrom(currentCell)!=null) {
-                    nextCell=chosenDirection.applyFrom(currentCell);
-                    if(!nextCell.hasObstacle ) {
-                        if(nextCell.character==null) {
-                            moveTo(nextCell);
-                            if(pVie<pVieMax) {
-                                pVie++;
-                            }
-                            if(isInSafeZone()){
-                                if(this.pEnergie<=pEnergieMax-3) {
-                                    pEnergie+=3;
+            if(chosenDirection!=null) {
+                while(remainingCells>0 && pEnergie>0 && chosenDirection.applyFrom(currentCell)!=null) {
+                        nextCell=chosenDirection.applyFrom(currentCell);
+                        if(!nextCell.hasObstacle ) {
+                            if(nextCell.character==null) {
+                                moveTo(nextCell);
+                                doCalculationPV(1);
+                                if(isInSafeZone()){
+                                    doCalculationPE(pEnergieMax);
                                 }
                                 else {
-                                    pEnergie=pEnergieMax;
+                                    doCalculationPE(-1);
                                 }
+
                             }
+                            //Meet another character
                             else {
-                                pEnergie--;
+                                Character otherCharacter = nextCell.getCharacter();
+                                meet(otherCharacter, remainingCells);
                             }
                             remainingCells--;
                         }
-                        //Meet another character
+                        //Reset remaining cells to 0 in case the character hits an obstacle
                         else {
-                            Character otherCharacter = nextCell.getCharacter();
-                            meet(otherCharacter, remainingCells);
+                            remainingCells=0;
                         }
-                        remainingCells=0;
-                    }
-                    //Reset remaining cells to 0 in case the character hits an obstacle
-                    else {
-                        remainingCells=0;
-                    }
-            }     
+                }     
 
+            }
+        }
+        else {
+            this.doCalculationPE(1);
         }
         
         
@@ -172,6 +183,7 @@ public abstract class Character {
                 if(!nextCell.hasObstacle && !nextCell.hasCharacter()) {
                     //Move to the free cell                
                     moveTo(nextCell);
+                    doCalculationPE(-1);
                     break;
                 }
             }
@@ -181,7 +193,7 @@ public abstract class Character {
     
     public abstract void meet(Character otherCharacter, int remainingCells);
     public abstract void attack(Character target);
-    public abstract void tryToEscape(Character character);
+    public abstract boolean tryToEscape(Character character);
     /**
      * 
      * @return Whether the character is in its own Safezone or not
@@ -275,6 +287,14 @@ public abstract class Character {
         }
     }
     
+    public void kill() {
+        this.pVie=0;
+        this.dead = true;
+        this.removeOneCharacter();
+        this.currentCell.setCharacter(null);
+    }
+    
+    public abstract void removeOneCharacter();
     /*
     Getters
     */
@@ -435,6 +455,8 @@ public abstract class Character {
         int limitTurnChoiceEnergie=0;
         //Count of turns ;
         int count=1;
+        boolean goneAway_1=false;
+        boolean goneAway_2=false;
         
         System.out.println("========================================================================\n"
                 + "=========================FIGHT=====================\n");
@@ -450,7 +472,9 @@ public abstract class Character {
                 && target.isEtatFatigue()!=true
                 && this.isEtatFatigue()!=true
                 && target.getpEnergie()>=limitTurnChoiceEnergie
-                && this.getpEnergie()>=limitTurnChoiceEnergie )
+                && this.getpEnergie()>=limitTurnChoiceEnergie
+                && goneAway_1==false
+                && goneAway_2==false)
         {
             /*
             First turn of the attacking character ;
@@ -497,7 +521,8 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        this.tryToEscape(target);
+                        goneAway_1=this.tryToEscape(target);
+                        break;
                 }
             }
             System.out.println("\n\n-----------"+target.getNom()+"------------");
@@ -505,7 +530,9 @@ public abstract class Character {
             Turn with enough PVs and PEs for the target one ;
             */
             if ( target.getpVie()/target.getpVieMax()>=0.2 
-                    && target.getpEnergie()/target.getpEnergieMax()>=0.2)
+                    && target.getpEnergie()/target.getpEnergieMax()>=0.2
+                    && this.isDead()!=true
+                    && goneAway_1!=true)
             {
                 target.attack(this);
             }
@@ -514,7 +541,9 @@ public abstract class Character {
             */
             else if ( (target.getpVie()/target.getpVieMax()<0.2 
                     || target.getpEnergie()/target.getpEnergieMax()<0.2)
-                    && target.isDead()==false)
+                    && target.isDead()==false
+                    && this.isDead()!=true
+                    && goneAway_1!=true)
             {
                 //Throws a random number to chose between escaping or fighting ;
                 int random_2=RandomElement.randomThrow(2, 0);
@@ -528,40 +557,54 @@ public abstract class Character {
                         break;
                     
                     case 1:
-                        target.tryToEscape(target);
+                        goneAway_2=this.tryToEscape(target);
+                        break;
                 }
             }
             System.out.println("************************************\n\n");
             count++;
         }
         /*
-        Test of each breaking situation : death or tiredness for each character ;
-        If the character is tired and alive, the opponent kill him with attacking.
+        Test of each breaking situation : death, escape or tiredness for each character ;
+        If the character is tired and alive, the opponent kill him attacking,
+        If he escaped he is safe from is opponent.
         */
         if(this.isDead()==true)
         {
             System.out.println(this.getNom()+" died during the fight. Make him rest in peace.");
+            target.winXP(this);
         }
         else if(target.isDead()==true)
         {
             System.out.println(this.getNom()+" destroyed "+target.getNom()+" during this fight. Glory for the winner.");
+            this.winXP(target);
         }
-        else if(this.isEtatFatigue()==true)
+        else if(this.isEtatFatigue()==true && goneAway_1!=true)
         {
             System.out.println(this.getNom()+" is out of breath."+target.getNom()+" decides to kill him to close the fight. Glory for the winner.");
             target.attack(this);
+            target.winXP(this);
         }
-        else if(target.isEtatFatigue()==true)
+        else if(target.isEtatFatigue()==true && goneAway_2!=true)
         {
             System.out.println(target.getNom()+" is out of breath."+this.getNom()+" decides to kill him to close the fight. Glory for the winner.");
             this.attack(target);
+            this.winXP(target);
+        }
+        else if(goneAway_1==true && this.isDead()==false)
+        {
+            System.out.println(target.getNom()+" doesn't understand what happened. The fight is over. "+this.getNom()+" has escaped himself.");
+        }
+        else if(goneAway_2==true && target.isDead()==false)
+        {
+            System.out.println(this.getNom()+" doesn't understand what happened. The fight is over. "+target.getNom()+" has escaped himself.");
         }
         /*
         Check the state of each character ;
         */
-        target.checkPECharacter();
+        //target.checkPECharacter();
         target.checkPVCharacter();
-        this.checkPECharacter();
+        //this.checkPECharacter();
         this.checkPVCharacter();
         System.out.println("===========================END OF THE FIGHT===============================\n"
                 + "=======================================================================");
@@ -586,8 +629,8 @@ public abstract class Character {
             /*
             Set all variables that indicate the character is tired ;
             */
-            this.setEtatFatigue(true);
-            this.setpEnergie(0);
+            //this.setEtatFatigue(true);
+            //this.setpEnergie(0);
             System.out.println(this.getNom()+" is tired.");
         }
         else if (this.getpEnergie()/this.getpEnergieMax()<=0.2 && this.getpEnergie()>0)
@@ -616,13 +659,14 @@ public abstract class Character {
         if(this.getpVie()<=0)
         {
             //Setting the dead boolean to indicate that the character is dead ;
-            this.setDead(true);
+            //this.setDead(true);
             //Setting of the PVs to 0 to normalize it ;
-            this.setpVie(0);
+            //this.setpVie(0);
             //Setting the Energie to 0 to avoid any action by a dead character ;
-            this.setpEnergie(0);
+            //this.setpEnergie(0);
             //Informatrion of the user ;
             System.out.println(this.getNom()+" is dead.");
+            //Update statistics of the simulation
         }
         else
         {
@@ -636,19 +680,20 @@ public abstract class Character {
      */
     public void doCalculationPE(int value)
     {
-        System.out.println("PEs of "+nom+" were of "+pEnergie+"/"+pEnergieMax+" PE.");       
+        System.out.println("PEs of "+nom+" were "+pEnergie+"/"+pEnergieMax+" PE.");       
         //Checks the value after calculation
         if(pEnergie+value>=pEnergieMax) {
             pEnergie=pEnergieMax;
         }
-        else if(pEnergie+value<0) {
+        else if(pEnergie+value<=0) {
             pEnergie=0;
+            this.etatFatigue=true;
         }
         else {
             pEnergie+=value;
-            this.etatFatigue=true;
+            this.etatFatigue=false;
         }
-        System.out.println("They are now of "+pEnergie+"/"+pEnergieMax+" PE.");
+        System.out.println("They are now "+pEnergie+"/"+pEnergieMax+" PE.");
         
         
     }
@@ -659,17 +704,86 @@ public abstract class Character {
      */
     public void doCalculationPV(int value)
     {
-        System.out.println("PVs of "+nom+" were of "+pVie+"/"+pVieMax+" PV.");
+        int prevPV=pVie;
         if(pVie+value>=pVieMax) {
             pVie=pVieMax;
         }
         else if(pVie+value<0) {
-            pVie=0;
-            setDead(true);
+            this.kill();
         }
         else {
-            pVie+=value;
+            pVie+=value;           
         }
-        System.out.println("They are now of "+pVie+"/"+pVieMax+" PV.");
+        int currentPV=pVie;
+        if(currentPV!=prevPV)
+        {
+            System.out.println("PVs of "+nom+" were of "+prevPV+"/"+pVieMax+" PV.");
+            System.out.println("They are now "+pVie+"/"+pVieMax+" PV.");
+        }
     }
+    
+    
+    /**
+     * Function that allows to win some xp for the winning character of the fight ;
+     * @param target : Target who has been killed by the character.
+     */
+    public void winXP(Character target)
+    {
+        //Tests if the target is dead ;
+        if(target.isDead()==true)
+        {
+            //If the target is dead, the xp winnig phase can begin ;
+            System.out.println("%%%%%%%%%%%%%%%%%%%%\n"
+                    + "%%%%%%%XP WON%%%%%%%");
+            //We get the existing xp value of the winning character ;
+            int xpWinner=this.getXp();
+            /*
+            We test to which class the target was a part of 
+            and we attribute the required value of xps;
+            */
+            if(target.getClass().getSimpleName().equals("Priest")
+                    || target.getClass().getSimpleName().equals("Prophet")
+                    || target.getClass().getSimpleName().equals("Sorcerer")
+                    || target.getClass().getSimpleName().equals("Shaman"))
+            {
+                xpWinner+=Wizzard.XP_VALUE;
+            }
+            else if(target.getClass().getSimpleName().equals("Paladin")
+                    || target.getClass().getSimpleName().equals("Hunter")
+                    || target.getClass().getSimpleName().equals("Assassin")
+                    || target.getClass().getSimpleName().equals("Berserker"))
+            {
+                xpWinner+=Warrior.XP_VALUE;
+            }
+            else if(target.getClass().getSimpleName().equals("Admiral")
+                    || target.getClass().getSimpleName().equals("TribalChef")
+                    || target.getClass().getSimpleName().equals("OrcAlpha")
+                    || target.getClass().getSimpleName().equals("TrollPackMaster"))
+            {
+                xpWinner+=Mediator.XP_VALUE;
+            }
+            //Print some information about the victime ;
+            System.out.println(target.getNom()+" was a(n) "+target.getClass().getSimpleName()+", "+this.getNom()+" wins "+xpWinner+" XP.");
+            /*
+            We test if the target had some xp points,
+            If it is the case, the winner take all xp points from the loser ;
+            */
+            if(target.getXp()>0)
+            {
+                System.out.println(target.getNom()+" had "+target.getXp()+" XP, "+this.getNom()+" steal them from him.");
+                xpWinner+=target.getXp();
+                target.setXp(0);
+            }
+            //We set the xp points of the winner ;
+            this.setXp(xpWinner);
+            //We print the result of the match ;
+            System.out.println("Total XP won : "+xpWinner+" XP.\n"
+                    + this.getNom()+" has now "+this.getXp()+" XP.\n"
+                            + "%%%%%%%%%END XP WON%%%%%%%%%%\n"
+                            + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        }
+    }
+    
+    
+    //public abstract void updateStats();
 }

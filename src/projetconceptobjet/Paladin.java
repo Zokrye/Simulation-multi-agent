@@ -11,7 +11,7 @@ package projetconceptobjet;
  */
 public final class Paladin extends Human implements Warrior {
     
-    private static int nbPaladinInGame;
+    private static int nbPaladinsInGame;
     
     public Paladin()
     {
@@ -23,7 +23,7 @@ public final class Paladin extends Human implements Warrior {
     Getters ;
     */
     public static int getNbPaladinInGame() {
-        return nbPaladinInGame;
+        return nbPaladinsInGame;
     }
 
     
@@ -31,7 +31,15 @@ public final class Paladin extends Human implements Warrior {
     Setters
     */
     public static void setNbPaladinInGame(int nbPaladinInGame) {
-        Paladin.nbPaladinInGame = nbPaladinInGame;
+        Paladin.nbPaladinsInGame = nbPaladinInGame;
+    }
+    
+    @Override
+    public void removeOneCharacter() {
+        nbPaladinsInGame--;
+        nbHumansInGame--;
+        nbHeroesInGame--;
+        nbCharactersInGame--;
     }
     
 

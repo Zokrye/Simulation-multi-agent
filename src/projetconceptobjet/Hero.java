@@ -11,13 +11,15 @@ package projetconceptobjet;
  */
 public abstract class Hero extends Character {
     
-    private static int nbHeroesInGame;
+    protected static int nbHeroesInGame;
     
     public Hero(int pEnergie,int pEnergieMax,int pVie,int pVieMax, int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
     }
 
+    @Override
+    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -45,7 +47,7 @@ public abstract class Hero extends Character {
             reanimation(otherCharacter, remainingCells);
         }
         else { 
-            if(!isInSafeZone() && !otherCharacter.isInSafeZone()) {
+            if(!otherCharacter.isInSafeZone()) {
             fight(otherCharacter);
             }                         
         }

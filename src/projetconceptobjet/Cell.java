@@ -77,7 +77,7 @@ public class Cell {
         List<Direction> availableDirections =new ArrayList<>();
         for(int i=-1;i<=1;i++) {
             for(int j=-1;j<=1;j++) {
-                if(i!=0 && j!=0) { // Direction 0,0 is not allowed
+                if(i!=0 || j!=0) { // Direction 0,0 is not allowed
                     Direction direction=new Direction(i,j);
                     if(checkDirection(direction)) {
                         availableDirections.add(new Direction(i,j));
@@ -96,7 +96,7 @@ public class Cell {
     public boolean checkDirection(Direction direction) {
         Cell targetedCell=map.getCell(x+direction.getX(), y+direction.getY());
         if(targetedCell!=null) {
-            return targetedCell.isAvailable();
+            return !targetedCell.hasObstacle;
         }
         return false;
     }

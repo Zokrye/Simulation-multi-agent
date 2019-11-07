@@ -11,13 +11,15 @@ package projetconceptobjet;
  */
 public abstract class Enemy extends Character {
     
-    private static int nbEnemiesInGame;
+    protected static int nbEnemiesInGame;
     
     public Enemy(int pEnergie,int pEnergieMax,int pVie,int pVieMax, int strenght, int defense)
     {
         super(pEnergie,pEnergieMax,pVie,pVieMax,strenght,defense);
     }
 
+    @Override
+    public abstract void removeOneCharacter();
     
     /*
     Getters ;
@@ -45,7 +47,7 @@ public abstract class Enemy extends Character {
             sacrifice(otherCharacter);
         }
         else {
-            if(!isInSafeZone() && !otherCharacter.isInSafeZone()) {
+            if(!otherCharacter.isInSafeZone()) {
             fight(otherCharacter);
             }                          
         } 
@@ -60,7 +62,7 @@ public abstract class Enemy extends Character {
     public void sacrifice(Character character) {     
         if(this.isSameRace(character)) {
             //Steal the half of his life
-            character.doCalculationPE(-character.getpVie()/2);
+            character.doCalculationPV(-character.getpVie()/2);
             this.doCalculationPV(character.getpVie()/2);
             
         }
@@ -68,7 +70,7 @@ public abstract class Enemy extends Character {
             //Kills the character, steal the half of his life and his strenght
             this.doCalculationPV(character.getpVie()/2);
             this.strenghtPoints+=character.getStrenghtPoints()/2;
-            character.setDead(true);
+            character.kill();
         }
     }
     

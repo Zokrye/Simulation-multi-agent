@@ -65,7 +65,7 @@ public class ProjetConceptObjet {
             }*/
         //////////////////////////////////////////////////////////////
         //////////////TEST CREATION D'EQUIPES ALEATOIRE////////////
-        ArrayList<Team> allTeams=Team.randomTeamsCreation(12,12);
+        /*ArrayList<Team> allTeams=Team.randomTeamsCreation(12,12);
         
         //Recup of teams ;
         Team test=Team.recupTeamFromTheList(allTeams, Human.class);
@@ -75,7 +75,6 @@ public class ProjetConceptObjet {
         
         ///////////////////////////////////////////////////////////////
         /////////////TEST OF TURNS/////////////////////////////////////
-        ProjetConceptObjet.newTurn(1,allTeams);
         System.out.println("/////////////////////////Tests attaques des classes.////////////////////////");
         Hunter elfe_test=new Hunter();
         elfe_test.setNom("Hunter_test");
@@ -103,7 +102,7 @@ public class ProjetConceptObjet {
         //orc_test.attack(human_test);
         //orc_test.checkPVCharacter();
         
-        System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
+        /*System.out.println("/////////////////////////Tests fuite des classes////////////////////////");
         //elfe_test.tryToEscape();
         
         ///////////////////////////////////////////////////////////////
@@ -111,11 +110,36 @@ public class ProjetConceptObjet {
         System.out.println("/////////////////////////Tests Map////////////////////////");
         Map map=Map.getinstance();
         map.placeAllCharacters(false);
-        map.displayMap();
+        ProjetConceptObjet.newTurn(1,allTeams);
+        map.displayMap();*/
         
-        
+        ProjetConceptObjet.allGame();
     }
     
+    
+    /**
+     * Main function of the simulation, it calls all the initializing functions
+     * and acting functions to make characters acting. 
+     */
+    public static void allGame()
+    {
+        //Map creation
+        Map mapOfGame=Map.getinstance();
+        //Team creation
+        ArrayList<Team> allTeams=Team.randomTeamsCreation(mapOfGame.HEIGHT, mapOfGame.LENGTH);
+        //Place chracters on the map
+        mapOfGame.placeAllCharacters(false);
+        //Display of the map
+        mapOfGame.displayMap();
+        //Browse of turns
+        int turn=0;
+        while(Hero.nbHeroesInGame!=0 && Enemy.nbEnemiesInGame!=0) {
+            ProjetConceptObjet.newTurn(turn, allTeams);
+            turn++;
+        }
+        System.out.println("The game has ended");
+        
+    }
     
     /**
      * Function launching a new turn in the simulation ;
@@ -125,33 +149,97 @@ public class ProjetConceptObjet {
     public static void newTurn(int turnPosition, ArrayList<Team> allTeams)
     {
         //Limit of the beggining of the new turn ;
-        System.out.println("---------------------------------------------------------------\n"
-                + "--------------------------TURN "+turnPosition+"-------------------------------");
+        System.out.println("=====================================================================\n"
+                + "=======================TURN "+turnPosition+"====================================");
         //List of characters ordered for the turn ;
         ArrayList<Character> listPlayers=RandomElement.randomOrderOfGameForTheTurn(allTeams);
+        Map mapOfGame=Map.getinstance();
         
         /*
-        Cursing of the list to make each character play ;
+        Course of the list to make each character play ;
         */
         for (Character character:listPlayers)
         {
-            
+            System.out.println("#####################################################################\n"
+                    + "#####################TURN PERSO : "+character.getNom()+"#########################");
+            System.out.println("Initial cell of the character position : "+character.getCurrentCell().x
+                    +" ; "+character.getCurrentCell().y+"; \n"
+                    + "His life : "+character.getpVie()+"/"+character.getpVieMax()+" PV ;\n"
+                    + "His energy : "+character.getpEnergie()+"/"+character.getpEnergieMax()+" PE ;\n"
+                    + "His XP : "+character.getXp()+".");
+            /*
+            Action of each character ;
+            Tests if the character is dead or not ;
+            */
+            if(character.isDead()==false && character.isEtatFatigue()==false)
+            {
+                //Function to make characters acting ;
+                character.seDeplacer();
+            }
+            /*
+            Tests if the character is tired ;
+            */
+            else if(character.isEtatFatigue())
+            {
+                //Anounces it to the user ;
+                System.out.println(character.getNom()+" is tired, he can't play this turn and waits for some help on the cell ("
+                        +character.getCurrentCell().x+" ; "+character.getCurrentCell().y+").");
+            }
+            System.out.println("Final cell of the character position : "+character.getCurrentCell().x
+                    +" ; "+character.getCurrentCell().y);
+            System.out.println("#######################END OF THE TURN : "+character.getNom()+"################################\n"
+                    + "########################################################################################\n");
         }
-        
+        Team.updateTeamLife(allTeams, listPlayers);
+        //Display of the statistiques ;
+        System.out.println("Statistics of the turn "+turnPosition+" :\n"
+                + "Number of Characters in game : "+Character.getNbCharactersInGame()+" ;\n"
+                + "Number of Heroes in game : "+Hero.getNbHeroesInGame()+" ;\n"
+                + "Number of Enemies in game : "+Enemy.getNbEnemiesInGame()+" ;\n"
+                + "\to Team Troll :\n"
+                + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Troll.class).getLifePointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Troll.class).getTotalLifePointTeam()+" PV ;\n"
+                + "\t\tTotal energy of the team : "+Team.recupTeamFromTheList(allTeams, Troll.class).getEnergyPointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Troll.class).getTotalEnergyPointTeam()+" PE ;\n"
+                + "\t\tTotal XP of the team : "+Team.recupTeamFromTheList(allTeams, Troll.class).getXpTeam()+" XP ;\n"
+                + "\t\tNumber of Trolls in game : "+Troll.getNbTrollsInGame()+" ;\n"
+                + "\t\tNumber of Troll Pack Masters alive : "+TrollPackMaster.getNbTrollPackMasterInGame()+" ;\n"
+                + "\t\tNumber of Shamans alive : "+Shaman.getNbShamanInGame()+" ;\n"
+                + "\t\tNumber of Berserkers alive : "+Berserker.getNbBerserkerInGame()+" ;\n"
+                + "\to Team Orc :\n"
+                + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Orc.class).getLifePointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Orc.class).getTotalLifePointTeam()+" PV ;\n"
+                + "\t\tTotal energy of the team : "+Team.recupTeamFromTheList(allTeams, Orc.class).getEnergyPointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Orc.class).getTotalEnergyPointTeam()+" PE ;\n"
+                + "\t\tTotal XP of the team : "+Team.recupTeamFromTheList(allTeams, Orc.class).getXpTeam()+" XP ;\n"
+                + "\t\tNumber of Orcs in game : "+Orc.getNbOrcsInGame()+" ;\n"
+                + "\t\tNumber of Orc Alpha alive : "+AlphaOrc.getNbOrcAlphaInGame()+" ;\n"
+                + "\t\tNumber of Sorcerer alive : "+Sorcerer.getNbSorcererInGame()+" ;\n"
+                + "\t\tNumber of Assassins alive : "+Assassin.getNbAssassinInGame()+" ;\n"
+                + "\to Team Human :\n"
+                + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Human.class).getLifePointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Human.class).getTotalLifePointTeam()+" PV ;\n"
+                + "\t\tTotal energy of the team : "+Team.recupTeamFromTheList(allTeams, Human.class).getEnergyPointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Human.class).getTotalEnergyPointTeam()+" PE ;\n"
+                + "\t\tTotal XP of the team : "+Team.recupTeamFromTheList(allTeams, Human.class).getXpTeam()+" XP ;\n"
+                + "\t\tNumber of Humans in game : "+Human.getNbHumansInGame()+" ;\n"
+                + "\t\tNumber of Adimrals alive : "+Admiral.getNbAdmiralInGame()+" ;\n"
+                + "\t\tNumber of Priests alive : "+Priest.getNbPriestInGame()+" ;\n"
+                + "\t\tNumber of Paladins alive : "+Paladin.getNbPaladinInGame()+" ;\n"
+                + "\to Team Elfe :\n"
+                + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Elfe.class).getLifePointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Elfe.class).getTotalLifePointTeam()+" PV ;\n"
+                + "\t\tTotal energy of the team : "+Team.recupTeamFromTheList(allTeams, Elfe.class).getEnergyPointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Elfe.class).getTotalEnergyPointTeam()+" PE ;\n"
+                + "\t\tTotal XP of the team : "+Team.recupTeamFromTheList(allTeams, Elfe.class).getXpTeam()+" XP ;\n"
+                + "\t\tNumber of Elves in game : "+Elfe.getNbElfesInGame()+" ;\n"
+                + "\t\tNumber of Tribal Chef alive : "+TribalChief.getNbTribalChefInGame()+" ;\n"
+                + "\t\tNumber of Prophets alive : "+Prophet.getNbProphetInGame()+" ;\n"
+                + "\t\tNumber of Hunters alive : "+Hunter.getNbHunterInGame()+" ;\n");
+        mapOfGame.displayMap();
         //End of the Turn ;
         System.out.println("=========================END OF THE TURN "+turnPosition+"==============================\n"
                 + "========================================================================");
-    }
-    
-    
-    /**
-     * Function that allows the user to create a map with its own dimensions,
-     * keeping some control on it to avoid size problems;
-     * !!!!!!!!!!!!!! A prévoir dans la fonction principale : init dimension carte en les demandant à l'utilisateur (bloquage à partir de dimension 5);
-     */
-    public void createTableWithUser()
-    {
-        
     }
     
     
