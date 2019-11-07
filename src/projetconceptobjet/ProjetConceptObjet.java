@@ -116,6 +116,15 @@ public class ProjetConceptObjet {
         ProjetConceptObjet.allGame();
     }
     
+    public static void severalGames(int nbGames) {
+        int nbVictoryEnemies=0;
+        int nbVictoryHeroes=0;
+        for(int i=0; i<nbGames; i++) {
+            allGame();
+        }
+        System.out.println("Heroes have won "+ ((double)nbVictoryHeroes/(double)nbGames)*100 
+                +" of the games on "+nbGames+" games");
+    }
     
     /**
      * Main function of the simulation, it calls all the initializing functions
