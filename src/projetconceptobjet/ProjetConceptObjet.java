@@ -113,14 +113,20 @@ public class ProjetConceptObjet {
         ProjetConceptObjet.newTurn(1,allTeams);
         map.displayMap();*/
         
-        ProjetConceptObjet.allGame();
+        ProjetConceptObjet.severalGames(10);
+        //ProjetConceptObjet.allGame();
     }
     
     public static void severalGames(int nbGames) {
         int nbVictoryEnemies=0;
         int nbVictoryHeroes=0;
         for(int i=0; i<nbGames; i++) {
-            allGame();
+            if(allGame()==Hero.class) {
+                nbVictoryHeroes++;
+            }
+            else {
+                nbVictoryEnemies++;
+            }
         }
         System.out.println("Heroes have won "+ ((double)nbVictoryHeroes/(double)nbGames)*100 
                 +" of the games on "+nbGames+" games");
@@ -139,6 +145,50 @@ public class ProjetConceptObjet {
         //Place chracters on the map
         mapOfGame.placeAllCharacters(false);
         //Display of the map
+        System.out.println("Statistics of the turn "+0+" :\n"
+                + "Number of Characters in game : "+Character.getNbCharactersInGame()+" ;\n"
+                + "Number of Heroes in game : "+Hero.getNbHeroesInGame()+" ;\n"
+                + "Number of Enemies in game : "+Enemy.getNbEnemiesInGame()+" ;\n"
+                + "\to Team Troll :\n"
+                + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Troll.class).getLifePointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Troll.class).getTotalLifePointTeam()+" PV ;\n"
+                + "\t\tTotal energy of the team : "+Team.recupTeamFromTheList(allTeams, Troll.class).getEnergyPointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Troll.class).getTotalEnergyPointTeam()+" PE ;\n"
+                + "\t\tTotal XP of the team : "+Team.recupTeamFromTheList(allTeams, Troll.class).getXpTeam()+" XP ;\n"
+                + "\t\tNumber of Trolls in game : "+Troll.getNbTrollsInGame()+" ;\n"
+                + "\t\tNumber of Troll Pack Masters alive : "+TrollPackMaster.getNbTrollPackMasterInGame()+" ;\n"
+                + "\t\tNumber of Shamans alive : "+Shaman.getNbShamanInGame()+" ;\n"
+                + "\t\tNumber of Berserkers alive : "+Berserker.getNbBerserkerInGame()+" ;\n"
+                + "\to Team Orc :\n"
+                + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Orc.class).getLifePointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Orc.class).getTotalLifePointTeam()+" PV ;\n"
+                + "\t\tTotal energy of the team : "+Team.recupTeamFromTheList(allTeams, Orc.class).getEnergyPointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Orc.class).getTotalEnergyPointTeam()+" PE ;\n"
+                + "\t\tTotal XP of the team : "+Team.recupTeamFromTheList(allTeams, Orc.class).getXpTeam()+" XP ;\n"
+                + "\t\tNumber of Orcs in game : "+Orc.getNbOrcsInGame()+" ;\n"
+                + "\t\tNumber of Orc Alpha alive : "+AlphaOrc.getNbOrcAlphaInGame()+" ;\n"
+                + "\t\tNumber of Sorcerer alive : "+Sorcerer.getNbSorcererInGame()+" ;\n"
+                + "\t\tNumber of Assassins alive : "+Assassin.getNbAssassinInGame()+" ;\n"
+                + "\to Team Human :\n"
+                + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Human.class).getLifePointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Human.class).getTotalLifePointTeam()+" PV ;\n"
+                + "\t\tTotal energy of the team : "+Team.recupTeamFromTheList(allTeams, Human.class).getEnergyPointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Human.class).getTotalEnergyPointTeam()+" PE ;\n"
+                + "\t\tTotal XP of the team : "+Team.recupTeamFromTheList(allTeams, Human.class).getXpTeam()+" XP ;\n"
+                + "\t\tNumber of Humans in game : "+Human.getNbHumansInGame()+" ;\n"
+                + "\t\tNumber of Adimrals alive : "+Admiral.getNbAdmiralInGame()+" ;\n"
+                + "\t\tNumber of Priests alive : "+Priest.getNbPriestInGame()+" ;\n"
+                + "\t\tNumber of Paladins alive : "+Paladin.getNbPaladinInGame()+" ;\n"
+                + "\to Team Elfe :\n"
+                + "\t\tTotal life of the team : "+Team.recupTeamFromTheList(allTeams, Elfe.class).getLifePointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Elfe.class).getTotalLifePointTeam()+" PV ;\n"
+                + "\t\tTotal energy of the team : "+Team.recupTeamFromTheList(allTeams, Elfe.class).getEnergyPointTeam()
+                    +"/"+Team.recupTeamFromTheList(allTeams, Elfe.class).getTotalEnergyPointTeam()+" PE ;\n"
+                + "\t\tTotal XP of the team : "+Team.recupTeamFromTheList(allTeams, Elfe.class).getXpTeam()+" XP ;\n"
+                + "\t\tNumber of Elves in game : "+Elfe.getNbElfesInGame()+" ;\n"
+                + "\t\tNumber of Tribal Chef alive : "+TribalChief.getNbTribalChefInGame()+" ;\n"
+                + "\t\tNumber of Prophets alive : "+Prophet.getNbProphetInGame()+" ;\n"
+                + "\t\tNumber of Hunters alive : "+Hunter.getNbHunterInGame()+" ;\n");
         mapOfGame.displayMap();
         //Browse of turns
         int turn=0;
