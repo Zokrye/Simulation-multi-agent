@@ -149,8 +149,8 @@ public class Team {
         //Calculation of the size of the map ;
         int mapDimension=mapLength*mapWidth;
         //Calculation of the number of characters of each team;
-        //double eighthOfMap=(mapDimension)/8;
-        double eighthOfMap=6;
+        double eighthOfMap=(mapDimension)*0.02;
+        //double eighthOfMap=6;
         Character.setNbCharactersInGame((int)eighthOfMap*4);
         Hero.setNbHeroesInGame((int)eighthOfMap*2);
         Enemy.setNbEnemiesInGame((int)eighthOfMap*2);

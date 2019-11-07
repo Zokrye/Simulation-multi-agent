@@ -704,7 +704,7 @@ public abstract class Character {
      */
     public void doCalculationPV(int value)
     {
-        System.out.println("PVs of "+nom+" were "+pVie+"/"+pVieMax+" PV.");
+        int prevPV=pVie;
         if(pVie+value>=pVieMax) {
             pVie=pVieMax;
         }
@@ -714,7 +714,12 @@ public abstract class Character {
         else {
             pVie+=value;           
         }
-        System.out.println("They are now "+pVie+"/"+pVieMax+" PV.");
+        int currentPV=pVie;
+        if(currentPV!=prevPV)
+        {
+            System.out.println("PVs of "+nom+" were of "+prevPV+"/"+pVieMax+" PV.");
+            System.out.println("They are now "+pVie+"/"+pVieMax+" PV.");
+        }
     }
     
     
