@@ -229,7 +229,7 @@ public abstract class Character {
 
                 }
             }
-            //Déplacment random quand les PE sont suffisants
+            //Movement when enough PEs
             else {
                 List<Direction> directions=currentCell.getAvailableDirections();
                 //If the character has more than 20% of life, aggressive behaviour
@@ -282,6 +282,7 @@ public abstract class Character {
 
             }
         }
+        //Give 1 PE bakc if the character is tired
         else {
             this.doCalculationPE(1);
         }
@@ -291,7 +292,7 @@ public abstract class Character {
     
     
     /**
-     * Move the character to the next cell
+     * Move the character to the specified cell
      * @param cell 
      */
     public void moveTo(Cell cell) {
@@ -300,7 +301,10 @@ public abstract class Character {
         currentCell.setCharacter(this);
     }
     
-    
+    /**
+     * Move away from a character in the best direction available
+     * @param character 
+     */
     public void escapeFrom(Character character) {
         Cell characterCell=character.getCurrentCell();
         Direction directionToEscape=new Direction(characterCell.getX()-currentCell.x,characterCell.getY()-currentCell.y);
@@ -334,10 +338,26 @@ public abstract class Character {
         
     }
     
-    
+    /**
+     * Called a character tries to move to the cell of another one
+     * @param otherCharacter character met
+     * @param remainingCells number of remaining movement points when meet the character
+     */
     public abstract void meet(Character otherCharacter, int remainingCells);
+    
+    /**
+     * Attack another character
+     * @param target of the attack
+     */
     public abstract void attack(Character target);
+    
+    /**
+     * Try to escape a character
+     * @param character to escape
+     * @return 
+     */
     public abstract boolean tryToEscape(Character character);
+    
     /**
      * Check if the character is in the SafeZone ;
      * @return Whether the character is in its own Safezone or not
@@ -358,59 +378,9 @@ public abstract class Character {
      */
     public abstract boolean isSameRace(Character character);
     
-    
     /**
-     * Add Life points to the character
-     * @param pvAdded 
+     * Kill the current character and remove him from the map
      */
-    public void addPV(int pvAdded) {
-        if(pVie+pvAdded<pVieMax) {
-            pVie+=pvAdded;
-        }
-        else {
-            pVie=pVieMax;
-        }
-    }
-    
-    /**
-     * Remove Life points from the character
-     * @param pvRemoved 
-     */
-    public void removePV(int pvRemoved) {
-        if(pVie-pvRemoved>0) {
-            pVie-=pvRemoved;
-        }
-        else {
-            pVie=0;
-        }
-    }
-    
-    /**
-     * Add stamina to the character
-     * @param peAdded 
-     */
-    public void addPE(int peAdded) {
-        if(pEnergie+peAdded<pEnergieMax) {
-            this.pEnergie+=peAdded;
-        }
-        else {
-            pEnergie=pEnergieMax;
-        }
-    }
-    
-    /**
-     * Remove stamina from the character
-     * @param peRemoved 
-     */
-    public void removePE(int peRemoved) {
-        if(pEnergie-peRemoved>0) {
-            this.pEnergie-=peRemoved;
-        }
-        else {
-            pEnergie=0;
-        }
-    }
-    
     public void kill() {
         this.pVie=0;
         this.pEnergie=0;
@@ -419,6 +389,9 @@ public abstract class Character {
         this.currentCell.setCharacter(null);
     }
     
+    /**
+     * Update the number of characters in the game/faction/race/class when one of them dies
+     */
     public abstract void removeOneCharacter();
     
     
@@ -549,23 +522,23 @@ public abstract class Character {
         */
         if(this.isDead()==true)
         {
-            System.out.println(this.getNom()+" died during the fight. Make him rest in peace.");
+            System.out.println(this.getNom()+" died during the fight. May he rest in peace.");
             target.winXP(this);
         }
         else if(target.isDead()==true)
         {
-            System.out.println(this.getNom()+" destroyed "+target.getNom()+" during this fight. Glory for the winner.");
+            System.out.println(this.getNom()+" destroyed "+target.getNom()+" during this fight. Glory to the winner.");
             this.winXP(target);
         }
         else if(this.isEtatFatigue()==true && goneAway_1!=true)
         {
-            System.out.println(this.getNom()+" is out of breath."+target.getNom()+" decides to kill him to close the fight. Glory for the winner.");
+            System.out.println(this.getNom()+" is out of breath."+target.getNom()+" decides to kill him to end the fight. Glory to the winner.");
             target.attack(this);
             target.winXP(this);
         }
         else if(target.isEtatFatigue()==true && goneAway_2!=true)
         {
-            System.out.println(target.getNom()+" is out of breath."+this.getNom()+" decides to kill him to close the fight. Glory for the winner.");
+            System.out.println(target.getNom()+" is out of breath."+this.getNom()+" decides to kill him to end the fight. Glory to the winner.");
             this.attack(target);
             this.winXP(target);
         }
@@ -580,9 +553,7 @@ public abstract class Character {
         /*
         Check the state of each character ;
         */
-        //target.checkPECharacter();
         target.checkPVCharacter();
-        //this.checkPECharacter();
         this.checkPVCharacter();
         System.out.println("===========================END OF THE FIGHT===============================\n"
                 + "=======================================================================");
@@ -590,8 +561,7 @@ public abstract class Character {
     
     
     /**
-     * Function to check the remaining points of energie of the character
-     * and to set the variable to the right way ;
+     * Function to check the remaining stamina of the character
      */
     public void checkPECharacter()
     {
@@ -604,30 +574,20 @@ public abstract class Character {
         */
         if(this.getpEnergie()<=0)
         {
-            /*
-            Set all variables that indicate the character is tired ;
-            */
-            //this.setEtatFatigue(true);
-            //this.setpEnergie(0);
             System.out.println(this.getNom()+" is tired.");
         }
         else if (this.getpEnergie()/this.getpEnergieMax()<=0.2 && this.getpEnergie()>0)
         {
-            //this.setEtatFatigue(false);
-            //Informs of the critical state of the energie of the character ;
             System.out.println(this.getNom()+" is losing his breathe.");
         }
         else
         {
-            //this.setEtatFatigue(false);
-            //Informs that it is all right ;
             System.out.println(this.getNom()+" is dynamic.");
         }
     }
     
     /**
-     * Function to test and set correctly PVs of the characters in fight
-     * or in any situation where characters can lose life ;
+     * Function to check the remaining PVs of the character
      */
     public void checkPVCharacter()
     {
@@ -636,19 +596,10 @@ public abstract class Character {
         */
         if(this.getpVie()<=0)
         {
-            //Setting the dead boolean to indicate that the character is dead ;
-            //this.setDead(true);
-            //Setting of the PVs to 0 to normalize it ;
-            //this.setpVie(0);
-            //Setting the Energie to 0 to avoid any action by a dead character ;
-            //this.setpEnergie(0);
-            //Informatrion of the user ;
             System.out.println(this.getNom()+" is dead.");
-            //Update statistics of the simulation
         }
         else
         {
-            //No changes the character is still alive ;
             System.out.println(this.getNom()+" is still alive.");
         }
     }
@@ -656,7 +607,7 @@ public abstract class Character {
     
     /**
      * Function that allows to calculate and set the final number of PEs of a character ;
-     * @param value : Value of the PE to add or put away ;
+     * @param value : Value of the PE to add or remove ;
      */
     public void doCalculationPE(int value)
     {
@@ -681,7 +632,7 @@ public abstract class Character {
     
     /**
      * Function that allows to calculate and set the final number of PVs of a character ;
-     * @param value : Value of the PE to add or put away ;
+     * @param value : Value of the PE to add or remove ;
      */
     public void doCalculationPV(int value)
     {

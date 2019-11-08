@@ -13,35 +13,43 @@ import java.util.ArrayList;
  */
 public class ProjetConceptObjet {
 
+    private static int nbSimulations=10;
+    private static int heightMap=20;
+    private static int lengthMap=20;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ProjetConceptObjet.severalGames(100);
-        //ProjetConceptObjet.allGame();
+        Map.HEIGHT=heightMap;
+        Map.LENGTH=lengthMap;
         //Call to the simulation function ;
+        ProjetConceptObjet.runAllSimulations(nbSimulations);
     }
     
-    public static void severalGames(int nbGames) {
+    /**
+     * Main method of the application, it allows to start several sumulations and get statistics on it
+     * @param nbSimulations The number of simulation one wants to run
+     */
+    public static void runAllSimulations(int nbSimulations) {
         int nbVictoryEnemies=0;
         int nbVictoryHeroes=0;
-        for(int i=0; i<nbGames; i++) {
-            if(allGame()==Hero.class) {
+        for(int i=0; i<nbSimulations; i++) {
+            if(runOneSimulation()==Hero.class) {
                 nbVictoryHeroes++;
             }
             else {
                 nbVictoryEnemies++;
             }
         }
-        System.out.println("Heroes have won "+ ((double)nbVictoryHeroes/(double)nbGames)*100 
-                +" of the games on "+nbGames+" games");
+        System.out.println("Heroes have won "+ ((double)nbVictoryHeroes/(double)nbSimulations)*100 
+                +" of the games on "+nbSimulations+" games");
     }
     
     /**
-     * Main function of the simulation, it calls all the initializing functions
-     * and acting functions to make characters acting. 
+     * Run a simulation until a team wins
+     * @return Winner of this simulation
      */
-    public static Class allGame()
+    public static Class runOneSimulation()
     {
         Map.resetMap();
         //Map creation
@@ -109,7 +117,7 @@ public class ProjetConceptObjet {
         if(Hero.nbHeroesInGame==0 && Enemy.nbEnemiesInGame!=0)
         {
             System.out.println("The game has ended. ENEMIES have WON this battle!\n"
-                    + "BUT THE WAR ISN'T FINISHED!");
+                    + "BUT THE WAR ISN'T OVER!");
             return(Enemy.class);
         }
         else
@@ -154,7 +162,7 @@ public class ProjetConceptObjet {
             */
             if(character.isDead()==false && character.isEtatFatigue()==false)
             {
-                //Function to make characters acting ;
+                //Function to make characters move ;
                 character.seDeplacer();
             }
             /*
@@ -172,7 +180,7 @@ public class ProjetConceptObjet {
                     + "########################################################################################\n");
         }
         Team.updateTeamLife(allTeams, listPlayers);
-        //Display of the statistiques ;
+        //Display the statistics ;
         System.out.println("Statistics of the turn "+turnPosition+" :\n"
                 + "Number of Characters in game : "+Character.getNbCharactersInGame()+" ;\n"
                 + "Number of Heroes in game : "+Hero.getNbHeroesInGame()+" ;\n"
