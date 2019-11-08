@@ -17,7 +17,7 @@ public class ProjetConceptObjet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ProjetConceptObjet.severalGames(10);
+        ProjetConceptObjet.severalGames(100);
         //ProjetConceptObjet.allGame();
         //Call to the simulation function ;
     }
@@ -43,6 +43,7 @@ public class ProjetConceptObjet {
      */
     public static Class allGame()
     {
+        Map.resetMap();
         //Map creation
         Map mapOfGame=Map.getinstance();
         //Team creation

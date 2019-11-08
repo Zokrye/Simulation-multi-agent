@@ -264,14 +264,15 @@ public abstract class Character {
                                 else {
                                     doCalculationPE(-1);
                                 }
-
+                                remainingCells--;
                             }
                             //Meet another character
                             else {
                                 Character otherCharacter = nextCell.getCharacter();
                                 meet(otherCharacter, remainingCells);
+                                remainingCells=0;
                             }
-                            remainingCells--;
+                            
                         }
                         //Reset remaining cells to 0 in case the character hits an obstacle
                         else {
@@ -412,6 +413,7 @@ public abstract class Character {
     
     public void kill() {
         this.pVie=0;
+        this.pEnergie=0;
         this.dead = true;
         this.removeOneCharacter();
         this.currentCell.setCharacter(null);
@@ -687,7 +689,7 @@ public abstract class Character {
         if(pVie+value>=pVieMax) {
             pVie=pVieMax;
         }
-        else if(pVie+value<0) {
+        else if(pVie+value<=0) {
             this.kill();
         }
         else {

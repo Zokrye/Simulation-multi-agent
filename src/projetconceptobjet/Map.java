@@ -44,6 +44,9 @@ public class Map {
 
     }
     
+    public static void resetMap() {
+        map=null;
+    }
     
     /*
     Getters
@@ -71,7 +74,7 @@ public class Map {
     public static Map getinstance() {
         if(map==null) {
             if(HEIGHT!=0 && LENGTH!=0) {
-                map=new Map(LENGTH,HEIGHT, (int) (0.5*LENGTH*HEIGHT)); 
+                map=new Map(LENGTH,HEIGHT, (int) (0.05*LENGTH*HEIGHT)); 
             }
             else {
                 LENGTH=20;

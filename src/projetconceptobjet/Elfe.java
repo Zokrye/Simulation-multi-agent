@@ -113,15 +113,14 @@ public abstract class Elfe extends Hero {
             System.out.println(target.getNom()+" defends with a resitance of : "+valueDEF+" ;");
 
             //Calulation of the end of the step ;
-            int result=valueDEF-valueATK;
-
-            target.doCalculationPV(result);
-            target.checkPVCharacter();
+            int result=valueDEF-valueATK;        
             /*
             If the result is negative, the target is shot with damages ;
             */
             if(result<0)
             {
+                target.doCalculationPV(result);
+                target.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" taken by "+target.getNom()+" : his life is now : "+target.getpVie()+"/"+target.getpVieMax()+" PV ;");
             }
 
@@ -130,6 +129,8 @@ public abstract class Elfe extends Hero {
             */
             else if(result>0)
             {
+                this.doCalculationPV(-result);
+                this.checkPVCharacter();
                 System.out.println("Dammages of : "+result+" taken by "+this.getNom()+" : his life is now : "+this.getpVie()+"/"+this.getpVieMax()+" PV ;");
             }
 
